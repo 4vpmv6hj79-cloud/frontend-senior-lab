@@ -28,7 +28,7 @@
     "@angular/compiler-cli": "22.0.6",
     "@angular/language-service": "22.0.6",
     "@eslint/js": "^9.8.0",
-    "@nx/angular": "23.1.0",
+    "@nx/angular": "^23.1.0",
     "@nx/devkit": "23.1.0",
     "@nx/docker": "23.1.0",
     "@nx/esbuild": "23.1.0",
