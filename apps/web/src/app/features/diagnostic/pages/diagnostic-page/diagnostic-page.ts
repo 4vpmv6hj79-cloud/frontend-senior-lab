@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DIAGNOSTIC_PAGE_COPY } from './diagnostic-page.copy';
+import { DiagnosticResultStore } from '../../services/diagnostic-result.store';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { DIAGNOSTIC_QUESTIONS } from '../../data/diagnostic.questions';
@@ -37,6 +38,7 @@ const CATEGORIES: readonly DiagnosticCategory[] = [
 })
 export class DiagnosticPage {
   protected readonly languageService = inject(LanguageService);
+  private readonly resultStore = inject(DiagnosticResultStore);
 
   protected readonly questions = DIAGNOSTIC_QUESTIONS;
   protected readonly currentIndex = signal(0);
@@ -112,7 +114,11 @@ export class DiagnosticPage {
     this.saveCurrentAnswer(selectedOptionId);
 
     if (this.isLastQuestion()) {
+      const result = this.calculateResult();
+
+      this.resultStore.save(result);
       this.completed.set(true);
+
       return;
     }
 
@@ -134,6 +140,7 @@ export class DiagnosticPage {
     this.answers.set([]);
     this.selectedOptionId.set(null);
     this.completed.set(false);
+    this.resultStore.clear();
   }
 
   private saveCurrentAnswer(optionId: string): void {
