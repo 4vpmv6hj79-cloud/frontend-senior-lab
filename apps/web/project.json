@@ -20,7 +20,10 @@
             "input": "apps/web/public"
           }
         ],
-        "styles": ["apps/web/src/styles.css"]
+        "styles": [
+              "apps/web/src/tailwind.css",
+              "apps/web/src/styles.css"
+            ]
       },
       "configurations": {
         "production": {
