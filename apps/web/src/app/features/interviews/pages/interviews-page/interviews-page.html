@@ -1,1 +1,393 @@
-<p>interviews-page works!</p>
+<main class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-cyan-500/10 to-transparent"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:px-12">
+    <header class="flex items-center justify-between gap-4">
+      <a
+        routerLink="/dashboard"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 transition hover:text-cyan-300"
+      >
+        <span aria-hidden="true">←</span>
+        {{ copy().backDashboard }}
+      </a>
+
+      <div
+        class="flex rounded-lg border border-white/10 bg-slate-900 p-1"
+        role="group"
+        aria-label="Language selector"
+      >
+        <button
+          type="button"
+          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
+          [class.bg-cyan-400]="
+            languageService.language() === 'es'
+          "
+          [class.text-slate-950]="
+            languageService.language() === 'es'
+          "
+          [class.text-slate-400]="
+            languageService.language() !== 'es'
+          "
+          (click)="languageService.setLanguage('es')"
+        >
+          ES
+        </button>
+
+        <button
+          type="button"
+          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
+          [class.bg-cyan-400]="
+            languageService.language() === 'en'
+          "
+          [class.text-slate-950]="
+            languageService.language() === 'en'
+          "
+          [class.text-slate-400]="
+            languageService.language() !== 'en'
+          "
+          (click)="languageService.setLanguage('en')"
+        >
+          EN
+        </button>
+      </div>
+    </header>
+
+    <section class="pb-10 pt-16 sm:pt-20">
+      <p
+        class="text-sm font-black uppercase tracking-[0.24em] text-cyan-400"
+      >
+        {{ copy().eyebrow }}
+      </p>
+
+      <h1
+        class="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl"
+      >
+        {{ copy().title }}
+      </h1>
+
+      <p class="mt-6 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg">
+        {{ copy().description }}
+      </p>
+    </section>
+
+    <section
+      class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6"
+      aria-labelledby="practice-progress"
+    >
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p
+            id="practice-progress"
+            class="font-bold text-white"
+          >
+            {{ copy().progress }}
+          </p>
+
+          <p class="mt-1 text-sm text-slate-400">
+            {{ progressStore.reviewedCount() }}
+            {{ copy().of }}
+            {{ questions.length }}
+            {{ copy().reviewed }}
+          </p>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <strong class="text-2xl text-cyan-400">
+            {{ progressPercentage() }}%
+          </strong>
+
+          @if (progressStore.reviewedCount() > 0) {
+            <button
+              type="button"
+              class="text-sm font-semibold text-slate-400 transition hover:text-rose-300"
+              (click)="resetProgress()"
+            >
+              {{ copy().resetProgress }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div
+        class="mt-5 h-2 overflow-hidden rounded-full bg-slate-800"
+        role="progressbar"
+        [attr.aria-valuenow]="progressPercentage()"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <div
+          class="h-full rounded-full bg-linear-to-r from-cyan-400 to-indigo-400 transition-all duration-300"
+          [style.width.%]="progressPercentage()"
+        ></div>
+      </div>
+    </section>
+
+    <section
+      class="mt-6 grid gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-5 sm:grid-cols-2 sm:p-6"
+      aria-label="Interview filters"
+    >
+      <label class="grid gap-2">
+        <span class="text-sm font-bold text-slate-300">
+          {{ copy().category }}
+        </span>
+
+        <div class="relative">
+            <select
+                class="w-full appearance-none rounded-xl border border-slate-700 bg-slate-950 py-3 pl-4 pr-12 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                [value]="categoryFilter()"
+                (change)="
+                setCategoryFilter(
+                    $any($event.target).value
+                )
+                "
+            >
+                <option value="all">
+                {{ copy().allCategories }}
+                </option>
+                <option value="angular">
+                {{ copy().categoryLabels.angular }}
+                </option>
+                <option value="typescript">
+                {{ copy().categoryLabels.typescript }}
+                </option>
+                <option value="architecture">
+                {{ copy().categoryLabels.architecture }}
+                </option>
+                <option value="testing">
+                {{ copy().categoryLabels.testing }}
+                </option>
+                <option value="performance">
+                {{ copy().categoryLabels.performance }}
+                </option>
+            </select>
+
+            <span
+                class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-cyan-400"
+                aria-hidden="true"
+            >
+                ▼
+            </span>
+            </div>
+      </label>
+
+      <label class="grid gap-2">
+        <span class="text-sm font-bold text-slate-300">
+          {{ copy().difficulty }}
+        </span>
+
+    <div class="relative">
+        <select
+            class="w-full appearance-none rounded-xl border border-slate-700 bg-slate-950 py-3 pl-4 pr-12 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+            [value]="difficultyFilter()"
+            (change)="
+            setDifficultyFilter(
+                $any($event.target).value
+            )
+            "
+        >
+            <option value="all">
+            {{ copy().allDifficulties }}
+            </option>
+            <option value="intermediate">
+            {{ copy().difficultyLabels.intermediate }}
+            </option>
+            <option value="advanced">
+            {{ copy().difficultyLabels.advanced }}
+            </option>
+            <option value="senior">
+            {{ copy().difficultyLabels.senior }}
+            </option>
+        </select>
+
+        <span
+            class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-cyan-400"
+            aria-hidden="true"
+        >
+            ▼
+        </span>
+        </div>
+      </label>
+    </section>
+
+    @if (currentQuestion(); as question) {
+      <article
+        class="mt-6 overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 shadow-2xl shadow-black/20"
+      >
+        <div class="p-6 sm:p-9">
+          <header class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3">
+              <span
+                class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-black text-cyan-300"
+              >
+                {{ copy().categoryLabels[question.category] }}
+              </span>
+
+              <span
+                class="rounded-full border border-slate-700 bg-slate-950 px-3 py-1 text-xs font-bold text-slate-300"
+              >
+                {{
+                  copy().difficultyLabels[
+                    question.difficulty
+                  ]
+                }}
+              </span>
+
+              @if (isReviewed(question)) {
+                <span
+                  class="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-black text-emerald-300"
+                >
+                  ✓ {{ copy().reviewedLabel }}
+                </span>
+              }
+            </div>
+
+            <span class="font-mono text-sm text-slate-400">
+              {{ copy().question }}
+              {{ currentNumber() }}
+              {{ copy().of }}
+              {{ filteredQuestions().length }}
+            </span>
+          </header>
+
+          <h2
+            class="mt-8 max-w-4xl text-2xl font-black leading-9 sm:text-3xl sm:leading-10"
+          >
+            {{ text(question.question) }}
+          </h2>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              class="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300"
+              [attr.aria-expanded]="answerVisible()"
+              (click)="toggleAnswer()"
+            >
+              @if (answerVisible()) {
+                {{ copy().hideAnswer }}
+              } @else {
+                {{ copy().showAnswer }}
+              }
+            </button>
+
+            <button
+              type="button"
+              class="rounded-xl border border-white/15 px-5 py-3 text-sm font-bold text-white transition hover:border-emerald-400 hover:text-emerald-300 disabled:cursor-not-allowed disabled:border-emerald-400/20 disabled:text-emerald-400/60"
+              [disabled]="isReviewed(question)"
+              (click)="markCurrentAsReviewed()"
+            >
+              @if (isReviewed(question)) {
+                ✓ {{ copy().reviewedLabel }}
+              } @else {
+                {{ copy().markReviewed }}
+              }
+            </button>
+          </div>
+        </div>
+
+        @if (answerVisible()) {
+          <section
+            class="border-t border-slate-800 bg-slate-950/60 p-6 sm:p-9"
+          >
+            <p
+              class="text-xs font-black uppercase tracking-[0.2em] text-cyan-400"
+            >
+              {{ copy().referenceAnswer }}
+            </p>
+
+            <p class="mt-4 max-w-4xl leading-8 text-slate-300">
+              {{ text(question.answer) }}
+            </p>
+
+            <div class="mt-9 grid gap-8 lg:grid-cols-2">
+              <div>
+                <h3 class="font-black text-white">
+                  {{ copy().keyPoints }}
+                </h3>
+
+                <ul class="mt-4 space-y-3">
+                  @for (
+                    point of question.keyPoints;
+                    track $index
+                  ) {
+                    <li
+                      class="flex items-start gap-3 text-sm leading-6 text-slate-300"
+                    >
+                      <span
+                        class="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400"
+                        aria-hidden="true"
+                      ></span>
+
+                      {{ text(point) }}
+                    </li>
+                  }
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="font-black text-white">
+                  {{ copy().followUps }}
+                </h3>
+
+                <ul class="mt-4 space-y-3">
+                  @for (
+                    followUp of question.followUps;
+                    track $index
+                  ) {
+                    <li
+                      class="flex items-start gap-3 text-sm leading-6 text-slate-300"
+                    >
+                      <span
+                        class="font-mono text-cyan-400"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
+
+                      {{ text(followUp) }}
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </section>
+        }
+
+        <footer
+          class="flex items-center justify-between gap-4 border-t border-slate-800 p-5 sm:p-6"
+        >
+          <button
+            type="button"
+            class="rounded-xl border border-white/15 px-5 py-3 text-sm font-bold transition hover:border-cyan-400 disabled:cursor-not-allowed disabled:opacity-30"
+            [disabled]="isFirstQuestion()"
+            (click)="previousQuestion()"
+          >
+            ← {{ copy().previous }}
+          </button>
+
+          <button
+            type="button"
+            class="rounded-xl border border-white/15 px-5 py-3 text-sm font-bold transition hover:border-cyan-400 disabled:cursor-not-allowed disabled:opacity-30"
+            [disabled]="isLastQuestion()"
+            (click)="nextQuestion()"
+          >
+            {{ copy().next }} →
+          </button>
+        </footer>
+      </article>
+    } @else {
+      <section
+        class="mt-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-10 text-center"
+      >
+        <h2 class="text-2xl font-black">
+          {{ copy().emptyTitle }}
+        </h2>
+
+        <p class="mt-4 text-slate-400">
+          {{ copy().emptyDescription }}
+        </p>
+      </section>
+    }
+  </div>
+</main>
