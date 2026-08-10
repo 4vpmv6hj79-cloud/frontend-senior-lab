@@ -1,1 +1,348 @@
-<p>dashboard-page works!</p>
+<main class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-cyan-500/10 to-transparent"
+  ></div>
+
+  <div
+    class="pointer-events-none absolute -right-40 top-36 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"
+  ></div>
+
+  <div class="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-12">
+    <header class="flex items-center justify-between gap-4">
+      <a
+        routerLink="/"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 transition hover:text-cyan-300"
+      >
+        <span aria-hidden="true">←</span>
+        {{ copy().backHome }}
+      </a>
+
+      <div
+        class="flex rounded-lg border border-white/10 bg-slate-900 p-1"
+        role="group"
+        aria-label="Language selector"
+      >
+        <button
+          type="button"
+          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
+          [class.bg-cyan-400]="
+            languageService.language() === 'es'
+          "
+          [class.text-slate-950]="
+            languageService.language() === 'es'
+          "
+          [class.text-slate-400]="
+            languageService.language() !== 'es'
+          "
+          (click)="languageService.setLanguage('es')"
+        >
+          ES
+        </button>
+
+        <button
+          type="button"
+          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
+          [class.bg-cyan-400]="
+            languageService.language() === 'en'
+          "
+          [class.text-slate-950]="
+            languageService.language() === 'en'
+          "
+          [class.text-slate-400]="
+            languageService.language() !== 'en'
+          "
+          (click)="languageService.setLanguage('en')"
+        >
+          EN
+        </button>
+      </div>
+    </header>
+
+    <section class="pb-12 pt-16 sm:pt-20">
+      <p
+        class="text-sm font-black uppercase tracking-[0.24em] text-cyan-400"
+      >
+        {{ copy().eyebrow }}
+      </p>
+
+      <h1
+        class="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl"
+      >
+        {{ copy().title }}
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+        {{ copy().description }}
+      </p>
+    </section>
+
+    @if (!result()) {
+      <section
+        class="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur sm:p-12"
+      >
+        <div
+          class="mx-auto grid size-16 place-items-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-3xl text-cyan-300"
+          aria-hidden="true"
+        >
+          ◇
+        </div>
+
+        <h2 class="mt-6 text-2xl font-black sm:text-3xl">
+          {{ copy().noResultTitle }}
+        </h2>
+
+        <p class="mx-auto mt-4 max-w-xl leading-7 text-slate-400">
+          {{ copy().noResultDescription }}
+        </p>
+
+        <a
+          routerLink="/diagnostic"
+          class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 font-black text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950"
+        >
+          {{ copy().startDiagnostic }}
+        </a>
+      </section>
+    } @else if (result(); as diagnosticResult) {
+      <section aria-labelledby="diagnostic-summary">
+        <div class="mb-6">
+          <p class="text-sm font-semibold text-cyan-400">
+            {{ copy().assessmentSummary }}
+          </p>
+
+          <h2
+            id="diagnostic-summary"
+            class="mt-2 text-2xl font-black sm:text-3xl"
+          >
+            {{ copy().levelLabels[diagnosticResult.level] }}
+          </h2>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <article
+            class="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-5"
+          >
+            <p class="text-sm font-medium text-cyan-200">
+              {{ copy().overallLevel }}
+            </p>
+
+            <p class="mt-3 text-2xl font-black">
+              {{ copy().levelLabels[diagnosticResult.level] }}
+            </p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
+          >
+            <p class="text-sm font-medium text-slate-400">
+              {{ copy().overallScore }}
+            </p>
+
+            <p class="mt-3 text-2xl font-black">
+              {{ diagnosticResult.percentage }}%
+            </p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5"
+          >
+            <p class="text-sm font-medium text-amber-200">
+              {{ copy().priorityArea }}
+            </p>
+
+            @if (priorityArea(); as priority) {
+              <p class="mt-3 text-2xl font-black text-amber-300">
+                {{ copy().categoryLabels[priority.category] }}
+              </p>
+
+              <p class="mt-2 text-sm text-slate-400">
+                {{ priority.percentage }}%
+              </p>
+            }
+          </article>
+
+          <article
+            class="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5"
+          >
+            <p class="text-sm font-medium text-emerald-200">
+              {{ copy().strongestArea }}
+            </p>
+
+            @if (strongestArea(); as strength) {
+              <p class="mt-3 text-2xl font-black text-emerald-300">
+                {{ copy().categoryLabels[strength.category] }}
+              </p>
+
+              <p class="mt-2 text-sm text-slate-400">
+                {{ strength.percentage }}%
+              </p>
+            }
+          </article>
+        </div>
+      </section>
+
+      @if (recommendedModule(); as module) {
+        <section class="mt-14" aria-labelledby="next-step">
+          <div class="mb-6">
+            <p class="text-sm font-semibold text-cyan-400">
+              {{ copy().nextStep }}
+            </p>
+
+            <h2
+              id="next-step"
+              class="mt-2 text-2xl font-black sm:text-3xl"
+            >
+              {{ copy().recommendedModule }}
+            </h2>
+          </div>
+
+          <article
+            class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 shadow-2xl shadow-black/20"
+          >
+            <div class="grid lg:grid-cols-[1fr_300px]">
+              <div class="p-6 sm:p-8">
+                <div class="flex flex-wrap items-center gap-3">
+                  <span
+                    class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-black text-cyan-300"
+                  >
+                    {{ copy().categoryLabels[module.category] }}
+                  </span>
+
+                  <span
+                    class="rounded-full border border-slate-700 bg-slate-950 px-3 py-1 text-xs font-bold text-slate-300"
+                  >
+                    {{
+                      copy().difficultyLabels[
+                        module.difficulty
+                      ]
+                    }}
+                  </span>
+                </div>
+
+                <h3 class="mt-6 text-2xl font-black sm:text-3xl">
+                  {{ text(module.title) }}
+                </h3>
+
+                <p class="mt-4 max-w-3xl leading-7 text-slate-400">
+                  {{ text(module.description) }}
+                </p>
+
+                <div class="mt-8">
+                  <p
+                    class="text-xs font-black uppercase tracking-[0.18em] text-slate-500"
+                  >
+                    {{ copy().includedTopics }}
+                  </p>
+
+                  <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                    @for (topic of module.topics; track $index) {
+                      <li
+                        class="flex items-start gap-3 text-sm leading-6 text-slate-300"
+                      >
+                        <span
+                          class="mt-2 size-1.5 shrink-0 rounded-full bg-cyan-400"
+                          aria-hidden="true"
+                        ></span>
+
+                        {{ text(topic) }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+
+              <aside
+                class="flex flex-col justify-between border-t border-slate-800 bg-slate-950/60 p-6 lg:border-l lg:border-t-0 sm:p-8"
+              >
+                <div>
+                  <p class="text-sm text-slate-400">
+                    {{ copy().estimatedTime }}
+                  </p>
+
+                  <p class="mt-2 text-3xl font-black">
+                    {{ module.estimatedHours }}
+                    {{ copy().hours }}
+                  </p>
+
+                  @if (priorityArea(); as priority) {
+                    <div class="mt-8">
+                      <div class="flex justify-between gap-4 text-sm">
+                        <span class="text-slate-400">
+                          {{ copy().diagnosticScore }}
+                        </span>
+
+                        <strong>
+                          {{ priority.percentage }}%
+                        </strong>
+                      </div>
+
+                      <div
+                        class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
+                      >
+                        <div
+                          class="h-full rounded-full bg-gradient-to-r from-amber-400 to-cyan-400"
+                          [style.width.%]="priority.percentage"
+                        ></div>
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <a
+                  routerLink="/learning"
+                  class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300"
+                >
+                  {{ copy().continueLearning }}
+                  <span class="ml-2" aria-hidden="true">→</span>
+                </a>
+              </aside>
+            </div>
+          </article>
+        </section>
+      }
+
+      <section class="mt-14 pb-10" aria-labelledby="quick-actions">
+        <h2
+          id="quick-actions"
+          class="text-2xl font-black sm:text-3xl"
+        >
+          {{ copy().quickActions }}
+        </h2>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <a
+            routerLink="/learning"
+            class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+          >
+            <span class="text-2xl" aria-hidden="true">↗</span>
+
+            <h3 class="mt-5 font-black group-hover:text-cyan-300">
+              {{ copy().viewRoadmap }}
+            </h3>
+          </a>
+
+          <a
+            routerLink="/diagnostic"
+            class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+          >
+            <span class="text-2xl" aria-hidden="true">↻</span>
+
+            <h3 class="mt-5 font-black group-hover:text-cyan-300">
+              {{ copy().retakeDiagnostic }}
+            </h3>
+          </a>
+
+          <a
+            routerLink="/interviews"
+            class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+          >
+            <span class="text-2xl" aria-hidden="true">⌁</span>
+
+            <h3 class="mt-5 font-black group-hover:text-cyan-300">
+              {{ copy().practiceInterviews }}
+            </h3>
+          </a>
+        </div>
+      </section>
+    }
+  </div>
+</main>
