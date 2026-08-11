@@ -22,10 +22,28 @@ interface LearningPageCopy {
   priority: string;
   diagnosticScore: string;
   topics: string;
+  learningProgress: string;
+  completedTopics: string;
+  moduleProgress: string;
+  activeModule: string;
+  completed: string;
   startModule: string;
-  categoryLabels: Record<DiagnosticCategory, string>;
-  difficultyLabels: Record<LearningDifficulty, string>;
-  levelLabels: Record<DiagnosticLevel, string>;
+  resumeModule: string;
+  resetProgress: string;
+  completeTopic: string;
+  undoTopic: string;
+  categoryLabels: Record<
+    DiagnosticCategory,
+    string
+  >;
+  difficultyLabels: Record<
+    LearningDifficulty,
+    string
+  >;
+  levelLabels: Record<
+    DiagnosticLevel,
+    string
+  >;
 }
 
 export const LEARNING_PAGE_COPY = {
@@ -48,7 +66,16 @@ export const LEARNING_PAGE_COPY = {
     priority: 'Prioridad',
     diagnosticScore: 'Resultado del diagnóstico',
     topics: 'Temas incluidos',
+    learningProgress: 'Progreso de aprendizaje',
+    completedTopics: 'temas completados',
+    moduleProgress: 'Progreso del módulo',
+    activeModule: 'Módulo activo',
+    completed: 'Completado',
     startModule: 'Comenzar módulo',
+    resumeModule: 'Continuar módulo',
+    resetProgress: 'Reiniciar progreso',
+    completeTopic: 'Marcar como completado',
+    undoTopic: 'Marcar como pendiente',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',
@@ -87,7 +114,16 @@ export const LEARNING_PAGE_COPY = {
     priority: 'Priority',
     diagnosticScore: 'Diagnostic result',
     topics: 'Included topics',
+    learningProgress: 'Learning progress',
+    completedTopics: 'completed topics',
+    moduleProgress: 'Module progress',
+    activeModule: 'Active module',
+    completed: 'Completed',
     startModule: 'Start module',
+    resumeModule: 'Continue module',
+    resetProgress: 'Reset progress',
+    completeTopic: 'Mark as completed',
+    undoTopic: 'Mark as pending',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',

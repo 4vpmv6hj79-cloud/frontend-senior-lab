@@ -14,16 +14,25 @@ export const LEARNING_MODULES = [
     },
     topics: [
       {
-        es: 'Signals, computed y effect',
-        en: 'Signals, computed, and effect',
+        id: 'angular-signals',
+        title: {
+          es: 'Signals, computed y effect',
+          en: 'Signals, computed, and effect',
+        },
       },
       {
-        es: 'OnPush e inmutabilidad',
-        en: 'OnPush and immutability',
+        id: 'angular-onpush',
+        title: {
+          es: 'OnPush e inmutabilidad',
+          en: 'OnPush and immutability',
+        },
       },
       {
-        es: 'RxJS y cancelación de flujos',
-        en: 'RxJS and stream cancellation',
+        id: 'angular-rxjs-cancellation',
+        title: {
+          es: 'RxJS y cancelación de flujos',
+          en: 'RxJS and stream cancellation',
+        },
       },
     ],
     estimatedHours: 8,
@@ -42,16 +51,25 @@ export const LEARNING_MODULES = [
     },
     topics: [
       {
-        es: 'unknown y type guards',
-        en: 'unknown and type guards',
+        id: 'typescript-unknown-guards',
+        title: {
+          es: 'unknown y type guards',
+          en: 'unknown and type guards',
+        },
       },
       {
-        es: 'Genéricos y utility types',
-        en: 'Generics and utility types',
+        id: 'typescript-generics-utilities',
+        title: {
+          es: 'Genéricos y utility types',
+          en: 'Generics and utility types',
+        },
       },
       {
-        es: 'Tipos discriminados',
-        en: 'Discriminated unions',
+        id: 'typescript-discriminated-unions',
+        title: {
+          es: 'Tipos discriminados',
+          en: 'Discriminated unions',
+        },
       },
     ],
     estimatedHours: 6,
@@ -70,16 +88,25 @@ export const LEARNING_MODULES = [
     },
     topics: [
       {
-        es: 'Arquitectura por dominios',
-        en: 'Domain-driven architecture',
+        id: 'architecture-domains',
+        title: {
+          es: 'Arquitectura por dominios',
+          en: 'Domain-driven architecture',
+        },
       },
       {
-        es: 'Librerías y límites de dependencias',
-        en: 'Libraries and dependency boundaries',
+        id: 'architecture-boundaries',
+        title: {
+          es: 'Librerías y límites de dependencias',
+          en: 'Libraries and dependency boundaries',
+        },
       },
       {
-        es: 'Design systems y versionado',
-        en: 'Design systems and versioning',
+        id: 'architecture-design-systems',
+        title: {
+          es: 'Design systems y versionado',
+          en: 'Design systems and versioning',
+        },
       },
     ],
     estimatedHours: 10,
@@ -98,16 +125,25 @@ export const LEARNING_MODULES = [
     },
     topics: [
       {
-        es: 'Pruebas orientadas al comportamiento',
-        en: 'Behavior-focused testing',
+        id: 'testing-behavior',
+        title: {
+          es: 'Pruebas orientadas al comportamiento',
+          en: 'Behavior-focused testing',
+        },
       },
       {
-        es: 'Mocks, spies y contratos',
-        en: 'Mocks, spies, and contracts',
+        id: 'testing-mocks-contracts',
+        title: {
+          es: 'Mocks, spies y contratos',
+          en: 'Mocks, spies, and contracts',
+        },
       },
       {
-        es: 'Pirámide de pruebas',
-        en: 'Testing pyramid',
+        id: 'testing-pyramid',
+        title: {
+          es: 'Pirámide de pruebas',
+          en: 'Testing pyramid',
+        },
       },
     ],
     estimatedHours: 7,
@@ -126,16 +162,25 @@ export const LEARNING_MODULES = [
     },
     topics: [
       {
-        es: 'Lazy loading y división de bundles',
-        en: 'Lazy loading and bundle splitting',
+        id: 'performance-lazy-loading',
+        title: {
+          es: 'Lazy loading y división de bundles',
+          en: 'Lazy loading and bundle splitting',
+        },
       },
       {
-        es: 'Virtual scrolling y listas grandes',
-        en: 'Virtual scrolling and large lists',
+        id: 'performance-virtual-scrolling',
+        title: {
+          es: 'Virtual scrolling y listas grandes',
+          en: 'Virtual scrolling and large lists',
+        },
       },
       {
-        es: 'LCP, INP y CLS',
-        en: 'LCP, INP, and CLS',
+        id: 'performance-core-web-vitals',
+        title: {
+          es: 'LCP, INP y CLS',
+          en: 'LCP, INP, and CLS',
+        },
       },
     ],
     estimatedHours: 8,

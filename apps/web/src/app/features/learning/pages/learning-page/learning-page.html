@@ -148,6 +148,78 @@
         </div>
       </section>
 
+        <section
+    class="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-6"
+    aria-labelledby="learning-progress"
+  >
+    <div
+      class="flex flex-wrap items-start justify-between gap-5"
+    >
+      <div>
+        <p
+          id="learning-progress"
+          class="font-black text-white"
+        >
+          {{ copy().learningProgress }}
+        </p>
+
+        <p class="mt-2 text-sm text-slate-400">
+          {{ progressStore.completedTopicCount() }}
+          /
+          {{ progressStore.totalTopicCount }}
+          {{ copy().completedTopics }}
+        </p>
+
+        @if (
+          progressStore.activeModule();
+          as activeModule
+        ) {
+          <p class="mt-3 text-sm text-cyan-300">
+            {{ copy().activeModule }}:
+            <strong>
+              {{ text(activeModule.title) }}
+            </strong>
+          </p>
+        }
+      </div>
+
+      <div class="flex items-center gap-4">
+        <strong class="text-3xl text-cyan-400">
+          {{ progressStore.overallPercentage() }}%
+        </strong>
+
+        @if (
+          progressStore.completedTopicCount() > 0
+        ) {
+          <button
+            type="button"
+            class="text-sm font-semibold text-slate-400 transition hover:text-rose-300"
+            (click)="resetLearningProgress()"
+          >
+            {{ copy().resetProgress }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div
+      class="mt-5 h-2 overflow-hidden rounded-full bg-slate-800"
+      role="progressbar"
+      [attr.aria-valuenow]="
+        progressStore.overallPercentage()
+      "
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      <div
+        class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300"
+        [style.width.%]="
+          progressStore.overallPercentage()
+        "
+      ></div>
+    </div>
+  </section>
+
       <section class="mt-14 space-y-6" aria-label="Learning modules">
         @for (
           recommendation of recommendations();
@@ -252,31 +324,178 @@
                   </div>
                 </div>
 
-                <div class="mt-8">
-                  <p
-                    class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
-                  >
-                    {{ copy().topics }}
-                  </p>
+<div class="mt-8">
+  <div
+    class="flex flex-wrap items-center justify-between gap-3"
+  >
+    <p
+      class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+    >
+      {{ copy().topics }}
+    </p>
 
-                  <ul class="mt-4 grid gap-3 md:grid-cols-2">
-                    @for (
-                      topic of recommendation.module.topics;
-                      track $index
-                    ) {
-                      <li
-                        class="flex items-start gap-3 text-sm leading-6 text-slate-300"
-                      >
-                        <span
-                          class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400"
-                          aria-hidden="true"
-                        ></span>
+    <span class="text-sm font-bold text-slate-400">
+      {{
+        completedTopicsFor(
+          recommendation.module
+        )
+      }}
+      /
+      {{ recommendation.module.topics.length }}
+    </span>
+  </div>
 
-                        {{ text(topic) }}
-                      </li>
-                    }
-                  </ul>
-                </div>
+  <ul class="mt-4 grid gap-3 md:grid-cols-2">
+    @for (
+      topic of recommendation.module.topics;
+      track topic.id
+    ) {
+      <li>
+        <button
+          type="button"
+          class="flex h-full w-full items-start gap-3 rounded-xl border border-slate-700 bg-slate-950/50 p-4 text-left text-sm leading-6 text-slate-300 transition hover:border-cyan-400"
+          [class.border-emerald-400]="
+            isTopicCompleted(topic.id)
+          "
+          [class.bg-emerald-950]="
+            isTopicCompleted(topic.id)
+          "
+          [class.text-emerald-100]="
+            isTopicCompleted(topic.id)
+          "
+          [attr.aria-pressed]="
+            isTopicCompleted(topic.id)
+          "
+          [attr.aria-label]="
+            (
+              isTopicCompleted(topic.id)
+                ? copy().undoTopic
+                : copy().completeTopic
+            ) +
+            ': ' +
+            text(topic.title)
+          "
+          (click)="
+            toggleTopic(
+              recommendation.module,
+              topic.id
+            )
+          "
+        >
+          <span
+            class="mt-0.5 grid size-5 shrink-0 place-items-center rounded border border-slate-600 text-xs"
+            [class.border-emerald-400]="
+              isTopicCompleted(topic.id)
+            "
+            [class.bg-emerald-400]="
+              isTopicCompleted(topic.id)
+            "
+            [class.text-slate-950]="
+              isTopicCompleted(topic.id)
+            "
+            aria-hidden="true"
+          >
+            @if (isTopicCompleted(topic.id)) {
+              ✓
+            }
+          </span>
+
+          <span
+            [class.line-through]="
+              isTopicCompleted(topic.id)
+            "
+          >
+            {{ text(topic.title) }}
+          </span>
+        </button>
+      </li>
+    }
+  </ul>
+</div>
+
+<div
+  class="mt-8 border-t border-slate-800 pt-6"
+>
+  <div
+    class="flex flex-wrap items-center justify-between gap-4"
+  >
+    <div class="min-w-48 flex-1">
+      <div
+        class="flex items-center justify-between gap-4 text-sm"
+      >
+        <span class="font-medium text-slate-400">
+          {{ copy().moduleProgress }}
+        </span>
+
+        <strong
+          [class.text-emerald-300]="
+            isModuleCompleted(
+              recommendation.module
+            )
+          "
+        >
+          {{
+            modulePercentage(
+              recommendation.module
+            )
+          }}%
+        </strong>
+      </div>
+
+      <div
+        class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
+        role="progressbar"
+        [attr.aria-valuenow]="
+          modulePercentage(
+            recommendation.module
+          )
+        "
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <div
+          class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300"
+          [style.width.%]="
+            modulePercentage(
+              recommendation.module
+            )
+          "
+        ></div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300 disabled:cursor-default disabled:bg-emerald-400"
+      [disabled]="
+        isModuleCompleted(
+          recommendation.module
+        )
+      "
+      (click)="
+        startModule(
+          recommendation.module
+        )
+      "
+    >
+      @if (
+        isModuleCompleted(
+          recommendation.module
+        )
+      ) {
+        ✓ {{ copy().completed }}
+      } @else if (
+        isActiveModule(
+          recommendation.module
+        )
+      ) {
+        {{ copy().resumeModule }}
+      } @else {
+        {{ copy().startModule }}
+      }
+    </button>
+  </div>
+</div>
               </div>
             </div>
           </article>

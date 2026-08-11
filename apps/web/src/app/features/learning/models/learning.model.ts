@@ -8,12 +8,17 @@ export type LearningDifficulty =
   | 'intermediate'
   | 'advanced';
 
+export interface LearningTopic {
+  id: string;
+  title: LocalizedText;
+}
+
 export interface LearningModule {
   id: string;
   category: DiagnosticCategory;
   title: LocalizedText;
   description: LocalizedText;
-  topics: readonly LocalizedText[];
+  topics: readonly LearningTopic[];
   estimatedHours: number;
   difficulty: LearningDifficulty;
 }
@@ -22,4 +27,9 @@ export interface LearningRecommendation {
   module: LearningModule;
   diagnosticPercentage: number;
   priority: number;
+}
+
+export interface LearningProgress {
+  completedTopicIds: readonly string[];
+  activeModuleId: string | null;
 }

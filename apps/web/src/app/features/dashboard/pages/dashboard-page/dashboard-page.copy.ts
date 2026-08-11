@@ -18,6 +18,14 @@ interface DashboardPageCopy {
   overallScore: string;
   priorityArea: string;
   strongestArea: string;
+  learningProgress: string;
+  completedTopics: string;
+  activeModule: string;
+  noActiveModule: string;
+  moduleProgress: string;
+  completed: string;
+  allModulesCompleted: string;
+  allModulesCompletedDescription: string;
   nextStep: string;
   recommendedModule: string;
   diagnosticScore: string;
@@ -50,6 +58,15 @@ export const DASHBOARD_PAGE_COPY = {
     overallScore: 'Resultado general',
     priorityArea: 'Área prioritaria',
     strongestArea: 'Mayor fortaleza',
+    learningProgress: 'Progreso de aprendizaje',
+    completedTopics: 'temas completados',
+    activeModule: 'Módulo activo',
+    noActiveModule: 'Aún no has iniciado un módulo',
+    moduleProgress: 'Progreso del módulo',
+    completed: 'Completado',
+    allModulesCompleted: 'Ruta de aprendizaje completada',
+    allModulesCompletedDescription:
+      'Completaste todos los temas de tu ruta personalizada. Puedes repasar los módulos o repetir el diagnóstico.',
     nextStep: 'Siguiente paso recomendado',
     recommendedModule: 'Módulo recomendado',
     diagnosticScore: 'Resultado por área',
@@ -95,6 +112,15 @@ export const DASHBOARD_PAGE_COPY = {
     overallScore: 'Overall score',
     priorityArea: 'Priority area',
     strongestArea: 'Strongest area',
+    learningProgress: 'Learning progress',
+    completedTopics: 'topics completed',
+    activeModule: 'Active module',
+    noActiveModule: 'You have not started a module yet',
+    moduleProgress: 'Module progress',
+    completed: 'Completed',
+    allModulesCompleted: 'Learning roadmap completed',
+    allModulesCompletedDescription:
+      'You completed every topic in your personalized roadmap. You can review the modules or retake the diagnostic.',
     nextStep: 'Recommended next step',
     recommendedModule: 'Recommended module',
     diagnosticScore: 'Category result',
