@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+
 import { RegisterPage } from './register-page';
 
 describe('RegisterPage', () => {
@@ -8,11 +13,20 @@ describe('RegisterPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RegisterPage],
+      providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RegisterPage);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture =
+      TestBed.createComponent(RegisterPage);
+
+    component =
+      fixture.componentInstance;
+
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {

@@ -4,9 +4,13 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+} from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { AuthStore } from '../../../auth/services/auth.store';
 import type { LocalizedText } from '../../../diagnostic/models/diagnostic.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { LEARNING_MODULES } from '../../../learning/data/learning.modules';
@@ -24,6 +28,15 @@ import { DASHBOARD_PAGE_COPY } from './dashboard-page.copy';
 export class DashboardPage {
   protected readonly languageService =
     inject(LanguageService);
+
+  private readonly authStore =
+  inject(AuthStore);
+
+  private readonly router =
+    inject(Router);
+
+  protected readonly user =
+    this.authStore.user;
 
   private readonly resultStore =
     inject(DiagnosticResultStore);
@@ -163,11 +176,17 @@ export class DashboardPage {
   }
 
   protected isModuleCompleted(
-    module: LearningModule,
+  module: LearningModule,
   ): boolean {
     return this.progressStore.isModuleCompleted(
       module,
     );
+  }
+
+  protected async logout(): Promise<void> {
+    this.authStore.logout();
+
+    await this.router.navigate(['/']);
   }
 
   protected text(value: LocalizedText): string {

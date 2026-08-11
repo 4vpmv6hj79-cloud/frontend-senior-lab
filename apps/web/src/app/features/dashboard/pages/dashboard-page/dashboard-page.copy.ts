@@ -7,6 +7,8 @@ import type { LearningDifficulty } from '../../../learning/models/learning.model
 
 interface DashboardPageCopy {
   backHome: string;
+  signedInAs: string;
+  logout: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -45,6 +47,8 @@ interface DashboardPageCopy {
 export const DASHBOARD_PAGE_COPY = {
   es: {
     backHome: 'Volver al inicio',
+    signedInAs: 'Sesión iniciada como',
+    logout: 'Cerrar sesión',
     eyebrow: 'Panel de crecimiento',
     title: 'Tu progreso frontend en un solo lugar',
     description:
@@ -99,6 +103,8 @@ export const DASHBOARD_PAGE_COPY = {
   },
   en: {
     backHome: 'Back to home',
+    signedInAs: 'Signed in as',
+    logout: 'Sign out',
     eyebrow: 'Growth dashboard',
     title: 'Your frontend progress in one place',
     description:

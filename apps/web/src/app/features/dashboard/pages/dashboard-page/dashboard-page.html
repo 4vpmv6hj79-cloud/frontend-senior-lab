@@ -22,42 +22,75 @@
       </a>
 
       <div
-        class="flex rounded-lg border border-white/10 bg-slate-900 p-1"
-        role="group"
-        aria-label="Language selector"
+        class="flex flex-wrap items-center justify-end gap-3"
       >
-        <button
-          type="button"
-          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
-          [class.bg-cyan-400]="
-            languageService.language() === 'es'
-          "
-          [class.text-slate-950]="
-            languageService.language() === 'es'
-          "
-          [class.text-slate-400]="
-            languageService.language() !== 'es'
-          "
-          (click)="languageService.setLanguage('es')"
+        @if (user(); as currentUser) {
+          <div
+            class="hidden text-right sm:block"
+          >
+            <p class="text-xs text-slate-500">
+              {{ copy().signedInAs }}
+            </p>
+
+            <p
+              class="max-w-48 truncate text-sm font-bold text-slate-200"
+              [title]="currentUser.email"
+            >
+              {{ currentUser.name }}
+            </p>
+          </div>
+        }
+
+        <div
+          class="flex rounded-lg border border-white/10 bg-slate-900 p-1"
+          role="group"
+          aria-label="Language selector"
         >
-          ES
-        </button>
+          <button
+            type="button"
+            class="rounded-md px-3 py-1.5 text-xs font-bold transition"
+            [class.bg-cyan-400]="
+              languageService.language() === 'es'
+            "
+            [class.text-slate-950]="
+              languageService.language() === 'es'
+            "
+            [class.text-slate-400]="
+              languageService.language() !== 'es'
+            "
+            (click)="
+              languageService.setLanguage('es')
+            "
+          >
+            ES
+          </button>
+
+          <button
+            type="button"
+            class="rounded-md px-3 py-1.5 text-xs font-bold transition"
+            [class.bg-cyan-400]="
+              languageService.language() === 'en'
+            "
+            [class.text-slate-950]="
+              languageService.language() === 'en'
+            "
+            [class.text-slate-400]="
+              languageService.language() !== 'en'
+            "
+            (click)="
+              languageService.setLanguage('en')
+            "
+          >
+            EN
+          </button>
+        </div>
 
         <button
           type="button"
-          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
-          [class.bg-cyan-400]="
-            languageService.language() === 'en'
-          "
-          [class.text-slate-950]="
-            languageService.language() === 'en'
-          "
-          [class.text-slate-400]="
-            languageService.language() !== 'en'
-          "
-          (click)="languageService.setLanguage('en')"
+          class="rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-xs font-bold text-slate-300 transition hover:border-red-400/40 hover:text-red-300"
+          (click)="logout()"
         >
-          EN
+          {{ copy().logout }}
         </button>
       </div>
     </header>
