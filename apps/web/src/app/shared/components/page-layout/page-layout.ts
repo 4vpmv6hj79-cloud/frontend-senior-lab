@@ -12,6 +12,7 @@ import { LanguageService } from '../../../core/i18n/language.service';
 import { AuthStore } from '../../../features/auth/services/auth.store';
 import { AppFooterComponent } from '../app-footer/app-footer';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle';
 
 const LABELS = {
   es: {
@@ -31,7 +32,7 @@ const LABELS = {
 @Component({
   selector: 'app-page-layout',
   standalone: true,
-  imports: [RouterLink, LanguageSwitcherComponent, AppFooterComponent],
+  imports: [RouterLink, LanguageSwitcherComponent, AppFooterComponent, ThemeToggleComponent],
   template: `
     <main
       class="relative min-h-screen overflow-hidden bg-slate-950 text-white"
@@ -88,6 +89,7 @@ const LABELS = {
 
             <ng-content select="[headerActions]" />
             <app-language-switcher />
+            <app-theme-toggle />
           </div>
         </header>
 

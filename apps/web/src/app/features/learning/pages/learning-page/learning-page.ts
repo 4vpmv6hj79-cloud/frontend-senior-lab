@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -26,24 +27,17 @@ import { LEARNING_PAGE_COPY } from './learning-page.copy';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LearningPage {
-  protected readonly languageService =
-    inject(LanguageService);
+  protected readonly languageService = inject(LanguageService);
 
-  protected readonly resultStore =
-    inject(DiagnosticResultStore);
+  protected readonly resultStore = inject(DiagnosticResultStore);
 
-  protected readonly progressStore =
-    inject(LearningProgressStore);
+  protected readonly progressStore = inject(LearningProgressStore);
 
   protected readonly copy = computed(
-    () =>
-      LEARNING_PAGE_COPY[
-        this.languageService.language()
-      ],
+    () => LEARNING_PAGE_COPY[this.languageService.language()],
   );
 
-  protected readonly result =
-    this.resultStore.result;
+  protected readonly result = this.resultStore.result;
 
   protected readonly recommendations = computed<
     readonly LearningRecommendation[]
@@ -54,147 +48,101 @@ export class LearningPage {
       return [];
     }
 
-    const sortedCategories = [
-      ...result.categories,
-    ].sort(
-      (first, second) =>
-        first.percentage -
-        second.percentage,
+    const sortedCategories = [...result.categories].sort(
+      (first, second) => first.percentage - second.percentage,
     );
 
-    const recommendations:
-      LearningRecommendation[] = [];
+    const recommendations: LearningRecommendation[] = [];
 
-    sortedCategories.forEach(
-      (category, index) => {
-        const module =
-          LEARNING_MODULES.find(
-            (item) =>
-              item.category ===
-              category.category,
-          );
+    sortedCategories.forEach((category, index) => {
+      const module = LEARNING_MODULES.find(
+        (item) => item.category === category.category,
+      );
 
-        if (!module) {
-          return;
-        }
+      if (!module) {
+        return;
+      }
 
-        recommendations.push({
-          module,
-          diagnosticPercentage:
-            category.percentage,
-          priority: index + 1,
-        });
-      },
-    );
+      recommendations.push({
+        module,
+        diagnosticPercentage: category.percentage,
+        priority: index + 1,
+      });
+    });
 
     return recommendations;
   });
 
-  protected readonly totalHours = computed(
-    () =>
-      this.recommendations().reduce(
-        (total, recommendation) =>
-          total +
-          recommendation.module
-            .estimatedHours,
-        0,
-      ),
+  protected readonly totalHours = computed(() =>
+    this.recommendations().reduce(
+      (total, recommendation) => total + recommendation.module.estimatedHours,
+      0,
+    ),
   );
 
   protected readonly focusArea = computed(
-    () =>
-      this.recommendations()[0]
-        ?.module.category ?? null,
+    () => this.recommendations()[0]?.module.category ?? null,
   );
 
-  protected readonly strongestArea =
-    computed(() => {
-      const recommendations =
-        this.recommendations();
+  protected readonly strongestArea = computed(() => {
+    const recommendations = this.recommendations();
 
-      return (
-        recommendations[
-          recommendations.length - 1
-        ]?.module.category ?? null
-      );
-    });
+    return recommendations[recommendations.length - 1]?.module.category ?? null;
+  });
 
-  protected readonly nextRecommendedModule =
-    computed<LearningModule | null>(
-      () =>
-        this.recommendations().find(
-          (recommendation) =>
-            !this.progressStore
-              .isModuleCompleted(
-                recommendation.module,
-              ),
-        )?.module ?? null,
-    );
+  protected readonly nextRecommendedModule = computed<LearningModule | null>(
+    () =>
+      this.recommendations().find(
+        (recommendation) =>
+          !this.progressStore.isModuleCompleted(recommendation.module),
+      )?.module ?? null,
+  );
 
-  protected startModule(
-    module: LearningModule,
-  ): void {
-    this.progressStore.setActiveModule(
-      module.id,
-    );
+  protected startModule(module: LearningModule): void {
+    this.progressStore.setActiveModule(module.id);
   }
 
-  protected toggleTopic(
-    module: LearningModule,
-    topicId: string,
-  ): void {
-    this.progressStore.toggleTopic(
-      module.id,
-      topicId,
-    );
+  protected toggleTopic(module: LearningModule, topicId: string): void {
+    this.progressStore.toggleTopic(module.id, topicId);
   }
 
-  protected isTopicCompleted(
-    topicId: string,
-  ): boolean {
-    return this.progressStore
-      .isTopicCompleted(topicId);
+  protected isTopicCompleted(topicId: string): boolean {
+    return this.progressStore.isTopicCompleted(topicId);
   }
 
-  protected completedTopicsFor(
-    module: LearningModule,
-  ): number {
-    return this.progressStore
-      .completedTopicsFor(module);
+  protected completedTopicsFor(module: LearningModule): number {
+    return this.progressStore.completedTopicsFor(module);
   }
 
-  protected modulePercentage(
-    module: LearningModule,
-  ): number {
-    return this.progressStore
-      .modulePercentage(module);
+  protected modulePercentage(module: LearningModule): number {
+    return this.progressStore.modulePercentage(module);
   }
 
-  protected isModuleCompleted(
-    module: LearningModule,
-  ): boolean {
-    return this.progressStore
-      .isModuleCompleted(module);
+  protected isModuleCompleted(module: LearningModule): boolean {
+    return this.progressStore.isModuleCompleted(module);
   }
 
-  protected isActiveModule(
-    module: LearningModule,
-  ): boolean {
-    return (
-      this.progressStore.progress()
-        .activeModuleId === module.id
-    );
+  protected isActiveModule(module: LearningModule): boolean {
+    return this.progressStore.progress().activeModuleId === module.id;
   }
 
   protected resetLearningProgress(): void {
     this.progressStore.clear();
   }
 
-  protected text(
-    value: LocalizedText,
-  ): string {
-    return value[
-      this.languageService.language()
-    ];
+  protected readonly expandedTopicId = signal<string | null>(null);
+
+  protected toggleTopicExpand(topicId: string): void {
+    this.expandedTopicId.update((current) =>
+      current === topicId ? null : topicId,
+    );
+  }
+
+  protected isTopicExpanded(topicId: string): boolean {
+    return this.expandedTopicId() === topicId;
+  }
+
+  protected text(value: LocalizedText): string {
+    return value[this.languageService.language()];
   }
 }

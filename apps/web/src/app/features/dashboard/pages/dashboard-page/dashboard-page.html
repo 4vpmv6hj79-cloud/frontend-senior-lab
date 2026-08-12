@@ -1,6 +1,4 @@
-<main
-  class="relative min-h-screen overflow-hidden bg-slate-950 text-white"
->
+<main class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
   <div
     class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-cyan-500/10 to-transparent"
   ></div>
@@ -9,9 +7,7 @@
     class="pointer-events-none absolute -right-40 top-36 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"
   ></div>
 
-  <div
-    class="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-12"
-  >
+  <div class="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-12">
     <header class="flex items-center justify-between gap-4">
       <a
         routerLink="/"
@@ -21,24 +17,18 @@
         {{ copy().backHome }}
       </a>
 
-      <div
-        class="flex flex-wrap items-center justify-end gap-3"
-      >
+      <div class="flex flex-wrap items-center justify-end gap-3">
         @if (user(); as currentUser) {
-          <div
-            class="hidden text-right sm:block"
-          >
-            <p class="text-xs text-slate-500">
-              {{ copy().signedInAs }}
-            </p>
+        <div class="hidden text-right sm:block">
+          <p class="text-xs text-slate-500">{{ copy().signedInAs }}</p>
 
-            <p
-              class="max-w-48 truncate text-sm font-bold text-slate-200"
-              [title]="currentUser.email"
-            >
-              {{ currentUser.name }}
-            </p>
-          </div>
+          <p
+            class="max-w-48 truncate text-sm font-bold text-slate-200"
+            [title]="currentUser.email"
+          >
+            {{ currentUser.name }}
+          </p>
+        </div>
         }
 
         <div
@@ -96,9 +86,7 @@
     </header>
 
     <section class="pb-12 pt-16 sm:pt-20">
-      <p
-        class="text-sm font-black uppercase tracking-[0.24em] text-cyan-400"
-      >
+      <p class="text-sm font-black uppercase tracking-[0.24em] text-cyan-400">
         {{ copy().eyebrow }}
       </p>
 
@@ -108,572 +96,536 @@
         {{ copy().title }}
       </h1>
 
-      <p
-        class="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg"
-      >
+      <p class="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
         {{ copy().description }}
       </p>
     </section>
 
     @if (!result()) {
-      <section
-        class="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur sm:p-12"
+    <section
+      class="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur sm:p-12"
+    >
+      <div
+        class="mx-auto grid size-16 place-items-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-3xl text-cyan-300"
+        aria-hidden="true"
       >
-        <div
-          class="mx-auto grid size-16 place-items-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-3xl text-cyan-300"
-          aria-hidden="true"
-        >
-          ◇
-        </div>
+        ◇
+      </div>
 
-        <h2 class="mt-6 text-2xl font-black sm:text-3xl">
-          {{ copy().noResultTitle }}
-        </h2>
+      <h2 class="mt-6 text-2xl font-black sm:text-3xl">
+        {{ copy().noResultTitle }}
+      </h2>
 
-        <p
-          class="mx-auto mt-4 max-w-xl leading-7 text-slate-400"
-        >
-          {{ copy().noResultDescription }}
+      <p class="mx-auto mt-4 max-w-xl leading-7 text-slate-400">
+        {{ copy().noResultDescription }}
+      </p>
+
+      <a
+        routerLink="/diagnostic"
+        class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 font-black text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950"
+      >
+        {{ copy().startDiagnostic }}
+      </a>
+    </section>
+    } @else if (result(); as diagnosticResult) {
+    <section aria-labelledby="diagnostic-summary">
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-cyan-400">
+          {{ copy().assessmentSummary }}
         </p>
 
-        <a
-          routerLink="/diagnostic"
-          class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 font-black text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950"
+        <h2
+          id="diagnostic-summary"
+          class="mt-2 text-2xl font-black sm:text-3xl"
         >
-          {{ copy().startDiagnostic }}
-        </a>
-      </section>
-    } @else if (result(); as diagnosticResult) {
-      <section aria-labelledby="diagnostic-summary">
-        <div class="mb-6">
-          <p class="text-sm font-semibold text-cyan-400">
-            {{ copy().assessmentSummary }}
+          {{ copy().levelLabels[ diagnosticResult.level ] }}
+        </h2>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <article
+          class="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-5"
+        >
+          <p class="text-sm font-medium text-cyan-200">
+            {{ copy().overallLevel }}
           </p>
 
-          <h2
-            id="diagnostic-summary"
-            class="mt-2 text-2xl font-black sm:text-3xl"
-          >
-            {{
-              copy().levelLabels[
-                diagnosticResult.level
-              ]
-            }}
-          </h2>
-        </div>
-
-        <div
-          class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
-        >
-          <article
-            class="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-5"
-          >
-            <p class="text-sm font-medium text-cyan-200">
-              {{ copy().overallLevel }}
-            </p>
-
-            <p class="mt-3 text-2xl font-black">
-              {{
-                copy().levelLabels[
-                  diagnosticResult.level
-                ]
-              }}
-            </p>
-          </article>
-
-          <article
-            class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
-          >
-            <p class="text-sm font-medium text-slate-400">
-              {{ copy().overallScore }}
-            </p>
-
-            <p class="mt-3 text-2xl font-black">
-              {{ diagnosticResult.percentage }}%
-            </p>
-          </article>
-
-          <article
-            class="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5"
-          >
-            <p class="text-sm font-medium text-amber-200">
-              {{ copy().priorityArea }}
-            </p>
-
-            @if (priorityArea(); as priority) {
-              <p
-                class="mt-3 text-2xl font-black text-amber-300"
-              >
-                {{
-                  copy().categoryLabels[
-                    priority.category
-                  ]
-                }}
-              </p>
-
-              <p class="mt-2 text-sm text-slate-400">
-                {{ priority.percentage }}%
-              </p>
-            }
-          </article>
-
-          <article
-            class="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5"
-          >
-            <p class="text-sm font-medium text-emerald-200">
-              {{ copy().strongestArea }}
-            </p>
-
-            @if (strongestArea(); as strength) {
-              <p
-                class="mt-3 text-2xl font-black text-emerald-300"
-              >
-                {{
-                  copy().categoryLabels[
-                    strength.category
-                  ]
-                }}
-              </p>
-
-              <p class="mt-2 text-sm text-slate-400">
-                {{ strength.percentage }}%
-              </p>
-            }
-          </article>
-        </div>
-      </section>
-
-      <section
-        class="mt-14"
-        aria-labelledby="learning-progress"
-      >
-        <div class="mb-6">
-          <p class="text-sm font-semibold text-cyan-400">
-            {{ copy().learningProgress }}
+          <p class="mt-3 text-2xl font-black">
+            {{ copy().levelLabels[ diagnosticResult.level ] }}
           </p>
-
-          <h2
-            id="learning-progress"
-            class="mt-2 text-2xl font-black sm:text-3xl"
-          >
-            {{ completedTopicCount() }} /
-            {{ totalTopicCount }}
-            {{ copy().completedTopics }}
-          </h2>
-        </div>
+        </article>
 
         <article
-          class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 shadow-2xl shadow-black/20"
+          class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
         >
-          <div
-            class="grid gap-0 lg:grid-cols-[1fr_320px]"
+          <p class="text-sm font-medium text-slate-400">
+            {{ copy().overallScore }}
+          </p>
+
+          <p class="mt-3 text-2xl font-black">
+            {{ diagnosticResult.percentage }}%
+          </p>
+        </article>
+
+        <article
+          class="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5"
+        >
+          <p class="text-sm font-medium text-amber-200">
+            {{ copy().priorityArea }}
+          </p>
+
+          @if (priorityArea(); as priority) {
+          <p class="mt-3 text-2xl font-black text-amber-300">
+            {{ copy().categoryLabels[ priority.category ] }}
+          </p>
+
+          <p class="mt-2 text-sm text-slate-400">{{ priority.percentage }}%</p>
+          }
+        </article>
+
+        <article
+          class="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5"
+        >
+          <p class="text-sm font-medium text-emerald-200">
+            {{ copy().strongestArea }}
+          </p>
+
+          @if (strongestArea(); as strength) {
+          <p class="mt-3 text-2xl font-black text-emerald-300">
+            {{ copy().categoryLabels[ strength.category ] }}
+          </p>
+
+          <p class="mt-2 text-sm text-slate-400">{{ strength.percentage }}%</p>
+          }
+        </article>
+      </div>
+    </section>
+
+    <!-- Diagnostic History -->
+    @if (historyStore.entryCount() > 1) {
+    <section class="mt-8" aria-labelledby="diagnostic-history">
+      <div class="mb-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm font-semibold text-cyan-400">
+            {{ copy().historyTitle }}
+          </p>
+          <p class="mt-1 text-xs text-slate-400">
+            {{ historyStore.entryCount() }} {{ copy().historyAttempts }}
+          </p>
+        </div>
+
+        @if (historyStore.lastDelta(); as delta) {
+        <div class="flex items-center gap-2">
+          <span
+            class="text-sm font-bold"
+            [class.text-emerald-300]="delta > 0"
+            [class.text-rose-300]="delta < 0"
+            [class.text-slate-400]="delta === 0"
           >
-            <div class="p-6 sm:p-8">
-              <div
-                class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
-              >
-                <div>
-                  <p
-                    class="text-sm font-medium text-slate-400"
-                  >
-                    {{ copy().learningProgress }}
-                  </p>
+            @if (delta > 0) { +{{ delta }}% } @else if (delta < 0) { {{ delta
+            }}% } @else { = }
+          </span>
+          <span class="text-xs text-slate-500">
+            {{ copy().historyVsLast }}
+          </span>
+        </div>
+        }
+      </div>
 
-                  <p
-                    class="mt-2 text-4xl font-black text-cyan-300"
-                  >
-                    {{ learningPercentage() }}%
-                  </p>
-                </div>
+      <div
+        class="flex items-end gap-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
+      >
+        @for (entry of historyStore.recentHistory(); track entry.completedAt) {
+        <div class="flex flex-1 flex-col items-center gap-2">
+          <div
+            class="w-full rounded-lg bg-gradient-to-t from-cyan-400 to-indigo-400 transition-all duration-300"
+            [style.height.px]="entry.result.percentage * 1.2"
+            [title]="entry.result.percentage + '%'"
+          ></div>
+          <span class="text-xs font-bold text-slate-300">
+            {{ entry.result.percentage }}%
+          </span>
+          <span class="text-[10px] text-slate-500">
+            {{ formatHistoryDate(entry.completedAt) }}
+          </span>
+        </div>
+        }
+      </div>
+    </section>
+    }
 
-                <p
-                  class="font-mono text-sm text-slate-400"
-                >
-                  {{ completedTopicCount() }} /
-                  {{ totalTopicCount }}
-                  {{ copy().completedTopics }}
+    <section class="mt-14" aria-labelledby="learning-progress">
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-cyan-400">
+          {{ copy().learningProgress }}
+        </p>
+
+        <h2 id="learning-progress" class="mt-2 text-2xl font-black sm:text-3xl">
+          {{ completedTopicCount() }} / {{ totalTopicCount }} {{
+          copy().completedTopics }}
+        </h2>
+      </div>
+
+      <article
+        class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 shadow-2xl shadow-black/20"
+      >
+        <div class="grid gap-0 lg:grid-cols-[1fr_320px]">
+          <div class="p-6 sm:p-8">
+            <div
+              class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+            >
+              <div>
+                <p class="text-sm font-medium text-slate-400">
+                  {{ copy().learningProgress }}
+                </p>
+
+                <p class="mt-2 text-4xl font-black text-cyan-300">
+                  {{ learningPercentage() }}%
                 </p>
               </div>
 
-              <div
-                class="mt-6 h-3 overflow-hidden rounded-full bg-slate-800"
-                role="progressbar"
-                [attr.aria-valuenow]="
+              <p class="font-mono text-sm text-slate-400">
+                {{ completedTopicCount() }} / {{ totalTopicCount }} {{
+                copy().completedTopics }}
+              </p>
+            </div>
+
+            <div
+              class="mt-6 h-3 overflow-hidden rounded-full bg-slate-800"
+              role="progressbar"
+              [attr.aria-valuenow]="
                   learningPercentage()
                 "
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
-                <div
-                  class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400 transition-all duration-300"
-                  [style.width.%]="learningPercentage()"
-                ></div>
-              </div>
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div
+                class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400 transition-all duration-300"
+                [style.width.%]="learningPercentage()"
+              ></div>
             </div>
-
-            <aside
-              class="border-t border-slate-800 bg-slate-950/60 p-6 lg:border-l lg:border-t-0 sm:p-8"
-            >
-              <p class="text-sm font-medium text-slate-400">
-                {{ copy().activeModule }}
-              </p>
-
-              @if (activeModule(); as module) {
-                <p class="mt-3 font-black text-white">
-                  {{ text(module.title) }}
-                </p>
-
-                <p class="mt-2 text-sm text-cyan-300">
-                  {{ modulePercentage(module) }}%
-                  {{ copy().completed }}
-                </p>
-              } @else {
-                <p class="mt-3 leading-6 text-slate-300">
-                  {{ copy().noActiveModule }}
-                </p>
-              }
-
-              <a
-                routerLink="/learning"
-                class="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-black text-cyan-300 transition hover:bg-cyan-400 hover:text-slate-950"
-              >
-                {{ copy().continueLearning }}
-                <span class="ml-2" aria-hidden="true">
-                  →
-                </span>
-              </a>
-            </aside>
-          </div>
-        </article>
-      </section>
-
-      @if (recommendedModule(); as module) {
-        <section
-          class="mt-14"
-          aria-labelledby="next-step"
-        >
-          <div class="mb-6">
-            <p class="text-sm font-semibold text-cyan-400">
-              {{ copy().nextStep }}
-            </p>
-
-            <h2
-              id="next-step"
-              class="mt-2 text-2xl font-black sm:text-3xl"
-            >
-              {{ copy().recommendedModule }}
-            </h2>
           </div>
 
-          <article
-            class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 shadow-2xl shadow-black/20"
+          <aside
+            class="border-t border-slate-800 bg-slate-950/60 p-6 lg:border-l lg:border-t-0 sm:p-8"
           >
-            <div class="grid lg:grid-cols-[1fr_300px]">
-              <div class="p-6 sm:p-8">
-                <div
-                  class="flex flex-wrap items-center gap-3"
-                >
-                  <span
-                    class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-black text-cyan-300"
-                  >
-                    {{
-                      copy().categoryLabels[
-                        module.category
-                      ]
-                    }}
-                  </span>
-
-                  <span
-                    class="rounded-full border border-slate-700 bg-slate-950 px-3 py-1 text-xs font-bold text-slate-300"
-                  >
-                    {{
-                      copy().difficultyLabels[
-                        module.difficulty
-                      ]
-                    }}
-                  </span>
-                </div>
-
-                <h3
-                  class="mt-6 text-2xl font-black sm:text-3xl"
-                >
-                  {{ text(module.title) }}
-                </h3>
-
-                <p
-                  class="mt-4 max-w-3xl leading-7 text-slate-400"
-                >
-                  {{ text(module.description) }}
-                </p>
-
-                <div class="mt-8">
-                  <p
-                    class="text-xs font-black uppercase tracking-[0.18em] text-slate-500"
-                  >
-                    {{ copy().includedTopics }}
-                  </p>
-
-                  <ul
-                    class="mt-4 grid gap-3 sm:grid-cols-2"
-                  >
-                    @for (
-                      topic of module.topics;
-                      track topic.id
-                    ) {
-                      <li
-                        class="flex items-start gap-3 text-sm leading-6 text-slate-300"
-                      >
-                        <span
-                          class="mt-2 size-1.5 shrink-0 rounded-full bg-cyan-400"
-                          aria-hidden="true"
-                        ></span>
-
-                        {{ text(topic.title) }}
-                      </li>
-                    }
-                  </ul>
-                </div>
-              </div>
-
-              <aside
-                class="flex flex-col justify-between border-t border-slate-800 bg-slate-950/60 p-6 lg:border-l lg:border-t-0 sm:p-8"
-              >
-                <div>
-                  <p class="text-sm text-slate-400">
-                    {{ copy().estimatedTime }}
-                  </p>
-
-                  <p class="mt-2 text-3xl font-black">
-                    {{ module.estimatedHours }}
-                    {{ copy().hours }}
-                  </p>
-
-                  @if (
-                    recommendedCategoryScore();
-                    as categoryScore
-                  ) {
-                    <div class="mt-8">
-                      <div
-                        class="flex justify-between gap-4 text-sm"
-                      >
-                        <span class="text-slate-400">
-                          {{ copy().diagnosticScore }}
-                        </span>
-
-                        <strong>
-                          {{ categoryScore.percentage }}%
-                        </strong>
-                      </div>
-
-                      <div
-                        class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
-                      >
-                        <div
-                          class="h-full rounded-full bg-gradient-to-r from-amber-400 to-cyan-400"
-                          [style.width.%]="
-                            categoryScore.percentage
-                          "
-                        ></div>
-                      </div>
-                    </div>
-                  }
-
-                  <div class="mt-8">
-                    <div
-                      class="flex items-center justify-between gap-4 text-sm"
-                    >
-                      <span class="text-slate-400">
-                        {{ copy().moduleProgress }}
-                      </span>
-
-                      <strong class="text-cyan-300">
-                        {{ modulePercentage(module) }}%
-                      </strong>
-                    </div>
-
-                    <p
-                      class="mt-2 text-xs text-slate-500"
-                    >
-                      {{ completedTopicsFor(module) }} /
-                      {{ module.topics.length }}
-                      {{ copy().completedTopics }}
-                    </p>
-
-                    <div
-                      class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
-                      role="progressbar"
-                      [attr.aria-valuenow]="
-                        modulePercentage(module)
-                      "
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    >
-                      <div
-                        class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400"
-                        [style.width.%]="
-                          modulePercentage(module)
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-
-                <a
-                  routerLink="/learning"
-                  class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300"
-                >
-                  {{ copy().continueLearning }}
-                  <span class="ml-2" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </aside>
-            </div>
-          </article>
-        </section>
-      } @else if (learningPercentage() === 100) {
-        <section
-          class="mt-14"
-          aria-labelledby="completed-roadmap"
-        >
-          <article
-            class="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-8 text-center shadow-2xl shadow-emerald-950/20 sm:p-12"
-          >
-            <div
-              class="mx-auto grid size-16 place-items-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 text-3xl text-emerald-300"
-              aria-hidden="true"
-            >
-              ✓
-            </div>
-
-            <h2
-              id="completed-roadmap"
-              class="mt-6 text-2xl font-black text-emerald-300 sm:text-3xl"
-            >
-              {{ copy().allModulesCompleted }}
-            </h2>
-
-            <p
-              class="mx-auto mt-4 max-w-2xl leading-7 text-slate-300"
-            >
-              {{ copy().allModulesCompletedDescription }}
+            <p class="text-sm font-medium text-slate-400">
+              {{ copy().activeModule }}
             </p>
+
+            @if (activeModule(); as module) {
+            <p class="mt-3 font-black text-white">{{ text(module.title) }}</p>
+
+            <p class="mt-2 text-sm text-cyan-300">
+              {{ modulePercentage(module) }}% {{ copy().completed }}
+            </p>
+            } @else {
+            <p class="mt-3 leading-6 text-slate-300">
+              {{ copy().noActiveModule }}
+            </p>
+            }
 
             <a
               routerLink="/learning"
-              class="mt-8 inline-flex items-center justify-center rounded-xl bg-emerald-400 px-6 py-3 text-sm font-black text-slate-950 transition hover:bg-emerald-300"
+              class="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-3 text-sm font-black text-cyan-300 transition hover:bg-cyan-400 hover:text-slate-950"
             >
-              {{ copy().viewRoadmap }}
-              <span class="ml-2" aria-hidden="true">
-                →
-              </span>
+              {{ copy().continueLearning }}
+              <span class="ml-2" aria-hidden="true"> → </span>
             </a>
-          </article>
-        </section>
-      }
+          </aside>
+        </div>
+      </article>
+    </section>
 
-      <section
-        class="mt-14 pb-10"
-        aria-labelledby="quick-actions"
+    @if (recommendedModule(); as module) {
+    <section class="mt-14" aria-labelledby="next-step">
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-cyan-400">{{ copy().nextStep }}</p>
+
+        <h2 id="next-step" class="mt-2 text-2xl font-black sm:text-3xl">
+          {{ copy().recommendedModule }}
+        </h2>
+      </div>
+
+      <article
+        class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 shadow-2xl shadow-black/20"
       >
-        <h2
-          id="quick-actions"
-          class="text-2xl font-black sm:text-3xl"
+        <div class="grid lg:grid-cols-[1fr_300px]">
+          <div class="p-6 sm:p-8">
+            <div class="flex flex-wrap items-center gap-3">
+              <span
+                class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-black text-cyan-300"
+              >
+                {{ copy().categoryLabels[ module.category ] }}
+              </span>
+
+              <span
+                class="rounded-full border border-slate-700 bg-slate-950 px-3 py-1 text-xs font-bold text-slate-300"
+              >
+                {{ copy().difficultyLabels[ module.difficulty ] }}
+              </span>
+            </div>
+
+            <h3 class="mt-6 text-2xl font-black sm:text-3xl">
+              {{ text(module.title) }}
+            </h3>
+
+            <p class="mt-4 max-w-3xl leading-7 text-slate-400">
+              {{ text(module.description) }}
+            </p>
+
+            <div class="mt-8">
+              <p
+                class="text-xs font-black uppercase tracking-[0.18em] text-slate-500"
+              >
+                {{ copy().includedTopics }}
+              </p>
+
+              <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                @for ( topic of module.topics; track topic.id ) {
+                <li
+                  class="flex items-start gap-3 text-sm leading-6 text-slate-300"
+                >
+                  <span
+                    class="mt-2 size-1.5 shrink-0 rounded-full bg-cyan-400"
+                    aria-hidden="true"
+                  ></span>
+
+                  {{ text(topic.title) }}
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+
+          <aside
+            class="flex flex-col justify-between border-t border-slate-800 bg-slate-950/60 p-6 lg:border-l lg:border-t-0 sm:p-8"
+          >
+            <div>
+              <p class="text-sm text-slate-400">{{ copy().estimatedTime }}</p>
+
+              <p class="mt-2 text-3xl font-black">
+                {{ module.estimatedHours }} {{ copy().hours }}
+              </p>
+
+              @if ( recommendedCategoryScore(); as categoryScore ) {
+              <div class="mt-8">
+                <div class="flex justify-between gap-4 text-sm">
+                  <span class="text-slate-400">
+                    {{ copy().diagnosticScore }}
+                  </span>
+
+                  <strong> {{ categoryScore.percentage }}% </strong>
+                </div>
+
+                <div class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800">
+                  <div
+                    class="h-full rounded-full bg-gradient-to-r from-amber-400 to-cyan-400"
+                    [style.width.%]="
+                            categoryScore.percentage
+                          "
+                  ></div>
+                </div>
+              </div>
+              }
+
+              <div class="mt-8">
+                <div class="flex items-center justify-between gap-4 text-sm">
+                  <span class="text-slate-400">
+                    {{ copy().moduleProgress }}
+                  </span>
+
+                  <strong class="text-cyan-300">
+                    {{ modulePercentage(module) }}%
+                  </strong>
+                </div>
+
+                <p class="mt-2 text-xs text-slate-500">
+                  {{ completedTopicsFor(module) }} / {{ module.topics.length }}
+                  {{ copy().completedTopics }}
+                </p>
+
+                <div
+                  class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
+                  role="progressbar"
+                  [attr.aria-valuenow]="
+                        modulePercentage(module)
+                      "
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div
+                    class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400"
+                    [style.width.%]="
+                          modulePercentage(module)
+                        "
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              routerLink="/learning"
+              class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300"
+            >
+              {{ copy().continueLearning }}
+              <span class="ml-2" aria-hidden="true"> → </span>
+            </a>
+          </aside>
+        </div>
+      </article>
+    </section>
+    } @else if (learningPercentage() === 100) {
+    <section class="mt-14" aria-labelledby="completed-roadmap">
+      <article
+        class="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-8 text-center shadow-2xl shadow-emerald-950/20 sm:p-12"
+      >
+        <div
+          class="mx-auto grid size-16 place-items-center rounded-2xl border border-emerald-400/30 bg-emerald-400/10 text-3xl text-emerald-300"
+          aria-hidden="true"
         >
-          {{ copy().quickActions }}
+          ✓
+        </div>
+
+        <h2
+          id="completed-roadmap"
+          class="mt-6 text-2xl font-black text-emerald-300 sm:text-3xl"
+        >
+          {{ copy().allModulesCompleted }}
         </h2>
 
-        <div class="mt-6 grid gap-4 md:grid-cols-3">
-          <a
-            routerLink="/learning"
-            class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
-          >
-            <span class="text-2xl" aria-hidden="true">
-              ↗
-            </span>
+        <p class="mx-auto mt-4 max-w-2xl leading-7 text-slate-300">
+          {{ copy().allModulesCompletedDescription }}
+        </p>
 
-            <h3
-              class="mt-5 font-black group-hover:text-cyan-300"
-            >
-              {{ copy().viewRoadmap }}
-            </h3>
-          </a>
+        <a
+          routerLink="/learning"
+          class="mt-8 inline-flex items-center justify-center rounded-xl bg-emerald-400 px-6 py-3 text-sm font-black text-slate-950 transition hover:bg-emerald-300"
+        >
+          {{ copy().viewRoadmap }}
+          <span class="ml-2" aria-hidden="true"> → </span>
+        </a>
+      </article>
+    </section>
+    }
 
-          <a
-            routerLink="/diagnostic"
-            class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
-          >
-            <span class="text-2xl" aria-hidden="true">
-              ↻
-            </span>
+    <!-- Achievements -->
+    <section class="mt-14" aria-labelledby="achievements-heading">
+      <h2 id="achievements-heading" class="text-2xl font-black sm:text-3xl">
+        {{ copy().achievementsTitle }}
+      </h2>
 
-            <h3
-              class="mt-5 font-black group-hover:text-cyan-300"
-            >
-              {{ copy().retakeDiagnostic }}
-            </h3>
-          </a>
+      <p class="mt-2 text-sm text-slate-400">
+        {{ achievementStore.unlockedCount() }} / {{ achievementStore.totalCount
+        }}
+      </p>
 
-          <a
-            routerLink="/interviews"
-            class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
-          >
-            <span class="text-2xl" aria-hidden="true">
-              ⌁
-            </span>
-
-            <h3
-              class="mt-5 font-black group-hover:text-cyan-300"
-            >
-              {{ copy().practiceInterviews }}
-            </h3>
-          </a>
+      <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        @for (achievement of achievementStore.achievements; track
+        achievement.id) {
+        <div
+          class="rounded-2xl border p-4 text-center transition"
+          [class.border-cyan-400/30]="achievementStore.isUnlocked(achievement.id)"
+          [class.bg-cyan-400/5]="achievementStore.isUnlocked(achievement.id)"
+          [class.border-slate-800]="!achievementStore.isUnlocked(achievement.id)"
+          [class.opacity-40]="!achievementStore.isUnlocked(achievement.id)"
+        >
+          <span class="text-2xl">{{ achievement.icon }}</span>
+          <p class="mt-2 text-xs font-bold text-slate-200">
+            {{ text(achievement.title) }}
+          </p>
+          <p class="mt-1 text-xs text-slate-500">
+            {{ text(achievement.description) }}
+          </p>
         </div>
+        }
+      </div>
+    </section>
 
-        <!-- Export / Import -->
-        <div class="mt-6 flex flex-wrap items-center gap-4">
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 px-5 py-3 text-sm font-bold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
-            (click)="exportProgress()"
-          >
-            <span aria-hidden="true">↓</span>
-            {{ copy().exportProgress }}
-          </button>
+    <section class="mt-14 pb-10" aria-labelledby="quick-actions">
+      <h2 id="quick-actions" class="text-2xl font-black sm:text-3xl">
+        {{ copy().quickActions }}
+      </h2>
 
-          <label
-            class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 px-5 py-3 text-sm font-bold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
-          >
-            <span aria-hidden="true">↑</span>
-            {{ copy().importProgress }}
-            <input
-              type="file"
-              accept=".json"
-              class="sr-only"
-              (change)="importProgress($event)"
-            />
-          </label>
+      <div class="mt-6 grid gap-4 md:grid-cols-3">
+        <a
+          routerLink="/learning"
+          class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+        >
+          <span class="text-2xl" aria-hidden="true"> ↗ </span>
 
-          @if (importMessage(); as message) {
-            <span class="text-sm font-medium text-emerald-300">
-              {{ message }}
-            </span>
-          }
-        </div>
-      </section>
+          <h3 class="mt-5 font-black group-hover:text-cyan-300">
+            {{ copy().viewRoadmap }}
+          </h3>
+        </a>
+
+        <a
+          routerLink="/diagnostic"
+          class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+        >
+          <span class="text-2xl" aria-hidden="true"> ↻ </span>
+
+          <h3 class="mt-5 font-black group-hover:text-cyan-300">
+            {{ copy().retakeDiagnostic }}
+          </h3>
+        </a>
+
+        <a
+          routerLink="/interviews"
+          class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+        >
+          <span class="text-2xl" aria-hidden="true"> ⌁ </span>
+
+          <h3 class="mt-5 font-black group-hover:text-cyan-300">
+            {{ copy().practiceInterviews }}
+          </h3>
+        </a>
+      </div>
+
+      <!-- Export / Import -->
+      <div class="mt-6 flex flex-wrap items-center gap-4">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 px-5 py-3 text-sm font-bold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
+          (click)="exportProgress()"
+        >
+          <span aria-hidden="true">↓</span>
+          {{ copy().exportProgress }}
+        </button>
+
+        <label
+          class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 px-5 py-3 text-sm font-bold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
+        >
+          <span aria-hidden="true">↑</span>
+          {{ copy().importProgress }}
+          <input
+            type="file"
+            accept=".json"
+            class="sr-only"
+            (change)="importProgress($event)"
+          />
+        </label>
+
+        @if (importMessage(); as message) {
+        <span class="text-sm font-medium text-emerald-300">
+          {{ message }}
+        </span>
+        }
+      </div>
+    </section>
     }
   </div>
 
   @if (showLogoutDialog()) {
-    <app-confirm-dialog
-      [title]="copy().logoutConfirmTitle"
-      [message]="copy().logoutConfirmMessage"
-      [confirmLabel]="copy().logoutConfirmAction"
-      [cancelLabel]="copy().logoutCancelAction"
-      icon="↩"
-      variant="danger"
-      (confirmed)="confirmLogout()"
-      (cancelled)="cancelLogout()"
-    />
+  <app-confirm-dialog
+    [title]="copy().logoutConfirmTitle"
+    [message]="copy().logoutConfirmMessage"
+    [confirmLabel]="copy().logoutConfirmAction"
+    [cancelLabel]="copy().logoutCancelAction"
+    icon="↩"
+    variant="danger"
+    (confirmed)="confirmLogout()"
+    (cancelled)="cancelLogout()"
+  />
   }
 </main>

@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DIAGNOSTIC_PAGE_COPY } from './diagnostic-page.copy';
+import { DiagnosticHistoryStore } from '../../services/diagnostic-history.store';
 import { DiagnosticResultStore } from '../../services/diagnostic-result.store';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
@@ -42,6 +43,7 @@ const CATEGORIES: readonly DiagnosticCategory[] = [
 export class DiagnosticPage {
   protected readonly languageService = inject(LanguageService);
   private readonly resultStore = inject(DiagnosticResultStore);
+  private readonly historyStore = inject(DiagnosticHistoryStore);
 
   protected readonly questions = DIAGNOSTIC_QUESTIONS;
   protected readonly currentIndex = signal(0);
@@ -51,24 +53,17 @@ export class DiagnosticPage {
   protected readonly slideDirection = signal<SlideDirection>('none');
 
   protected readonly currentQuestion = computed(
-    () =>
-      this.questions[
-        this.currentIndex()
-      ] as DiagnosticQuestion,
+    () => this.questions[this.currentIndex()] as DiagnosticQuestion,
   );
 
-  protected readonly questionNumber = computed(
-    () => this.currentIndex() + 1,
-  );
+  protected readonly questionNumber = computed(() => this.currentIndex() + 1);
 
   protected readonly progress = computed(() => {
     if (this.completed()) {
       return 100;
     }
 
-    return Math.round(
-      (this.currentIndex() / this.questions.length) * 100,
-    );
+    return Math.round((this.currentIndex() / this.questions.length) * 100);
   });
 
   protected readonly canContinue = computed(
@@ -84,21 +79,16 @@ export class DiagnosticPage {
   );
 
   protected readonly copy = computed(
-  () =>
-    DIAGNOSTIC_PAGE_COPY[
-      this.languageService.language()
-    ],
+    () => DIAGNOSTIC_PAGE_COPY[this.languageService.language()],
   );
 
-  protected readonly result = computed<DiagnosticResult | null>(
-    () => {
-      if (!this.completed()) {
-        return null;
-      }
+  protected readonly result = computed<DiagnosticResult | null>(() => {
+    if (!this.completed()) {
+      return null;
+    }
 
-      return this.calculateResult();
-    },
-  );
+    return this.calculateResult();
+  });
 
   protected text(value: LocalizedText): string {
     return value[this.languageService.language()];
@@ -129,6 +119,7 @@ export class DiagnosticPage {
       const result = this.calculateResult();
 
       this.resultStore.save(result);
+      this.historyStore.addEntry(result);
       this.completed.set(true);
 
       return;
@@ -163,9 +154,7 @@ export class DiagnosticPage {
 
   private saveCurrentAnswer(optionId: string): void {
     const question = this.currentQuestion();
-    const option = question.options.find(
-      (item) => item.id === optionId,
-    );
+    const option = question.options.find((item) => item.id === optionId);
 
     if (!option) {
       return;
@@ -179,9 +168,7 @@ export class DiagnosticPage {
     };
 
     this.answers.update((answers) => [
-      ...answers.filter(
-        (item) => item.questionId !== question.id,
-      ),
+      ...answers.filter((item) => item.questionId !== question.id),
       answer,
     ]);
   }
@@ -198,24 +185,16 @@ export class DiagnosticPage {
   private calculateResult(): DiagnosticResult {
     const answers = this.answers();
 
-    const score = answers.reduce(
-      (total, answer) => total + answer.score,
-      0,
-    );
+    const score = answers.reduce((total, answer) => total + answer.score, 0);
 
     const maximumScore = this.questions.reduce(
       (total, question) =>
-        total +
-        Math.max(
-          ...question.options.map((option) => option.score),
-        ),
+        total + Math.max(...question.options.map((option) => option.score)),
       0,
     );
 
     const percentage =
-      maximumScore === 0
-        ? 0
-        : Math.round((score / maximumScore) * 100);
+      maximumScore === 0 ? 0 : Math.round((score / maximumScore) * 100);
 
     return {
       score,
@@ -236,19 +215,11 @@ export class DiagnosticPage {
 
       const score = answers
         .filter((answer) => answer.category === category)
-        .reduce(
-          (total, answer) => total + answer.score,
-          0,
-        );
+        .reduce((total, answer) => total + answer.score, 0);
 
       const maximumScore = questions.reduce(
         (total, question) =>
-          total +
-          Math.max(
-            ...question.options.map(
-              (option) => option.score,
-            ),
-          ),
+          total + Math.max(...question.options.map((option) => option.score)),
         0,
       );
 
@@ -257,16 +228,12 @@ export class DiagnosticPage {
         score,
         maximumScore,
         percentage:
-          maximumScore === 0
-            ? 0
-            : Math.round((score / maximumScore) * 100),
+          maximumScore === 0 ? 0 : Math.round((score / maximumScore) * 100),
       };
     });
   }
 
-  private calculateLevel(
-    percentage: number,
-  ): DiagnosticLevel {
+  private calculateLevel(percentage: number): DiagnosticLevel {
     if (percentage >= 85) {
       return 'senior';
     }

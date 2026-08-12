@@ -1,10 +1,8 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { mockAuthStoreProvider } from '../../../../core/testing/auth-test.helpers';
 import { DIAGNOSTIC_QUESTIONS } from '../../data/diagnostic.questions';
 import { DiagnosticPage } from './diagnostic-page';
 
@@ -16,7 +14,7 @@ describe('DiagnosticPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DiagnosticPage],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), mockAuthStoreProvider()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DiagnosticPage);
@@ -29,17 +27,13 @@ describe('DiagnosticPage', () => {
 
   function getOptionButtons(): HTMLButtonElement[] {
     return Array.from(
-      fixture.nativeElement.querySelectorAll(
-        'button[role="radio"]',
-      ),
+      fixture.nativeElement.querySelectorAll('button[role="radio"]'),
     );
   }
 
   function getContinueButton(): HTMLButtonElement {
     const buttons = Array.from<HTMLButtonElement>(
-      fixture.nativeElement.querySelectorAll(
-        'article footer button',
-      ),
+      fixture.nativeElement.querySelectorAll('article footer button'),
     );
 
     return buttons[buttons.length - 1];
@@ -74,29 +68,20 @@ describe('DiagnosticPage', () => {
     answerCurrentQuestion();
 
     const expectedQuestion =
-      DIAGNOSTIC_QUESTIONS[1].text[
-        languageService.language()
-      ];
+      DIAGNOSTIC_QUESTIONS[1].text[languageService.language()];
 
-    expect(fixture.nativeElement.textContent).toContain(
-      expectedQuestion,
-    );
+    expect(fixture.nativeElement.textContent).toContain(expectedQuestion);
   });
 
   it('should complete the diagnostic and display a result', () => {
-    for (
-      let index = 0;
-      index < DIAGNOSTIC_QUESTIONS.length;
-      index += 1
-    ) {
+    for (let index = 0; index < DIAGNOSTIC_QUESTIONS.length; index += 1) {
       answerCurrentQuestion();
     }
 
     const content = fixture.nativeElement.textContent;
-    const learningLink =
-      fixture.nativeElement.querySelector(
-        'a[href="/learning"]',
-      );
+    const learningLink = fixture.nativeElement.querySelector(
+      'a[href="/learning"]',
+    );
 
     expect(content).toContain('Tu resultado');
     expect(content).toContain('%');
@@ -104,18 +89,13 @@ describe('DiagnosticPage', () => {
   });
 
   it('should restart the diagnostic', () => {
-    for (
-      let index = 0;
-      index < DIAGNOSTIC_QUESTIONS.length;
-      index += 1
-    ) {
+    for (let index = 0; index < DIAGNOSTIC_QUESTIONS.length; index += 1) {
       answerCurrentQuestion();
     }
 
-    const restartButton =
-      fixture.nativeElement.querySelector(
-        'section button',
-      ) as HTMLButtonElement;
+    const restartButton = fixture.nativeElement.querySelector(
+      'section button',
+    ) as HTMLButtonElement;
 
     restartButton.click();
     fixture.detectChanges();

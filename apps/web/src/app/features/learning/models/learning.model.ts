@@ -1,10 +1,7 @@
 import type { DiagnosticCategory } from '../../diagnostic/models/diagnostic.model';
 import type { LocalizedText } from '../../../shared/models/i18n.model';
 
-export type LearningDifficulty =
-  | 'foundation'
-  | 'intermediate'
-  | 'advanced';
+export type LearningDifficulty = 'foundation' | 'intermediate' | 'advanced';
 
 export interface LearningResource {
   readonly title: string;
@@ -12,10 +9,19 @@ export interface LearningResource {
   readonly type: 'docs' | 'video' | 'article' | 'tool';
 }
 
+export type ContentBlockType = 'text' | 'code' | 'tip';
+
+export interface ContentBlock {
+  readonly type: ContentBlockType;
+  readonly content: LocalizedText;
+  readonly language?: string; // for code blocks (e.g., 'typescript', 'html')
+}
+
 export interface LearningTopic {
   readonly id: string;
   readonly title: LocalizedText;
   readonly description: LocalizedText;
+  readonly content: readonly ContentBlock[];
 }
 
 export interface LearningModule {

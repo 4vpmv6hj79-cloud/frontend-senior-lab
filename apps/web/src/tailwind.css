@@ -1,1 +1,4 @@
 @import "tailwindcss" source("./app");
+
+/* Dark mode via class selector (managed by ThemeService) */
+@variant dark (&:where(.dark, .dark *));

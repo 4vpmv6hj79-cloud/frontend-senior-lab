@@ -40,6 +40,10 @@ interface DashboardPageCopy {
   includedTopics: string;
   continueLearning: string;
   quickActions: string;
+  achievementsTitle: string;
+  historyTitle: string;
+  historyAttempts: string;
+  historyVsLast: string;
   viewRoadmap: string;
   retakeDiagnostic: string;
   practiceInterviews: string;
@@ -58,7 +62,8 @@ export const DASHBOARD_PAGE_COPY = {
     signedInAs: 'Sesión iniciada como',
     logout: 'Cerrar sesión',
     logoutConfirmTitle: '¿Cerrar sesión?',
-    logoutConfirmMessage: 'Tu progreso de aprendizaje se conserva localmente. Podrás acceder de nuevo con tu cuenta.',
+    logoutConfirmMessage:
+      'Tu progreso de aprendizaje se conserva localmente. Podrás acceder de nuevo con tu cuenta.',
     logoutConfirmAction: 'Cerrar sesión',
     logoutCancelAction: 'Cancelar',
     eyebrow: 'Panel de crecimiento',
@@ -91,6 +96,10 @@ export const DASHBOARD_PAGE_COPY = {
     includedTopics: 'Temas incluidos',
     continueLearning: 'Continuar aprendizaje',
     quickActions: 'Acciones rápidas',
+    achievementsTitle: 'Logros',
+    historyTitle: 'Evolución del diagnóstico',
+    historyAttempts: 'intentos',
+    historyVsLast: 'vs. anterior',
     viewRoadmap: 'Ver ruta completa',
     retakeDiagnostic: 'Repetir diagnóstico',
     practiceInterviews: 'Practicar entrevistas',
@@ -122,7 +131,8 @@ export const DASHBOARD_PAGE_COPY = {
     signedInAs: 'Signed in as',
     logout: 'Sign out',
     logoutConfirmTitle: 'Sign out?',
-    logoutConfirmMessage: 'Your learning progress is stored locally. You can sign back in with your account anytime.',
+    logoutConfirmMessage:
+      'Your learning progress is stored locally. You can sign back in with your account anytime.',
     logoutConfirmAction: 'Sign out',
     logoutCancelAction: 'Cancel',
     eyebrow: 'Growth dashboard',
@@ -155,6 +165,10 @@ export const DASHBOARD_PAGE_COPY = {
     includedTopics: 'Included topics',
     continueLearning: 'Continue learning',
     quickActions: 'Quick actions',
+    achievementsTitle: 'Achievements',
+    historyTitle: 'Diagnostic evolution',
+    historyAttempts: 'attempts',
+    historyVsLast: 'vs. previous',
     viewRoadmap: 'View full roadmap',
     retakeDiagnostic: 'Retake diagnostic',
     practiceInterviews: 'Practice interviews',
@@ -181,7 +195,4 @@ export const DASHBOARD_PAGE_COPY = {
       advanced: 'Advanced',
     },
   },
-} as const satisfies Record<
-  SupportedLanguage,
-  DashboardPageCopy
->;
+} as const satisfies Record<SupportedLanguage, DashboardPageCopy>;

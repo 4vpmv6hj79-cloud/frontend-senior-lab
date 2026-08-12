@@ -22,24 +22,15 @@
         class="hidden items-center gap-8 text-sm font-medium text-slate-300 md:flex"
         aria-label="Main navigation"
       >
-        <a
-          href="#features"
-          class="transition hover:text-cyan-400"
-        >
+        <a href="#features" class="transition hover:text-cyan-400">
           {{ copy().navigation.features }}
         </a>
 
-        <a
-          routerLink="/learning"
-          class="transition hover:text-cyan-400"
-        >
+        <a routerLink="/learning" class="transition hover:text-cyan-400">
           {{ copy().navigation.learning }}
         </a>
 
-        <a
-          routerLink="/interviews"
-          class="transition hover:text-cyan-400"
-        >
+        <a routerLink="/interviews" class="transition hover:text-cyan-400">
           {{ copy().navigation.interviews }}
         </a>
       </nav>
@@ -97,6 +88,8 @@
         >
           {{ copy().navigation.signIn }}
         </a>
+
+        <app-theme-toggle />
       </div>
     </div>
   </header>
@@ -161,25 +154,20 @@
             class="mt-12 grid max-w-2xl grid-cols-3 divide-x divide-white/10 border-y border-white/10 py-6"
           >
             @for (metric of copy().metrics; track metric.label) {
-              <div class="px-3 first:pl-0 sm:px-6">
-                <dt class="text-xs leading-5 text-slate-400">
-                  {{ metric.label }}
-                </dt>
+            <div class="px-3 first:pl-0 sm:px-6">
+              <dt class="text-xs leading-5 text-slate-400">
+                {{ metric.label }}
+              </dt>
 
-                <dd
-                  class="mb-1 text-xl font-black text-white sm:text-2xl"
-                >
-                  {{ metric.value }}
-                </dd>
-              </div>
+              <dd class="mb-1 text-xl font-black text-white sm:text-2xl">
+                {{ metric.value }}
+              </dd>
+            </div>
             }
           </dl>
         </div>
 
-        <div
-          class="relative mx-auto w-full max-w-xl"
-          aria-hidden="true"
-        >
+        <div class="relative mx-auto w-full max-w-xl" aria-hidden="true">
           <div
             class="absolute -inset-10 -z-10 rounded-full bg-cyan-400/10 blur-3xl"
           ></div>
@@ -194,9 +182,7 @@
               <span class="size-3 rounded-full bg-amber-400"></span>
               <span class="size-3 rounded-full bg-emerald-400"></span>
 
-              <span
-                class="ml-3 font-mono text-xs text-slate-500"
-              >
+              <span class="ml-3 font-mono text-xs text-slate-500">
                 senior-profile.ts
               </span>
             </div>
@@ -253,30 +239,18 @@
               class="grid grid-cols-3 border-t border-white/10 bg-slate-950/50"
             >
               <div class="border-r border-white/10 p-4">
-                <span class="block text-xs text-slate-500">
-                  Angular
-                </span>
-                <strong class="text-sm text-emerald-300">
-                  Advanced
-                </strong>
+                <span class="block text-xs text-slate-500"> Angular </span>
+                <strong class="text-sm text-emerald-300"> Advanced </strong>
               </div>
 
               <div class="border-r border-white/10 p-4">
-                <span class="block text-xs text-slate-500">
-                  TypeScript
-                </span>
-                <strong class="text-sm text-emerald-300">
-                  Advanced
-                </strong>
+                <span class="block text-xs text-slate-500"> TypeScript </span>
+                <strong class="text-sm text-emerald-300"> Advanced </strong>
               </div>
 
               <div class="p-4">
-                <span class="block text-xs text-slate-500">
-                  Growth
-                </span>
-                <strong class="text-sm text-cyan-300">
-                  Continuous
-                </strong>
+                <span class="block text-xs text-slate-500"> Growth </span>
+                <strong class="text-sm text-cyan-300"> Continuous </strong>
               </div>
             </div>
           </div>
@@ -284,10 +258,7 @@
       </div>
     </section>
 
-    <section
-      id="features"
-      class="border-t border-white/10 bg-slate-900/45"
-    >
+    <section id="features" class="border-t border-white/10 bg-slate-900/45">
       <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div class="max-w-3xl">
           <p
@@ -296,9 +267,7 @@
             {{ copy().features.eyebrow }}
           </p>
 
-          <h2
-            class="mt-4 text-3xl font-black tracking-tight sm:text-5xl"
-          >
+          <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
             {{ copy().features.title }}
           </h2>
 
@@ -308,31 +277,26 @@
         </div>
 
         <div class="mt-12 grid gap-6 lg:grid-cols-3">
-          @for (
-            feature of copy().features.cards;
-            track feature.number
-          ) {
-            <article
-              class="group rounded-2xl border border-white/10 bg-slate-900 p-7 transition hover:-translate-y-1 hover:border-cyan-400/40"
-            >
-              <span
-                class="font-mono text-sm font-bold text-cyan-400"
-              >
-                {{ feature.number }}
-              </span>
+          @for ( feature of copy().features.cards; track feature.number ) {
+          <article
+            class="group rounded-2xl border border-white/10 bg-slate-900 p-7 transition hover:-translate-y-1 hover:border-cyan-400/40"
+          >
+            <span class="font-mono text-sm font-bold text-cyan-400">
+              {{ feature.number }}
+            </span>
 
-              <h3 class="mt-8 text-xl font-black text-white">
-                {{ feature.title }}
-              </h3>
+            <h3 class="mt-8 text-xl font-black text-white">
+              {{ feature.title }}
+            </h3>
 
-              <p class="mt-4 leading-7 text-slate-400">
-                {{ feature.description }}
-              </p>
+            <p class="mt-4 leading-7 text-slate-400">
+              {{ feature.description }}
+            </p>
 
-              <div
-                class="mt-8 h-px w-12 bg-linear-to-r from-cyan-400 to-transparent transition-all group-hover:w-full"
-              ></div>
-            </article>
+            <div
+              class="mt-8 h-px w-12 bg-linear-to-r from-cyan-400 to-transparent transition-all group-hover:w-full"
+            ></div>
+          </article>
           }
         </div>
       </div>

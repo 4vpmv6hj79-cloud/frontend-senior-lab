@@ -10,11 +10,12 @@ import {
   LanguageService,
   SupportedLanguage,
 } from '../../../../core/i18n/language.service';
+import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle';
 import { LANDING_PAGE_COPY } from './landing-page.copy';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [RouterLink],
+  imports: [RouterLink, ThemeToggleComponent],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

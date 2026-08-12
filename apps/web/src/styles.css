@@ -1,1 +1,134 @@
-/* You can add global styles to this file, and also import other style files */
+/* Theme transitions */
+html {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+/* Smooth background transitions when switching themes */
+html,
+body,
+main {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Light mode overrides for major backgrounds */
+html.light {
+  --sl-bg-primary: #ffffff;
+  --sl-bg-secondary: #f8fafc;
+  --sl-bg-tertiary: #f1f5f9;
+  --sl-text-primary: #0f172a;
+  --sl-text-secondary: #475569;
+  --sl-border: #e2e8f0;
+}
+
+html.light body {
+  background-color: var(--sl-bg-primary);
+  color: var(--sl-text-primary);
+}
+
+/* Light mode - Override dark backgrounds */
+html.light .bg-slate-950 {
+  background-color: var(--sl-bg-primary) !important;
+}
+
+html.light .bg-slate-900 {
+  background-color: var(--sl-bg-secondary) !important;
+}
+
+html.light .bg-slate-900\/70 {
+  background-color: rgb(248 250 252 / 0.9) !important;
+}
+
+html.light .bg-slate-950\/50,
+html.light .bg-slate-950\/60 {
+  background-color: rgb(241 245 249 / 0.7) !important;
+}
+
+/* Light mode - Override text colors */
+html.light .text-white {
+  color: var(--sl-text-primary) !important;
+}
+
+html.light .text-slate-300 {
+  color: var(--sl-text-secondary) !important;
+}
+
+html.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+html.light .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Light mode - Override borders */
+html.light .border-white\/10,
+html.light .border-white\/15 {
+  border-color: var(--sl-border) !important;
+}
+
+html.light .border-slate-800 {
+  border-color: var(--sl-border) !important;
+}
+
+html.light .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Light mode - Override gradients */
+html.light .from-cyan-500\/10 {
+  --tw-gradient-from: rgb(6 182 212 / 0.05) !important;
+}
+
+/* Light mode - Input and form elements */
+html.light input,
+html.light select {
+  background-color: var(--sl-bg-primary) !important;
+  border-color: var(--sl-border) !important;
+  color: var(--sl-text-primary) !important;
+}
+
+html.light input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Light mode - Keep accent colors visible */
+html.light .text-cyan-400 {
+  color: #0891b2 !important;
+}
+
+html.light .text-cyan-300 {
+  color: #06b6d4 !important;
+}
+
+html.light .bg-cyan-400 {
+  background-color: #06b6d4 !important;
+}
+
+html.light .text-emerald-300 {
+  color: #059669 !important;
+}
+
+html.light .text-amber-300 {
+  color: #d97706 !important;
+}
+
+html.light .text-rose-400,
+html.light .text-rose-300 {
+  color: #e11d48 !important;
+}
+
+/* Light mode - Cards and hover */
+html.light .hover\:border-cyan-400\/40:hover {
+  border-color: rgb(6 182 212 / 0.4) !important;
+}
+
+html.light .shadow-2xl {
+  box-shadow:
+    0 25px 50px -12px rgb(0 0 0 / 0.08) !important;
+}

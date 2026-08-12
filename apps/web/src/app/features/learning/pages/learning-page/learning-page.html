@@ -1,157 +1,127 @@
-<app-page-layout
-  backRoute="/"
-  backLabelKey="home"
-  maxWidth="7xl"
->
-    <section class="pb-12 pt-16 sm:pt-20">
-      <p
-        class="mb-4 text-sm font-bold uppercase tracking-[0.24em] text-cyan-400"
-      >
-        {{ copy().eyebrow }}
-      </p>
+<app-page-layout backRoute="/" backLabelKey="home" maxWidth="7xl">
+  <section class="pb-12 pt-16 sm:pt-20">
+    <p class="mb-4 text-sm font-bold uppercase tracking-[0.24em] text-cyan-400">
+      {{ copy().eyebrow }}
+    </p>
 
-      <h1
-        class="max-w-4xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl"
-      >
-        {{ copy().title }}
-      </h1>
+    <h1
+      class="max-w-4xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl"
+    >
+      {{ copy().title }}
+    </h1>
 
-      <p class="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-        {{ copy().description }}
-      </p>
-    </section>
+    <p class="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+      {{ copy().description }}
+    </p>
+  </section>
 
-    @if (!result()) {
-      <section
-        class="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur sm:p-12"
-      >
-        <div
-          class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-3xl"
-          aria-hidden="true"
+  @if (!result()) {
+  <section
+    class="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur sm:p-12"
+  >
+    <div
+      class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-3xl"
+      aria-hidden="true"
+    >
+      ◇
+    </div>
+
+    <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl">
+      {{ copy().noResultTitle }}
+    </h2>
+
+    <p class="mx-auto mt-4 max-w-xl leading-7 text-slate-400">
+      {{ copy().noResultDescription }}
+    </p>
+
+    <a
+      routerLink="/diagnostic"
+      class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 font-bold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950"
+    >
+      {{ copy().startDiagnostic }}
+    </a>
+  </section>
+  } @else if (result(); as diagnosticResult) {
+  <section aria-labelledby="assessment-summary">
+    <div class="mb-6 flex items-end justify-between gap-4">
+      <div>
+        <p class="text-sm font-semibold text-cyan-400">{{ copy().summary }}</p>
+
+        <h2
+          id="assessment-summary"
+          class="mt-2 text-2xl font-bold text-white sm:text-3xl"
         >
-          ◇
-        </div>
-
-        <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl">
-          {{ copy().noResultTitle }}
+          {{ diagnosticResult.percentage }}% {{
+          copy().diagnosticScore.toLowerCase() }}
         </h2>
+      </div>
+    </div>
 
-        <p class="mx-auto mt-4 max-w-xl leading-7 text-slate-400">
-          {{ copy().noResultDescription }}
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <article class="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-5">
+        <p class="text-sm font-medium text-cyan-200">
+          {{ copy().overallLevel }}
         </p>
 
-        <a
-          routerLink="/diagnostic"
-          class="mt-8 inline-flex items-center justify-center rounded-xl bg-cyan-400 px-6 py-3 font-bold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950"
-        >
-          {{ copy().startDiagnostic }}
-        </a>
-      </section>
-    } @else if (result(); as diagnosticResult) {
-      <section aria-labelledby="assessment-summary">
-        <div class="mb-6 flex items-end justify-between gap-4">
-          <div>
-            <p class="text-sm font-semibold text-cyan-400">
-              {{ copy().summary }}
-            </p>
+        <p class="mt-3 text-2xl font-black text-white">
+          {{ copy().levelLabels[diagnosticResult.level] }}
+        </p>
+      </article>
 
-            <h2
-              id="assessment-summary"
-              class="mt-2 text-2xl font-bold text-white sm:text-3xl"
-            >
-              {{ diagnosticResult.percentage }}%
-              {{ copy().diagnosticScore.toLowerCase() }}
-            </h2>
-          </div>
-        </div>
+      <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <p class="text-sm font-medium text-slate-400">{{ copy().focusArea }}</p>
 
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <article
-            class="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-5"
-          >
-            <p class="text-sm font-medium text-cyan-200">
-              {{ copy().overallLevel }}
-            </p>
+        @if (focusArea(); as category) {
+        <p class="mt-3 text-2xl font-black text-amber-300">
+          {{ copy().categoryLabels[category] }}
+        </p>
+        }
+      </article>
 
-            <p class="mt-3 text-2xl font-black text-white">
-              {{ copy().levelLabels[diagnosticResult.level] }}
-            </p>
-          </article>
+      <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <p class="text-sm font-medium text-slate-400">
+          {{ copy().strongestArea }}
+        </p>
 
-          <article
-            class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
-          >
-            <p class="text-sm font-medium text-slate-400">
-              {{ copy().focusArea }}
-            </p>
+        @if (strongestArea(); as category) {
+        <p class="mt-3 text-2xl font-black text-emerald-300">
+          {{ copy().categoryLabels[category] }}
+        </p>
+        }
+      </article>
 
-            @if (focusArea(); as category) {
-              <p class="mt-3 text-2xl font-black text-amber-300">
-                {{ copy().categoryLabels[category] }}
-              </p>
-            }
-          </article>
+      <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <p class="text-sm font-medium text-slate-400">
+          {{ copy().estimatedTime }}
+        </p>
 
-          <article
-            class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
-          >
-            <p class="text-sm font-medium text-slate-400">
-              {{ copy().strongestArea }}
-            </p>
+        <p class="mt-3 text-2xl font-black text-white">
+          {{ totalHours() }} {{ copy().hours }}
+        </p>
+      </article>
+    </div>
+  </section>
 
-            @if (strongestArea(); as category) {
-              <p class="mt-3 text-2xl font-black text-emerald-300">
-                {{ copy().categoryLabels[category] }}
-              </p>
-            }
-          </article>
-
-          <article
-            class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
-          >
-            <p class="text-sm font-medium text-slate-400">
-              {{ copy().estimatedTime }}
-            </p>
-
-            <p class="mt-3 text-2xl font-black text-white">
-              {{ totalHours() }} {{ copy().hours }}
-            </p>
-          </article>
-        </div>
-      </section>
-
-        <section
+  <section
     class="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-6"
     aria-labelledby="learning-progress"
   >
-    <div
-      class="flex flex-wrap items-start justify-between gap-5"
-    >
+    <div class="flex flex-wrap items-start justify-between gap-5">
       <div>
-        <p
-          id="learning-progress"
-          class="font-black text-white"
-        >
+        <p id="learning-progress" class="font-black text-white">
           {{ copy().learningProgress }}
         </p>
 
         <p class="mt-2 text-sm text-slate-400">
-          {{ progressStore.completedTopicCount() }}
-          /
-          {{ progressStore.totalTopicCount }}
-          {{ copy().completedTopics }}
+          {{ progressStore.completedTopicCount() }} / {{
+          progressStore.totalTopicCount }} {{ copy().completedTopics }}
         </p>
 
-        @if (
-          progressStore.activeModule();
-          as activeModule
-        ) {
-          <p class="mt-3 text-sm text-cyan-300">
-            {{ copy().activeModule }}:
-            <strong>
-              {{ text(activeModule.title) }}
-            </strong>
-          </p>
+        @if ( progressStore.activeModule(); as activeModule ) {
+        <p class="mt-3 text-sm text-cyan-300">
+          {{ copy().activeModule }}:
+          <strong> {{ text(activeModule.title) }} </strong>
+        </p>
         }
       </div>
 
@@ -160,16 +130,14 @@
           {{ progressStore.overallPercentage() }}%
         </strong>
 
-        @if (
-          progressStore.completedTopicCount() > 0
-        ) {
-          <button
-            type="button"
-            class="text-sm font-semibold text-slate-400 transition hover:text-rose-300"
-            (click)="resetLearningProgress()"
-          >
-            {{ copy().resetProgress }}
-          </button>
+        @if ( progressStore.completedTopicCount() > 0 ) {
+        <button
+          type="button"
+          class="text-sm font-semibold text-slate-400 transition hover:text-rose-300"
+          (click)="resetLearningProgress()"
+        >
+          {{ copy().resetProgress }}
+        </button>
         }
       </div>
     </div>
@@ -192,348 +160,334 @@
     </div>
   </section>
 
-      <!-- How to use hint -->
-      <section class="mt-8 rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5">
-        <div class="flex items-start gap-3">
-          <span class="mt-0.5 text-lg text-cyan-400" aria-hidden="true">📋</span>
+  <!-- How to use hint -->
+  <section class="mt-8 rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5">
+    <div class="flex items-start gap-3">
+      <span class="mt-0.5 text-lg text-cyan-400" aria-hidden="true">📋</span>
+      <div>
+        <p class="text-sm font-bold text-cyan-200">
+          {{ copy().learningHintTitle }}
+        </p>
+        <p class="mt-1 text-sm leading-6 text-slate-400">
+          {{ copy().learningHintDescription }}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-14 space-y-6" aria-label="Learning modules">
+    @for ( recommendation of recommendations(); track recommendation.module.id )
+    {
+    <article
+      class="group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/30"
+    >
+      <div class="grid lg:grid-cols-[220px_1fr]">
+        <div
+          class="flex flex-col justify-between border-b border-slate-800 bg-slate-950/50 p-6 lg:border-b-0 lg:border-r"
+        >
           <div>
-            <p class="text-sm font-bold text-cyan-200">
-              {{ copy().learningHintTitle }}
+            <p
+              class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500"
+            >
+              {{ copy().priority }}
             </p>
-            <p class="mt-1 text-sm leading-6 text-slate-400">
-              {{ copy().learningHintDescription }}
+
+            <p class="mt-2 text-5xl font-black text-cyan-400">
+              {{ recommendation.priority.toString().padStart(2, '0') }}
+            </p>
+          </div>
+
+          <div class="mt-8 space-y-2">
+            <span
+              class="inline-flex rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-xs font-bold text-slate-300"
+            >
+              {{ copy().categoryLabels[ recommendation.module.category ] }}
+            </span>
+
+            <p class="text-sm text-slate-400">
+              {{ copy().difficultyLabels[ recommendation.module.difficulty ] }}
             </p>
           </div>
         </div>
-      </section>
 
-      <section class="mt-14 space-y-6" aria-label="Learning modules">
-        @for (
-          recommendation of recommendations();
-          track recommendation.module.id
-        ) {
-          <article
-            class="group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/30"
+        <div class="p-6 sm:p-8">
+          <div
+            class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between"
           >
-            <div class="grid lg:grid-cols-[220px_1fr]">
-              <div
-                class="flex flex-col justify-between border-b border-slate-800 bg-slate-950/50 p-6 lg:border-b-0 lg:border-r"
+            <div class="max-w-3xl">
+              <h3
+                class="text-2xl font-black text-white transition group-hover:text-cyan-300"
               >
-                <div>
-                  <p
-                    class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500"
-                  >
-                    {{ copy().priority }}
-                  </p>
+                {{ text(recommendation.module.title) }}
+              </h3>
 
-                  <p class="mt-2 text-5xl font-black text-cyan-400">
-                    {{ recommendation.priority.toString().padStart(2, '0') }}
-                  </p>
-                </div>
+              <p class="mt-3 leading-7 text-slate-400">
+                {{ text(recommendation.module.description) }}
+              </p>
+            </div>
 
-                <div class="mt-8 space-y-2">
-                  <span
-                    class="inline-flex rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-xs font-bold text-slate-300"
-                  >
-                    {{
-                      copy().categoryLabels[
-                        recommendation.module.category
-                      ]
-                    }}
-                  </span>
+            <div
+              class="shrink-0 rounded-xl border border-slate-800 bg-slate-950/70 px-4 py-3"
+            >
+              <p class="text-xs font-medium text-slate-500">
+                {{ copy().estimatedTime }}
+              </p>
 
-                  <p class="text-sm text-slate-400">
-                    {{
-                      copy().difficultyLabels[
-                        recommendation.module.difficulty
-                      ]
-                    }}
-                  </p>
-                </div>
-              </div>
+              <p class="mt-1 font-bold text-white">
+                {{ recommendation.module.estimatedHours }} {{ copy().hours }}
+              </p>
+            </div>
+          </div>
 
-              <div class="p-6 sm:p-8">
-                <div
-                  class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between"
-                >
-                  <div class="max-w-3xl">
-                    <h3
-                      class="text-2xl font-black text-white transition group-hover:text-cyan-300"
-                    >
-                      {{ text(recommendation.module.title) }}
-                    </h3>
+          <!-- Why it matters -->
+          <div
+            class="mt-6 rounded-xl border border-indigo-400/20 bg-indigo-400/5 p-4"
+          >
+            <p
+              class="text-xs font-bold uppercase tracking-wider text-indigo-300"
+            >
+              {{ copy().whyItMattersLabel }}
+            </p>
+            <p class="mt-2 text-sm leading-6 text-slate-300">
+              {{ text(recommendation.module.whyItMatters) }}
+            </p>
+          </div>
 
-                    <p class="mt-3 leading-7 text-slate-400">
-                      {{ text(recommendation.module.description) }}
-                    </p>
-                  </div>
+          <!-- Objectives -->
+          <div class="mt-5">
+            <p
+              class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+            >
+              {{ copy().objectivesLabel }}
+            </p>
+            <ul class="mt-3 space-y-2">
+              @for (objective of recommendation.module.objectives; track $index)
+              {
+              <li
+                class="flex items-start gap-2 text-sm leading-6 text-slate-300"
+              >
+                <span
+                  class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400"
+                  aria-hidden="true"
+                ></span>
+                {{ text(objective) }}
+              </li>
+              }
+            </ul>
+          </div>
 
-                  <div
-                    class="shrink-0 rounded-xl border border-slate-800 bg-slate-950/70 px-4 py-3"
-                  >
-                    <p class="text-xs font-medium text-slate-500">
-                      {{ copy().estimatedTime }}
-                    </p>
+          <!-- Resources -->
+          @if (recommendation.module.resources.length > 0) {
+          <div class="mt-5">
+            <p
+              class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+            >
+              {{ copy().resourcesLabel }}
+            </p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              @for (resource of recommendation.module.resources; track
+              resource.url) {
+              <a
+                [href]="resource.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+              >
+                {{ resource.title }}
+                <span class="text-cyan-400" aria-hidden="true">↗</span>
+              </a>
+              }
+            </div>
+          </div>
+          }
 
-                    <p class="mt-1 font-bold text-white">
-                      {{ recommendation.module.estimatedHours }}
-                      {{ copy().hours }}
-                    </p>
-                  </div>
-                </div>
+          <div class="mt-8">
+            <div class="mb-2 flex items-center justify-between gap-4">
+              <span class="text-sm font-medium text-slate-400">
+                {{ copy().diagnosticScore }}
+              </span>
 
-                <!-- Why it matters -->
-                <div class="mt-6 rounded-xl border border-indigo-400/20 bg-indigo-400/5 p-4">
-                  <p class="text-xs font-bold uppercase tracking-wider text-indigo-300">
-                    {{ copy().whyItMattersLabel }}
-                  </p>
-                  <p class="mt-2 text-sm leading-6 text-slate-300">
-                    {{ text(recommendation.module.whyItMatters) }}
-                  </p>
-                </div>
+              <span class="text-sm font-bold text-white">
+                {{ recommendation.diagnosticPercentage }}%
+              </span>
+            </div>
 
-                <!-- Objectives -->
-                <div class="mt-5">
-                  <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
-                    {{ copy().objectivesLabel }}
-                  </p>
-                  <ul class="mt-3 space-y-2">
-                    @for (objective of recommendation.module.objectives; track $index) {
-                      <li class="flex items-start gap-2 text-sm leading-6 text-slate-300">
-                        <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden="true"></span>
-                        {{ text(objective) }}
-                      </li>
-                    }
-                  </ul>
-                </div>
-
-                <!-- Resources -->
-                @if (recommendation.module.resources.length > 0) {
-                  <div class="mt-5">
-                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
-                      {{ copy().resourcesLabel }}
-                    </p>
-                    <div class="mt-3 flex flex-wrap gap-2">
-                      @for (resource of recommendation.module.resources; track resource.url) {
-                        <a
-                          [href]="resource.url"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
-                        >
-                          {{ resource.title }}
-                          <span class="text-cyan-400" aria-hidden="true">↗</span>
-                        </a>
-                      }
-                    </div>
-                  </div>
-                }
-
-                <div class="mt-8">
-                  <div class="mb-2 flex items-center justify-between gap-4">
-                    <span class="text-sm font-medium text-slate-400">
-                      {{ copy().diagnosticScore }}
-                    </span>
-
-                    <span class="text-sm font-bold text-white">
-                      {{ recommendation.diagnosticPercentage }}%
-                    </span>
-                  </div>
-
-                  <div
-                    class="h-2 overflow-hidden rounded-full bg-slate-800"
-                    role="progressbar"
-                    [attr.aria-valuenow]="
+            <div
+              class="h-2 overflow-hidden rounded-full bg-slate-800"
+              role="progressbar"
+              [attr.aria-valuenow]="
                       recommendation.diagnosticPercentage
                     "
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    <div
-                      class="h-full rounded-full bg-gradient-to-r from-amber-400 to-cyan-400"
-                      [style.width.%]="
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div
+                class="h-full rounded-full bg-gradient-to-r from-amber-400 to-cyan-400"
+                [style.width.%]="
                         recommendation.diagnosticPercentage
                       "
-                    ></div>
-                  </div>
+              ></div>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <p
+                class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+              >
+                {{ copy().topics }}
+              </p>
+
+              <span class="text-sm font-bold text-slate-400">
+                {{ completedTopicsFor( recommendation.module ) }} / {{
+                recommendation.module.topics.length }}
+              </span>
+            </div>
+
+            <ul class="mt-4 grid gap-3">
+              @for ( topic of recommendation.module.topics; track topic.id ) {
+              <li
+                class="overflow-hidden rounded-xl border border-slate-700 transition"
+                [class.border-emerald-400]="isTopicCompleted(topic.id)"
+                [class.border-cyan-400]="isTopicExpanded(topic.id) && !isTopicCompleted(topic.id)"
+              >
+                <div class="flex items-center gap-3 p-4">
+                  <!-- Checkbox toggle -->
+                  <button
+                    type="button"
+                    class="grid size-5 shrink-0 place-items-center rounded border border-slate-600 text-xs transition"
+                    [class.border-emerald-400]="isTopicCompleted(topic.id)"
+                    [class.bg-emerald-400]="isTopicCompleted(topic.id)"
+                    [class.text-slate-950]="isTopicCompleted(topic.id)"
+                    [attr.aria-pressed]="isTopicCompleted(topic.id)"
+                    [attr.aria-label]="(isTopicCompleted(topic.id) ? copy().undoTopic : copy().completeTopic) + ': ' + text(topic.title)"
+                    (click)="toggleTopic(recommendation.module, topic.id)"
+                  >
+                    @if (isTopicCompleted(topic.id)) { ✓ }
+                  </button>
+
+                  <!-- Topic title (click expands content) -->
+                  <button
+                    type="button"
+                    class="flex-1 text-left text-sm font-medium leading-6 text-slate-200 transition hover:text-cyan-300"
+                    [class.line-through]="isTopicCompleted(topic.id)"
+                    [class.text-emerald-200]="isTopicCompleted(topic.id)"
+                    (click)="toggleTopicExpand(topic.id)"
+                  >
+                    {{ text(topic.title) }}
+                  </button>
+
+                  <!-- Expand indicator -->
+                  <span
+                    class="text-xs text-slate-500 transition"
+                    [class.rotate-180]="isTopicExpanded(topic.id)"
+                    aria-hidden="true"
+                  >
+                    ▼
+                  </span>
                 </div>
 
-<div class="mt-8">
-  <div
-    class="flex flex-wrap items-center justify-between gap-3"
-  >
-    <p
-      class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
-    >
-      {{ copy().topics }}
-    </p>
+                <!-- Expandable content -->
+                @if (isTopicExpanded(topic.id)) {
+                <div
+                  class="border-t border-slate-800 bg-slate-950/70 p-5 space-y-4"
+                >
+                  @for (block of topic.content; track $index) { @if (block.type
+                  === 'text') {
+                  <p class="text-sm leading-7 text-slate-300">
+                    {{ text(block.content) }}
+                  </p>
+                  } @else if (block.type === 'code') {
+                  <div
+                    class="overflow-x-auto rounded-lg border border-slate-700 bg-slate-900 p-4"
+                  >
+                    <pre
+                      class="text-xs leading-6 text-slate-200 whitespace-pre-wrap"
+                    ><code>{{ text(block.content) }}</code></pre>
+                  </div>
+                  } @else if (block.type === 'tip') {
+                  <div
+                    class="rounded-lg border border-cyan-400/20 bg-cyan-400/5 p-4"
+                  >
+                    <p class="text-xs font-bold text-cyan-300">💡 Tip</p>
+                    <p class="mt-1 text-sm leading-6 text-slate-300">
+                      {{ text(block.content) }}
+                    </p>
+                  </div>
+                  } }
+                </div>
+                }
+              </li>
+              }
+            </ul>
+          </div>
 
-    <span class="text-sm font-bold text-slate-400">
-      {{
-        completedTopicsFor(
-          recommendation.module
-        )
-      }}
-      /
-      {{ recommendation.module.topics.length }}
-    </span>
-  </div>
+          <div class="mt-8 border-t border-slate-800 pt-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div class="min-w-48 flex-1">
+                <div class="flex items-center justify-between gap-4 text-sm">
+                  <span class="font-medium text-slate-400">
+                    {{ copy().moduleProgress }}
+                  </span>
 
-  <ul class="mt-4 grid gap-3 md:grid-cols-2">
-    @for (
-      topic of recommendation.module.topics;
-      track topic.id
-    ) {
-      <li>
-        <button
-          type="button"
-          class="flex h-full w-full items-start gap-3 rounded-xl border border-slate-700 bg-slate-950/50 p-4 text-left text-sm leading-6 text-slate-300 transition hover:border-cyan-400"
-          [class.border-emerald-400]="
-            isTopicCompleted(topic.id)
-          "
-          [class.bg-emerald-950]="
-            isTopicCompleted(topic.id)
-          "
-          [class.text-emerald-100]="
-            isTopicCompleted(topic.id)
-          "
-          [attr.aria-pressed]="
-            isTopicCompleted(topic.id)
-          "
-          [attr.aria-label]="
-            (
-              isTopicCompleted(topic.id)
-                ? copy().undoTopic
-                : copy().completeTopic
-            ) +
-            ': ' +
-            text(topic.title)
-          "
-          (click)="
-            toggleTopic(
-              recommendation.module,
-              topic.id
-            )
-          "
-        >
-          <span
-            class="mt-0.5 grid size-5 shrink-0 place-items-center rounded border border-slate-600 text-xs"
-            [class.border-emerald-400]="
-              isTopicCompleted(topic.id)
-            "
-            [class.bg-emerald-400]="
-              isTopicCompleted(topic.id)
-            "
-            [class.text-slate-950]="
-              isTopicCompleted(topic.id)
-            "
-            aria-hidden="true"
-          >
-            @if (isTopicCompleted(topic.id)) {
-              ✓
-            }
-          </span>
-
-          <span
-            [class.line-through]="
-              isTopicCompleted(topic.id)
-            "
-          >
-            {{ text(topic.title) }}
-          </span>
-        </button>
-      </li>
-    }
-  </ul>
-</div>
-
-<div
-  class="mt-8 border-t border-slate-800 pt-6"
->
-  <div
-    class="flex flex-wrap items-center justify-between gap-4"
-  >
-    <div class="min-w-48 flex-1">
-      <div
-        class="flex items-center justify-between gap-4 text-sm"
-      >
-        <span class="font-medium text-slate-400">
-          {{ copy().moduleProgress }}
-        </span>
-
-        <strong
-          [class.text-emerald-300]="
+                  <strong
+                    [class.text-emerald-300]="
             isModuleCompleted(
               recommendation.module
             )
           "
-        >
-          {{
-            modulePercentage(
-              recommendation.module
-            )
-          }}%
-        </strong>
-      </div>
+                  >
+                    {{ modulePercentage( recommendation.module ) }}%
+                  </strong>
+                </div>
 
-      <div
-        class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
-        role="progressbar"
-        [attr.aria-valuenow]="
+                <div
+                  class="mt-3 h-2 overflow-hidden rounded-full bg-slate-800"
+                  role="progressbar"
+                  [attr.aria-valuenow]="
           modulePercentage(
             recommendation.module
           )
         "
-        aria-valuemin="0"
-        aria-valuemax="100"
-      >
-        <div
-          class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300"
-          [style.width.%]="
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <div
+                    class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300"
+                    [style.width.%]="
             modulePercentage(
               recommendation.module
             )
           "
-        ></div>
-      </div>
-    </div>
+                  ></div>
+                </div>
+              </div>
 
-    <button
-      type="button"
-      class="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300 disabled:cursor-default disabled:bg-emerald-400"
-      [disabled]="
+              <button
+                type="button"
+                class="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300 disabled:cursor-default disabled:bg-emerald-400"
+                [disabled]="
         isModuleCompleted(
           recommendation.module
         )
       "
-      (click)="
+                (click)="
         startModule(
           recommendation.module
         )
       "
-    >
-      @if (
-        isModuleCompleted(
-          recommendation.module
-        )
-      ) {
-        ✓ {{ copy().completed }}
-      } @else if (
-        isActiveModule(
-          recommendation.module
-        )
-      ) {
-        {{ copy().resumeModule }}
-      } @else {
-        {{ copy().startModule }}
-      }
-    </button>
-  </div>
-</div>
-              </div>
+              >
+                @if ( isModuleCompleted( recommendation.module ) ) { ✓ {{
+                copy().completed }} } @else if ( isActiveModule(
+                recommendation.module ) ) { {{ copy().resumeModule }} } @else {
+                {{ copy().startModule }} }
+              </button>
             </div>
-          </article>
-        }
-      </section>
+          </div>
+        </div>
+      </div>
+    </article>
     }
+  </section>
+  }
 </app-page-layout>

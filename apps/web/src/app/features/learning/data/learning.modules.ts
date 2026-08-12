@@ -1,4 +1,29 @@
 import type { LearningModule } from '../models/learning.model';
+import {
+  ANGULAR_ONPUSH_CONTENT,
+  ANGULAR_RXJS_CONTENT,
+  ANGULAR_SIGNALS_CONTENT,
+} from './content/angular-content';
+import {
+  ARCHITECTURE_BOUNDARIES_CONTENT,
+  ARCHITECTURE_DESIGN_SYSTEMS_CONTENT,
+  ARCHITECTURE_DOMAINS_CONTENT,
+} from './content/architecture-content';
+import {
+  PERFORMANCE_CWV_CONTENT,
+  PERFORMANCE_LAZY_CONTENT,
+  PERFORMANCE_VIRTUAL_CONTENT,
+} from './content/performance-content';
+import {
+  TESTING_BEHAVIOR_CONTENT,
+  TESTING_MOCKS_CONTENT,
+  TESTING_PYRAMID_CONTENT,
+} from './content/testing-content';
+import {
+  TYPESCRIPT_GENERICS_CONTENT,
+  TYPESCRIPT_UNIONS_CONTENT,
+  TYPESCRIPT_UNKNOWN_CONTENT,
+} from './content/typescript-content';
 
 export const LEARNING_MODULES = [
   {
@@ -41,6 +66,7 @@ export const LEARNING_MODULES = [
           es: 'El nuevo sistema de reactividad de Angular que reemplaza la necesidad de Zone.js para muchos casos.',
           en: 'Angular new reactivity system that replaces the need for Zone.js in many cases.',
         },
+        content: ANGULAR_SIGNALS_CONTENT,
       },
       {
         id: 'angular-onpush',
@@ -52,6 +78,7 @@ export const LEARNING_MODULES = [
           es: 'Cómo reducir ciclos de detección de cambios produciendo nuevas referencias en vez de mutar.',
           en: 'How to reduce change detection cycles by producing new references instead of mutating.',
         },
+        content: ANGULAR_ONPUSH_CONTENT,
       },
       {
         id: 'angular-rxjs-cancellation',
@@ -63,6 +90,7 @@ export const LEARNING_MODULES = [
           es: 'Manejar suscripciones, evitar memory leaks y combinar streams de forma declarativa.',
           en: 'Manage subscriptions, avoid memory leaks, and combine streams declaratively.',
         },
+        content: ANGULAR_RXJS_CONTENT,
       },
     ],
     resources: [
@@ -125,6 +153,7 @@ export const LEARNING_MODULES = [
           es: 'La forma segura de manejar datos cuya forma no conoces en tiempo de compilación.',
           en: 'The safe way to handle data whose shape you do not know at compile time.',
         },
+        content: TYPESCRIPT_UNKNOWN_CONTENT,
       },
       {
         id: 'typescript-generics-utilities',
@@ -136,6 +165,7 @@ export const LEARNING_MODULES = [
           es: 'Construir abstracciones reutilizables que mantienen seguridad de tipos.',
           en: 'Build reusable abstractions that maintain type safety.',
         },
+        content: TYPESCRIPT_GENERICS_CONTENT,
       },
       {
         id: 'typescript-discriminated-unions',
@@ -147,6 +177,7 @@ export const LEARNING_MODULES = [
           es: 'Modelar estados mutuamente excluyentes para que TypeScript te avise si olvidas un caso.',
           en: 'Model mutually exclusive states so TypeScript warns you if you forget a case.',
         },
+        content: TYPESCRIPT_UNIONS_CONTENT,
       },
     ],
     resources: [
@@ -209,6 +240,7 @@ export const LEARNING_MODULES = [
           es: 'Separar tu app en dominios de negocio independientes con contratos públicos claros.',
           en: 'Separate your app into independent business domains with clear public contracts.',
         },
+        content: ARCHITECTURE_DOMAINS_CONTENT,
       },
       {
         id: 'architecture-boundaries',
@@ -220,6 +252,7 @@ export const LEARNING_MODULES = [
           es: 'Usar herramientas como Nx para hacer cumplir reglas de importación entre features.',
           en: 'Use tools like Nx to enforce import rules between features.',
         },
+        content: ARCHITECTURE_BOUNDARIES_CONTENT,
       },
       {
         id: 'architecture-design-systems',
@@ -231,6 +264,7 @@ export const LEARNING_MODULES = [
           es: 'Crear componentes compartidos que escalen a múltiples equipos sin romper nada.',
           en: 'Create shared components that scale to multiple teams without breaking anything.',
         },
+        content: ARCHITECTURE_DESIGN_SYSTEMS_CONTENT,
       },
     ],
     resources: [
@@ -293,6 +327,7 @@ export const LEARNING_MODULES = [
           es: 'Probar lo que el usuario ve y hace, no los detalles internos del componente.',
           en: 'Test what the user sees and does, not internal component details.',
         },
+        content: TESTING_BEHAVIOR_CONTENT,
       },
       {
         id: 'testing-mocks-contracts',
@@ -304,6 +339,7 @@ export const LEARNING_MODULES = [
           es: 'Simular dependencias de forma que tus tests sean rápidos y predecibles.',
           en: 'Simulate dependencies so your tests are fast and predictable.',
         },
+        content: TESTING_MOCKS_CONTENT,
       },
       {
         id: 'testing-pyramid',
@@ -315,6 +351,7 @@ export const LEARNING_MODULES = [
           es: 'Cuántos tests de cada tipo necesitas según el riesgo de tu proyecto.',
           en: 'How many tests of each type you need based on your project risk.',
         },
+        content: TESTING_PYRAMID_CONTENT,
       },
     ],
     resources: [
@@ -377,6 +414,7 @@ export const LEARNING_MODULES = [
           es: 'Cargar solo el código necesario para la vista actual, aplazando el resto.',
           en: 'Load only the code needed for the current view, deferring the rest.',
         },
+        content: PERFORMANCE_LAZY_CONTENT,
       },
       {
         id: 'performance-virtual-scrolling',
@@ -388,6 +426,7 @@ export const LEARNING_MODULES = [
           es: 'Renderizar solo los elementos visibles en pantalla, sin importar el tamaño de los datos.',
           en: 'Render only the elements visible on screen, regardless of data size.',
         },
+        content: PERFORMANCE_VIRTUAL_CONTENT,
       },
       {
         id: 'performance-core-web-vitals',
@@ -399,6 +438,7 @@ export const LEARNING_MODULES = [
           es: 'Las 3 métricas que Google usa para evaluar la experiencia del usuario en tu sitio.',
           en: 'The 3 metrics Google uses to evaluate user experience on your site.',
         },
+        content: PERFORMANCE_CWV_CONTENT,
       },
     ],
     resources: [
