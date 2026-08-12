@@ -1,13 +1,70 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>web</title>
+    <title>Frontend Senior Lab — Plataforma de crecimiento para ingenieros frontend</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO -->
+    <meta name="description" content="Evalúa tus habilidades frontend, sigue una ruta de aprendizaje personalizada y practica entrevistas técnicas con escenarios reales. Angular, TypeScript, arquitectura, testing y rendimiento." />
+    <meta name="keywords" content="frontend, senior, angular, typescript, entrevista técnica, aprendizaje, diagnóstico, interview prep, developer growth" />
+    <meta name="author" content="Frontend Senior Lab" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://4vpmv6hj79-cloud.github.io/frontend-senior-lab/" />
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Frontend Senior Lab — Tu laboratorio de crecimiento frontend" />
+    <meta property="og:description" content="Diagnóstico técnico, ruta personalizada y simulador de entrevistas para desarrolladores frontend que buscan el nivel senior." />
+    <meta property="og:url" content="https://4vpmv6hj79-cloud.github.io/frontend-senior-lab/" />
+    <meta property="og:site_name" content="Frontend Senior Lab" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://4vpmv6hj79-cloud.github.io/frontend-senior-lab/icons/icon-512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Frontend Senior Lab" />
+    <meta name="twitter:description" content="Evalúa, aprende y practica para alcanzar el nivel senior en frontend." />
+    <meta name="twitter:image" content="https://4vpmv6hj79-cloud.github.io/frontend-senior-lab/icons/icon-512.png" />
+
+    <!-- Theme & PWA -->
+    <meta name="theme-color" content="#22d3ee" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SeniorLab" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.webmanifest" />
   </head>
   <body>
+    <!-- GitHub Pages SPA redirect handler -->
+    <script>
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      }(window.location));
+    </script>
+    <!-- Register Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
     <app-root></app-root>
   </body>
 </html>

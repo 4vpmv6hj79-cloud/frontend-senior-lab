@@ -18,6 +18,11 @@
           {
             "glob": "**/*",
             "input": "apps/web/public"
+          },
+          {
+            "glob": "404.html",
+            "input": "apps/web/src",
+            "output": "/"
           }
         ],
         "styles": [
