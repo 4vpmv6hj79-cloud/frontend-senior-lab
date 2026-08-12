@@ -21,6 +21,8 @@ import {
   LocalizedText,
 } from '../../models/diagnostic.model';
 
+export type SlideDirection = 'left' | 'right' | 'none';
+
 const CATEGORIES: readonly DiagnosticCategory[] = [
   'angular',
   'typescript',
@@ -45,6 +47,7 @@ export class DiagnosticPage {
   protected readonly answers = signal<DiagnosticAnswer[]>([]);
   protected readonly selectedOptionId = signal<string | null>(null);
   protected readonly completed = signal(false);
+  protected readonly slideDirection = signal<SlideDirection>('none');
 
   protected readonly currentQuestion = computed(
     () =>
@@ -100,6 +103,14 @@ export class DiagnosticPage {
     return value[this.languageService.language()];
   }
 
+  /**
+   * Returns true if the user has started the quiz but hasn't completed it.
+   * Used by the canDeactivate guard to warn before navigation.
+   */
+  hasUnsavedProgress(): boolean {
+    return this.answers().length > 0 && !this.completed();
+  }
+
   protected selectOption(optionId: string): void {
     this.selectedOptionId.set(optionId);
   }
@@ -122,6 +133,7 @@ export class DiagnosticPage {
       return;
     }
 
+    this.slideDirection.set('left');
     this.currentIndex.update((index) => index + 1);
     this.restoreSelectedOption();
   }
@@ -131,8 +143,13 @@ export class DiagnosticPage {
       return;
     }
 
+    this.slideDirection.set('right');
     this.currentIndex.update((index) => index - 1);
     this.restoreSelectedOption();
+  }
+
+  protected onAnimationEnd(): void {
+    this.slideDirection.set('none');
   }
 
   protected restart(): void {

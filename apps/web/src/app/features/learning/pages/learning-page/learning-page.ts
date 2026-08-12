@@ -7,7 +7,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
-import type { LocalizedText } from '../../../diagnostic/models/diagnostic.model';
+import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { LEARNING_MODULES } from '../../data/learning.modules';
 import type {

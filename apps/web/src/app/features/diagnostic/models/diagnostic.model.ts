@@ -1,4 +1,6 @@
-import type { SupportedLanguage } from '../../../core/i18n/language.service';
+import type { LocalizedText } from '../../../shared/models/i18n.model';
+
+export type { LocalizedText } from '../../../shared/models/i18n.model';
 
 export type DiagnosticCategory =
   | 'angular'
@@ -12,8 +14,6 @@ export type DiagnosticLevel =
   | 'intermediate'
   | 'advanced'
   | 'senior';
-
-export type LocalizedText = Record<SupportedLanguage, string>;
 
 export interface DiagnosticOption {
   id: string;

@@ -4,6 +4,7 @@ import {
   authGuard,
   guestGuard,
 } from './features/auth/guards/auth.guards';
+import { diagnosticDeactivateGuard } from './features/diagnostic/guards/diagnostic-deactivate.guard';
 
 export const appRoutes: Route[] = [
   {
@@ -42,6 +43,7 @@ export const appRoutes: Route[] = [
   {
     path: 'diagnostic',
     title: 'Diagnostic | Frontend Senior Lab',
+    canDeactivate: [diagnosticDeactivateGuard],
     loadComponent: () =>
       import(
         './features/diagnostic/pages/diagnostic-page/diagnostic-page'
@@ -87,6 +89,12 @@ export const appRoutes: Route[] = [
   },
   {
     path: '**',
-    redirectTo: '',
+    title: '404 | Frontend Senior Lab',
+    loadComponent: () =>
+      import(
+        './features/not-found/pages/not-found-page/not-found-page'
+      ).then(
+        ({ NotFoundPage }) => NotFoundPage,
+      ),
   },
 ];

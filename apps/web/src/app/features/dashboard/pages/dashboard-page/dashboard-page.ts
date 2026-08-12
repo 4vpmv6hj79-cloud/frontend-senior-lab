@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import {
   Router,
@@ -10,8 +11,9 @@ import {
 } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { AuthStore } from '../../../auth/services/auth.store';
-import type { LocalizedText } from '../../../diagnostic/models/diagnostic.model';
+import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { LEARNING_MODULES } from '../../../learning/data/learning.modules';
 import type { LearningModule } from '../../../learning/models/learning.model';
@@ -20,7 +22,7 @@ import { DASHBOARD_PAGE_COPY } from './dashboard-page.copy';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [RouterLink],
+  imports: [RouterLink, ConfirmDialogComponent],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -159,6 +161,8 @@ export class DashboardPage {
     () => this.progressStore.activeModule(),
   );
 
+  protected readonly showLogoutDialog = signal(false);
+
   protected modulePercentage(
     module: LearningModule,
   ): number {
@@ -184,6 +188,15 @@ export class DashboardPage {
   }
 
   protected async logout(): Promise<void> {
+    this.showLogoutDialog.set(true);
+  }
+
+  protected cancelLogout(): void {
+    this.showLogoutDialog.set(false);
+  }
+
+  protected async confirmLogout(): Promise<void> {
+    this.showLogoutDialog.set(false);
     this.authStore.logout();
 
     await this.router.navigate(['/']);

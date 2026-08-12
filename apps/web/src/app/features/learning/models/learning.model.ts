@@ -1,7 +1,5 @@
-import type {
-  DiagnosticCategory,
-  LocalizedText,
-} from '../../diagnostic/models/diagnostic.model';
+import type { DiagnosticCategory } from '../../diagnostic/models/diagnostic.model';
+import type { LocalizedText } from '../../../shared/models/i18n.model';
 
 export type LearningDifficulty =
   | 'foundation'

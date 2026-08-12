@@ -9,6 +9,10 @@ interface DashboardPageCopy {
   backHome: string;
   signedInAs: string;
   logout: string;
+  logoutConfirmTitle: string;
+  logoutConfirmMessage: string;
+  logoutConfirmAction: string;
+  logoutCancelAction: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -49,6 +53,10 @@ export const DASHBOARD_PAGE_COPY = {
     backHome: 'Volver al inicio',
     signedInAs: 'Sesión iniciada como',
     logout: 'Cerrar sesión',
+    logoutConfirmTitle: '¿Cerrar sesión?',
+    logoutConfirmMessage: 'Tu progreso de aprendizaje se conserva localmente. Podrás acceder de nuevo con tu cuenta.',
+    logoutConfirmAction: 'Cerrar sesión',
+    logoutCancelAction: 'Cancelar',
     eyebrow: 'Panel de crecimiento',
     title: 'Tu progreso frontend en un solo lugar',
     description:
@@ -105,6 +113,10 @@ export const DASHBOARD_PAGE_COPY = {
     backHome: 'Back to home',
     signedInAs: 'Signed in as',
     logout: 'Sign out',
+    logoutConfirmTitle: 'Sign out?',
+    logoutConfirmMessage: 'Your learning progress is stored locally. You can sign back in with your account anytime.',
+    logoutConfirmAction: 'Sign out',
+    logoutCancelAction: 'Cancel',
     eyebrow: 'Growth dashboard',
     title: 'Your frontend progress in one place',
     description:

@@ -632,4 +632,17 @@
       </section>
     }
   </div>
+
+  @if (showLogoutDialog()) {
+    <app-confirm-dialog
+      [title]="copy().logoutConfirmTitle"
+      [message]="copy().logoutConfirmMessage"
+      [confirmLabel]="copy().logoutConfirmAction"
+      [cancelLabel]="copy().logoutCancelAction"
+      icon="↩"
+      variant="danger"
+      (confirmed)="confirmLogout()"
+      (cancelled)="cancelLogout()"
+    />
+  }
 </main>
