@@ -74,6 +74,23 @@
       </div>
     </section>
 
+    <!-- How to use hint -->
+    <section
+      class="mt-6 rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5"
+    >
+      <div class="flex items-start gap-3">
+        <span class="mt-0.5 text-lg text-cyan-400" aria-hidden="true">💡</span>
+        <div>
+          <p class="text-sm font-bold text-cyan-200">
+            {{ copy().hintTitle }}
+          </p>
+          <p class="mt-1 text-sm leading-6 text-slate-400">
+            {{ copy().hintDescription }}
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section
       class="mt-6 grid gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-5 sm:grid-cols-2 sm:p-6"
       aria-label="Interview filters"
@@ -207,6 +224,16 @@
             {{ text(question.question) }}
           </h2>
 
+          <!-- Scenario context -->
+          <div class="mt-5 rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-amber-300">
+              {{ copy().scenarioLabel }}
+            </p>
+            <p class="mt-2 text-sm leading-6 text-slate-300">
+              {{ text(question.scenario) }}
+            </p>
+          </div>
+
           <div class="mt-8 flex flex-wrap gap-3">
             <button
               type="button"
@@ -300,6 +327,16 @@
                   }
                 </ul>
               </div>
+            </div>
+
+            <!-- Interview tip -->
+            <div class="mt-8 rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-4">
+              <p class="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                💡 {{ copy().tipLabel }}
+              </p>
+              <p class="mt-2 text-sm leading-6 text-slate-300">
+                {{ text(question.tip) }}
+              </p>
             </div>
           </section>
         }

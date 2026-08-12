@@ -13,13 +13,15 @@ export type InterviewCategoryFilter =
   | DiagnosticCategory;
 
 export interface InterviewQuestion {
-  id: string;
-  category: DiagnosticCategory;
-  difficulty: InterviewDifficulty;
-  question: LocalizedText;
-  answer: LocalizedText;
-  keyPoints: readonly LocalizedText[];
-  followUps: readonly LocalizedText[];
+  readonly id: string;
+  readonly category: DiagnosticCategory;
+  readonly difficulty: InterviewDifficulty;
+  readonly question: LocalizedText;
+  readonly scenario: LocalizedText;
+  readonly answer: LocalizedText;
+  readonly keyPoints: readonly LocalizedText[];
+  readonly followUps: readonly LocalizedText[];
+  readonly tip: LocalizedText;
 }
 
 export interface InterviewPracticeProgress {

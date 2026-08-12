@@ -32,6 +32,11 @@ interface LearningPageCopy {
   resetProgress: string;
   completeTopic: string;
   undoTopic: string;
+  whyItMattersLabel: string;
+  objectivesLabel: string;
+  resourcesLabel: string;
+  learningHintTitle: string;
+  learningHintDescription: string;
   categoryLabels: Record<
     DiagnosticCategory,
     string
@@ -76,6 +81,11 @@ export const LEARNING_PAGE_COPY = {
     resetProgress: 'Reiniciar progreso',
     completeTopic: 'Marcar como completado',
     undoTopic: 'Marcar como pendiente',
+    whyItMattersLabel: '¿Por qué importa?',
+    objectivesLabel: 'Lo que aprenderás',
+    resourcesLabel: 'Recursos recomendados',
+    learningHintTitle: '¿Cómo usar esta ruta?',
+    learningHintDescription: 'Los módulos están ordenados por prioridad (tu área más débil primero). Haz clic en cada tema para marcarlo cuando lo domines. Usa los recursos externos para estudiar y vuelve a marcar tu progreso.',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',
@@ -124,6 +134,11 @@ export const LEARNING_PAGE_COPY = {
     resetProgress: 'Reset progress',
     completeTopic: 'Mark as completed',
     undoTopic: 'Mark as pending',
+    whyItMattersLabel: 'Why it matters',
+    objectivesLabel: 'What you will learn',
+    resourcesLabel: 'Recommended resources',
+    learningHintTitle: 'How to use this roadmap?',
+    learningHintDescription: 'Modules are ordered by priority (your weakest area first). Click each topic to mark it when you master it. Use the external resources to study and come back to track your progress.',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',

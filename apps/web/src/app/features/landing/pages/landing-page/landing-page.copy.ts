@@ -50,41 +50,41 @@ export const LANDING_PAGE_COPY = {
     },
     metrics: [
       {
-        value: '7+',
-        label: 'áreas técnicas',
+        value: '15',
+        label: 'preguntas de diagnóstico',
       },
       {
-        value: '100%',
-        label: 'progreso medible',
+        value: '10',
+        label: 'escenarios de entrevista',
       },
       {
-        value: 'ES / EN',
-        label: 'práctica bilingüe',
+        value: '5',
+        label: 'módulos de aprendizaje',
       },
     ],
     features: {
-      eyebrow: 'Crecimiento estructurado',
-      title: 'Todo lo que necesitas para alcanzar el siguiente nivel',
+      eyebrow: 'Cómo funciona',
+      title: 'De "sé programar" a "puedo demostrarlo"',
       description:
-        'Una experiencia creada para desarrolladores frontend que quieren detectar brechas, practicar y demostrar habilidades senior.',
+        'Tres pasos claros para identificar en qué enfocarte, aprender con propósito y llegar preparado a tu próxima entrevista.',
       cards: [
         {
           number: '01',
-          title: 'Diagnóstico técnico',
+          title: 'Descubre tu nivel real',
           description:
-            'Evalúa Angular, TypeScript, arquitectura, rendimiento, testing y habilidades de ingeniería.',
+            '15 preguntas de escenarios reales evalúan tus habilidades en 5 áreas. En 10 minutos sabrás exactamente dónde estás y qué te falta.',
         },
         {
           number: '02',
-          title: 'Ruta personalizada',
+          title: 'Sigue tu ruta personalizada',
           description:
-            'Obtén un plan de aprendizaje basado en tus fortalezas y áreas de oportunidad.',
+            'Basado en tus resultados, recibes un plan ordenado por prioridad con recursos reales (docs oficiales, videos, herramientas). Sin adivinanzas.',
         },
         {
           number: '03',
-          title: 'Simulador de entrevistas',
+          title: 'Practica como en la entrevista real',
           description:
-            'Practica preguntas técnicas y escenarios reales en español e inglés.',
+            'Escenarios de empresas reales: fintechs, startups, SaaS. Cada pregunta incluye contexto, respuesta modelo y tips de lo que el entrevistador espera.',
         },
       ],
     },
@@ -107,41 +107,41 @@ export const LANDING_PAGE_COPY = {
     },
     metrics: [
       {
-        value: '7+',
-        label: 'technical areas',
+        value: '15',
+        label: 'diagnostic questions',
       },
       {
-        value: '100%',
-        label: 'measurable progress',
+        value: '10',
+        label: 'interview scenarios',
       },
       {
-        value: 'ES / EN',
-        label: 'bilingual practice',
+        value: '5',
+        label: 'learning modules',
       },
     ],
     features: {
-      eyebrow: 'Structured growth',
-      title: 'Everything you need to reach the next level',
+      eyebrow: 'How it works',
+      title: 'From "I can code" to "I can prove it"',
       description:
-        'An experience built for frontend developers who want to identify gaps, practice, and demonstrate senior-level skills.',
+        'Three clear steps to identify what to focus on, learn with purpose, and arrive prepared for your next interview.',
       cards: [
         {
           number: '01',
-          title: 'Technical diagnostic',
+          title: 'Discover your real level',
           description:
-            'Assess Angular, TypeScript, architecture, performance, testing, and engineering skills.',
+            '15 real-scenario questions assess your skills across 5 areas. In 10 minutes you will know exactly where you stand and what you need.',
         },
         {
           number: '02',
-          title: 'Personalized roadmap',
+          title: 'Follow your personalized roadmap',
           description:
-            'Get a learning plan based on your strengths and improvement opportunities.',
+            'Based on your results, you get a plan ordered by priority with real resources (official docs, videos, tools). No guessing.',
         },
         {
           number: '03',
-          title: 'Interview simulator',
+          title: 'Practice like the real interview',
           description:
-            'Practice technical questions and realistic scenarios in Spanish and English.',
+            'Scenarios from real companies: fintechs, startups, SaaS. Each question includes context, a model answer, and tips on what the interviewer expects.',
         },
       ],
     },

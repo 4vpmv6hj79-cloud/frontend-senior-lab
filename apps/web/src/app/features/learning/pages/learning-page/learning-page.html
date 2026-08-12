@@ -192,6 +192,21 @@
     </div>
   </section>
 
+      <!-- How to use hint -->
+      <section class="mt-8 rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 text-lg text-cyan-400" aria-hidden="true">📋</span>
+          <div>
+            <p class="text-sm font-bold text-cyan-200">
+              {{ copy().learningHintTitle }}
+            </p>
+            <p class="mt-1 text-sm leading-6 text-slate-400">
+              {{ copy().learningHintDescription }}
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section class="mt-14 space-y-6" aria-label="Learning modules">
         @for (
           recommendation of recommendations();
@@ -266,6 +281,53 @@
                     </p>
                   </div>
                 </div>
+
+                <!-- Why it matters -->
+                <div class="mt-6 rounded-xl border border-indigo-400/20 bg-indigo-400/5 p-4">
+                  <p class="text-xs font-bold uppercase tracking-wider text-indigo-300">
+                    {{ copy().whyItMattersLabel }}
+                  </p>
+                  <p class="mt-2 text-sm leading-6 text-slate-300">
+                    {{ text(recommendation.module.whyItMatters) }}
+                  </p>
+                </div>
+
+                <!-- Objectives -->
+                <div class="mt-5">
+                  <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
+                    {{ copy().objectivesLabel }}
+                  </p>
+                  <ul class="mt-3 space-y-2">
+                    @for (objective of recommendation.module.objectives; track $index) {
+                      <li class="flex items-start gap-2 text-sm leading-6 text-slate-300">
+                        <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden="true"></span>
+                        {{ text(objective) }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+
+                <!-- Resources -->
+                @if (recommendation.module.resources.length > 0) {
+                  <div class="mt-5">
+                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
+                      {{ copy().resourcesLabel }}
+                    </p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                      @for (resource of recommendation.module.resources; track resource.url) {
+                        <a
+                          [href]="resource.url"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+                        >
+                          {{ resource.title }}
+                          <span class="text-cyan-400" aria-hidden="true">↗</span>
+                        </a>
+                      }
+                    </div>
+                  </div>
+                }
 
                 <div class="mt-8">
                   <div class="mb-2 flex items-center justify-between gap-4">

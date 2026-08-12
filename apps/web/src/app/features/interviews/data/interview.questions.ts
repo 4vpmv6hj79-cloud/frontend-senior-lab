@@ -3,381 +3,461 @@ import type { InterviewQuestion } from '../models/interview.model';
 export const INTERVIEW_QUESTIONS = [
   // ─── ANGULAR ─────────────────────────────────────────────────────────────────
   {
-    id: 'angular-reactivity-strategy',
+    id: 'angular-performance-dashboard',
     category: 'angular',
     difficulty: 'senior',
     question: {
-      es: '¿Cómo decidirías entre Signals y RxJS para manejar el estado y los flujos reactivos de una aplicación Angular empresarial?',
-      en: 'How would you decide between Signals and RxJS to manage state and reactive flows in an enterprise Angular application?',
+      es: 'Tu equipo tiene un dashboard con 50+ widgets que se actualizan en tiempo real. Los usuarios reportan que la app se congela al recibir datos del WebSocket. ¿Cómo lo solucionas?',
+      en: 'Your team has a dashboard with 50+ widgets updating in real-time. Users report the app freezes when receiving WebSocket data. How do you fix it?',
+    },
+    scenario: {
+      es: 'Estás en una fintech. El dashboard muestra precios de acciones, gráficas y alertas. El WebSocket envía ~200 mensajes/segundo. El equipo de producto no quiere reducir la frecuencia de actualización.',
+      en: 'You are at a fintech. The dashboard shows stock prices, charts, and alerts. The WebSocket sends ~200 messages/second. Product does not want to reduce update frequency.',
     },
     answer: {
-      es: 'Utilizaría Signals para estado síncrono, derivado y cercano a la interfaz; RxJS para eventos asíncronos, cancelación, composición temporal y comunicación con APIs. Evitaría convertir todo a un solo paradigma. Definiría límites claros: RxJS administra el flujo externo y Signals expone el estado consumido por la vista.',
-      en: 'I would use Signals for synchronous, derived, UI-oriented state, and RxJS for asynchronous events, cancellation, temporal composition, and API communication. I would avoid forcing everything into one paradigm. RxJS would manage external flows while Signals expose state consumed by the view.',
+      es: 'Primero mediría con Angular DevTools para identificar qué widgets causan más ciclos de change detection. Luego: 1) Todos los componentes en OnPush. 2) Agrupar mensajes del WebSocket con bufferTime(100ms) en RxJS para reducir actualizaciones a 10/segundo. 3) Usar signals para estado local de cada widget. 4) @defer para widgets fuera del viewport. 5) Considerar runOutsideAngular para el WebSocket y notificar a Angular solo cuando hay datos relevantes para la vista.',
+      en: 'First, measure with Angular DevTools to identify which widgets cause the most change detection cycles. Then: 1) Set all components to OnPush. 2) Batch WebSocket messages with bufferTime(100ms) in RxJS to reduce updates to 10/second. 3) Use signals for local widget state. 4) @defer for widgets outside the viewport. 5) Consider runOutsideAngular for the WebSocket and only notify Angular when there is view-relevant data.',
     },
     keyPoints: [
       {
-        es: 'Signals para estado síncrono y derivaciones.',
-        en: 'Signals for synchronous state and derivations.',
+        es: 'Medir primero con DevTools, no optimizar a ciegas.',
+        en: 'Measure first with DevTools, do not optimize blindly.',
       },
       {
-        es: 'RxJS para concurrencia, cancelación y streams.',
-        en: 'RxJS for concurrency, cancellation, and streams.',
+        es: 'bufferTime + OnPush reduce drásticamente los ciclos.',
+        en: 'bufferTime + OnPush drastically reduces cycles.',
       },
       {
-        es: 'Interop explícito y límites arquitectónicos.',
-        en: 'Explicit interoperability and architectural boundaries.',
+        es: 'runOutsideAngular para operaciones que no afectan la vista.',
+        en: 'runOutsideAngular for operations that do not affect the view.',
       },
     ],
     followUps: [
       {
-        es: '¿Cómo evitarías suscripciones innecesarias?',
-        en: 'How would you avoid unnecessary subscriptions?',
+        es: '¿Cómo priorizarías qué widgets se actualizan si no puedes actualizar todos?',
+        en: 'How would you prioritize which widgets update if you cannot update all of them?',
       },
       {
-        es: '¿Cuándo utilizarías computed frente a effect?',
-        en: 'When would you use computed instead of effect?',
+        es: '¿Qué métricas usarías para saber si tu solución funcionó?',
+        en: 'What metrics would you use to know if your solution worked?',
       },
     ],
+    tip: {
+      es: 'En entrevistas reales, siempre menciona que medirías antes de optimizar. Los entrevistadores valoran el pensamiento basado en datos.',
+      en: 'In real interviews, always mention you would measure before optimizing. Interviewers value data-driven thinking.',
+    },
   },
   {
-    id: 'angular-standalone-migration',
+    id: 'angular-migration-standalone',
     category: 'angular',
     difficulty: 'advanced',
     question: {
-      es: '¿Cómo migrarías una aplicación Angular basada en NgModules a standalone components de forma incremental sin detener el desarrollo?',
-      en: 'How would you incrementally migrate an NgModule-based Angular application to standalone components without halting development?',
+      es: 'Tienes una app Angular con 200+ componentes usando NgModules. El CTO quiere migrar a standalone. ¿Cuál es tu plan sin detener el desarrollo del equipo de 8 personas?',
+      en: 'You have an Angular app with 200+ components using NgModules. The CTO wants to migrate to standalone. What is your plan without stopping the 8-person team development?',
+    },
+    scenario: {
+      es: 'Startup de e-commerce con sprints de 2 semanas. No puedes parar features. El equipo mezcla experiencia: 3 seniors, 3 mid, 2 juniors.',
+      en: 'E-commerce startup with 2-week sprints. You cannot stop features. The team has mixed experience: 3 seniors, 3 mid, 2 juniors.',
     },
     answer: {
-      es: 'Empezaría por los componentes hoja (sin dependencias de otros módulos), marcándolos standalone y eliminando su declaración del módulo. Usaría importaciones explícitas en cada componente. Migraría de abajo hacia arriba. Configuraría reglas de lint para prevenir nuevos módulos. Finalmente, reemplazaría los módulos de enrutamiento por loadComponent() con lazy loading.',
-      en: 'I would start with leaf components (no dependencies on other modules), marking them standalone and removing their module declaration. I would use explicit imports in each component. Migration goes bottom-up. I would configure lint rules to prevent new modules. Finally, I would replace routing modules with loadComponent() and lazy loading.',
+      es: 'Plan progresivo: 1) Escribir una regla de ESLint que prohíba crear nuevos NgModules. 2) Crear un ADR (Architecture Decision Record) explicando el por qué. 3) Empezar por componentes hoja sin dependencias. 4) Usar el schematic ng generate @angular/core:standalone para automatizar lo repetitivo. 5) Un PR por módulo migrado, no un mega-PR. 6) Sesión de 30 min con juniors explicando el patrón. 7) Meta: migrar 10-15 componentes por sprint como parte del trabajo normal.',
+      en: 'Progressive plan: 1) Write an ESLint rule prohibiting new NgModules. 2) Create an ADR (Architecture Decision Record) explaining why. 3) Start with leaf components without dependencies. 4) Use the ng generate @angular/core:standalone schematic to automate repetitive work. 5) One PR per migrated module, not a mega-PR. 6) 30-min session with juniors explaining the pattern. 7) Goal: migrate 10-15 components per sprint as part of normal work.',
     },
     keyPoints: [
       {
-        es: 'Migración de abajo hacia arriba (leaf-first).',
-        en: 'Bottom-up migration (leaf-first).',
+        es: 'Migración incremental, nunca big-bang.',
+        en: 'Incremental migration, never big-bang.',
       },
       {
-        es: 'Cada componente declara sus imports explícitamente.',
-        en: 'Each component declares its imports explicitly.',
+        es: 'Automatizar con schematics lo que se pueda.',
+        en: 'Automate with schematics whatever you can.',
       },
       {
-        es: 'Reglas de lint para evitar regresiones.',
-        en: 'Lint rules to prevent regressions.',
+        es: 'Documentar decisiones (ADR) para el equipo.',
+        en: 'Document decisions (ADR) for the team.',
       },
     ],
     followUps: [
       {
-        es: '¿Cómo manejarías servicios que dependen de NgModule providers?',
-        en: 'How would you handle services that depend on NgModule providers?',
+        es: '¿Cómo manejarías a un developer que se resiste al cambio?',
+        en: 'How would you handle a developer who resists the change?',
       },
       {
-        es: '¿Qué herramientas automatizadas usarías?',
-        en: 'What automated tools would you use?',
+        es: '¿Qué harías si después de migrar encuentras un bug en producción?',
+        en: 'What would you do if after migrating you find a production bug?',
       },
     ],
+    tip: {
+      es: 'Las preguntas de migración evalúan liderazgo técnico. Muestra que piensas en el equipo, no solo en el código.',
+      en: 'Migration questions evaluate technical leadership. Show that you think about the team, not just the code.',
+    },
   },
 
   // ─── TYPESCRIPT ──────────────────────────────────────────────────────────────
   {
-    id: 'typescript-boundary-safety',
+    id: 'typescript-api-contract',
     category: 'typescript',
     difficulty: 'advanced',
     question: {
-      es: 'Una API externa devuelve datos con una estructura poco confiable. ¿Cómo los integrarías sin utilizar any?',
-      en: 'An external API returns data with an unreliable structure. How would you integrate it without using any?',
+      es: 'El backend cambia un campo de la API de "userName" a "user_name" sin avisar y rompe producción. ¿Cómo evitas que esto vuelva a pasar?',
+      en: 'The backend changes an API field from "userName" to "user_name" without notice and breaks production. How do you prevent this from happening again?',
+    },
+    scenario: {
+      es: 'Trabajas en una empresa mediana con equipos de frontend y backend separados. No hay contrato formal entre las APIs. El equipo de backend deploya independientemente.',
+      en: 'You work at a mid-size company with separate frontend and backend teams. There is no formal API contract. The backend team deploys independently.',
     },
     answer: {
-      es: 'Recibiría la respuesta como unknown y validaría su estructura mediante type guards o un esquema de validación. Después la transformaría con un adapter hacia un modelo de dominio estable. De esta forma, los componentes nunca dependen directamente del contrato externo.',
-      en: 'I would receive the response as unknown and validate its structure using type guards or schema validation. I would then transform it through an adapter into a stable domain model, preventing components from depending directly on the external contract.',
+      es: 'Solución en capas: 1) Recibir la respuesta HTTP como unknown, no confiar en el tipo. 2) Crear una capa de validación con Zod o type guards que valide la estructura antes de usarla. 3) Un adapter que transforma la respuesta externa en tu modelo de dominio interno (nunca usar la forma del backend directamente en componentes). 4) A largo plazo: implementar contract testing (Pact) o un esquema OpenAPI compartido que ambos equipos deben cumplir. 5) Alertas de monitoreo cuando la validación falla en producción.',
+      en: 'Layered solution: 1) Receive HTTP response as unknown, do not trust the type. 2) Create a validation layer with Zod or type guards that validates structure before use. 3) An adapter that transforms the external response into your internal domain model (never use backend shape directly in components). 4) Long-term: implement contract testing (Pact) or a shared OpenAPI schema both teams must comply with. 5) Monitoring alerts when validation fails in production.',
     },
     keyPoints: [
       {
-        es: 'unknown en los límites externos.',
-        en: 'unknown at external boundaries.',
+        es: 'Nunca confiar directamente en datos externos (unknown + validación).',
+        en: 'Never trust external data directly (unknown + validation).',
       },
       {
-        es: 'Type guards o validación de esquemas.',
-        en: 'Type guards or schema validation.',
+        es: 'Adapter pattern: separar modelo externo del interno.',
+        en: 'Adapter pattern: separate external from internal model.',
       },
       {
-        es: 'Adapter hacia modelos de dominio.',
-        en: 'Adapter into domain models.',
+        es: 'Contract testing previene roturas entre equipos.',
+        en: 'Contract testing prevents breakage between teams.',
       },
     ],
     followUps: [
       {
-        es: '¿Qué diferencia práctica existe entre unknown y any?',
-        en: 'What is the practical difference between unknown and any?',
+        es: '¿Cuál es la diferencia entre Zod y un type guard manual?',
+        en: 'What is the difference between Zod and a manual type guard?',
       },
       {
-        es: '¿Dónde colocarías la validación dentro de la arquitectura?',
-        en: 'Where would you place validation in the architecture?',
+        es: '¿Cómo convencerías al equipo de backend de adoptar OpenAPI?',
+        en: 'How would you convince the backend team to adopt OpenAPI?',
       },
     ],
+    tip: {
+      es: 'Esta pregunta evalúa si piensas en la resiliencia del sistema. Muestra que diseñas para el fallo, no solo para el caso feliz.',
+      en: 'This question evaluates if you think about system resilience. Show you design for failure, not just the happy path.',
+    },
   },
   {
-    id: 'typescript-advanced-generics',
+    id: 'typescript-refactor-any',
     category: 'typescript',
     difficulty: 'senior',
     question: {
-      es: '¿Cómo diseñarías una función genérica de formulario que infiera los tipos de cada campo a partir de un esquema de configuración?',
-      en: 'How would you design a generic form function that infers each field type from a configuration schema?',
+      es: 'Heredas un proyecto con 400+ usos de "any". El equipo dice que "TypeScript estricto es lento". ¿Cómo cambias la cultura sin imponer?',
+      en: 'You inherit a project with 400+ uses of "any". The team says "strict TypeScript is slow". How do you change the culture without imposing?',
+    },
+    scenario: {
+      es: 'Empresa de salud digital. El código funciona en producción pero tiene bugs difíciles de rastrear. Eres el nuevo tech lead. El equipo tiene 5 personas con 2-4 años de experiencia.',
+      en: 'Digital health company. The code works in production but has hard-to-trace bugs. You are the new tech lead. The team has 5 people with 2-4 years of experience.',
     },
     answer: {
-      es: 'Definiría un tipo genérico Schema con configuraciones indexadas por clave. La función recibiría el esquema como parámetro genérico y TypeScript inferiría el tipo de retorno automáticamente. Usaría mapped types y conditional types para derivar el modelo de datos del formulario. Esto da autocompletado y validación en compilación sin duplicar definiciones.',
-      en: 'I would define a generic Schema type with configurations indexed by key. The function would receive the schema as a generic parameter and TypeScript would automatically infer the return type. I would use mapped types and conditional types to derive the form data model. This provides autocomplete and compile-time validation without duplicating definitions.',
+      es: 'Enfoque educativo, no autoritario: 1) Activar strict incrementalmente: empezar con noImplicitAny solo en archivos nuevos usando tsconfig paths. 2) Mostrar, no decir: tomar un bug reciente causado por any y demostrar cómo TypeScript estricto lo habría prevenido. 3) Crear un "any budget": medir los any actuales y acordar no agregar nuevos. 4) Pair programming semanal donde resuelves un any real juntos. 5) Celebrar cuando el equipo reduce any en PRs. 6) Nunca bloquear PRs por any existentes, solo por nuevos.',
+      en: 'Educational approach, not authoritarian: 1) Enable strict incrementally: start with noImplicitAny only on new files using tsconfig paths. 2) Show, do not tell: take a recent bug caused by any and demonstrate how strict TypeScript would have prevented it. 3) Create an "any budget": measure current anys and agree not to add new ones. 4) Weekly pair programming where you solve a real any together. 5) Celebrate when the team reduces any in PRs. 6) Never block PRs for existing anys, only for new ones.',
     },
     keyPoints: [
       {
-        es: 'Inferencia genérica desde parámetros.',
-        en: 'Generic inference from parameters.',
+        es: 'Demostrar valor con ejemplos reales de bugs, no teoría.',
+        en: 'Demonstrate value with real bug examples, not theory.',
       },
       {
-        es: 'Mapped types para transformar esquemas.',
-        en: 'Mapped types to transform schemas.',
+        es: 'Migración incremental (nuevos archivos primero).',
+        en: 'Incremental migration (new files first).',
       },
       {
-        es: 'Conditional types para extraer tipos específicos.',
-        en: 'Conditional types to extract specific types.',
+        es: 'Liderazgo por influencia, no por autoridad.',
+        en: 'Leadership by influence, not authority.',
       },
     ],
     followUps: [
       {
-        es: '¿Cómo manejarías campos opcionales vs. requeridos?',
-        en: 'How would you handle optional vs. required fields?',
+        es: '¿Qué harías si un senior del equipo se niega activamente?',
+        en: 'What would you do if a senior on the team actively refuses?',
       },
       {
-        es: '¿Qué limitaciones tiene TypeScript con inferencia profunda?',
-        en: 'What are TypeScript limitations with deep inference?',
+        es: '¿Cómo medirías el impacto en velocidad de desarrollo?',
+        en: 'How would you measure the impact on development velocity?',
       },
     ],
+    tip: {
+      es: 'Esta es una pregunta de liderazgo disfrazada de técnica. El entrevistador quiere ver cómo influyes sin imponer.',
+      en: 'This is a leadership question disguised as a technical one. The interviewer wants to see how you influence without imposing.',
+    },
   },
 
   // ─── ARCHITECTURE ────────────────────────────────────────────────────────────
   {
-    id: 'architecture-design-system-evolution',
+    id: 'architecture-design-system-real',
     category: 'architecture',
     difficulty: 'senior',
     question: {
-      es: '¿Cómo evolucionarías una librería Angular compartida por múltiples aplicaciones sin romper a sus consumidores?',
-      en: 'How would you evolve an Angular library shared by multiple applications without breaking its consumers?',
+      es: 'Tres equipos de producto usan copias diferentes del mismo botón. Los diseñadores piden consistencia. ¿Cómo implementas un design system sin frenar a los equipos?',
+      en: 'Three product teams use different copies of the same button. Designers ask for consistency. How do you implement a design system without slowing teams down?',
+    },
+    scenario: {
+      es: 'Empresa SaaS con 3 productos Angular. Cada uno tiene su propio repositorio. Los diseñadores acaban de crear un Figma unificado. Tienes que proponer la solución técnica al VP de Engineering.',
+      en: 'SaaS company with 3 Angular products. Each has its own repository. Designers just created a unified Figma. You need to propose the technical solution to the VP of Engineering.',
     },
     answer: {
-      es: 'Definiría una API pública explícita, versionado semántico, pruebas de contrato y una política de deprecación. Los cambios incompatibles tendrían migraciones automatizadas y documentación. También validaría la librería contra aplicaciones consumidoras antes de publicar una nueva versión.',
-      en: 'I would define an explicit public API, semantic versioning, contract tests, and a deprecation policy. Breaking changes would include automated migrations and documentation. I would also validate the library against consuming applications before publishing a new version.',
+      es: 'Propuesta pragmática: 1) Empezar con una librería de componentes básicos (botón, input, card) en un paquete publicable. 2) Design tokens (colores, spacing, tipografía) como CSS custom properties — no valores hardcoded. 3) Versionado semántico: los consumidores eligen cuándo actualizar. 4) Documentación viva con Storybook y ejemplos de uso. 5) Governance: un "component council" con 1 representante de cada equipo que aprueba cambios. 6) Política de deprecación de 2 sprints antes de breaking changes. 7) Fase 1 solo con 5-8 componentes, no intentar migrar todo de golpe.',
+      en: 'Pragmatic proposal: 1) Start with a basic component library (button, input, card) as a publishable package. 2) Design tokens (colors, spacing, typography) as CSS custom properties — no hardcoded values. 3) Semantic versioning: consumers choose when to update. 4) Living documentation with Storybook and usage examples. 5) Governance: a "component council" with 1 representative from each team approving changes. 6) Deprecation policy of 2 sprints before breaking changes. 7) Phase 1 with only 5-8 components, do not try to migrate everything at once.',
     },
     keyPoints: [
       {
-        es: 'API pública y versionado semántico.',
-        en: 'Public API and semantic versioning.',
+        es: 'Empezar pequeño: 5-8 componentes, no todo.',
+        en: 'Start small: 5-8 components, not everything.',
       },
       {
-        es: 'Deprecación gradual y migraciones.',
-        en: 'Gradual deprecation and migrations.',
+        es: 'Design tokens como contrato entre diseño y código.',
+        en: 'Design tokens as the contract between design and code.',
       },
       {
-        es: 'Pruebas de contrato con consumidores.',
-        en: 'Consumer contract testing.',
+        es: 'Governance con representantes de cada equipo.',
+        en: 'Governance with representatives from each team.',
       },
     ],
     followUps: [
       {
-        es: '¿Cómo manejarías design tokens y temas?',
-        en: 'How would you manage design tokens and themes?',
+        es: '¿Monorepo o paquetes separados? ¿Por qué?',
+        en: 'Monorepo or separate packages? Why?',
       },
       {
-        es: '¿Qué automatizarías en el pipeline de publicación?',
-        en: 'What would you automate in the publishing pipeline?',
+        es: '¿Cómo manejas cuando un equipo necesita una variante que no existe?',
+        en: 'How do you handle when a team needs a variant that does not exist?',
       },
     ],
+    tip: {
+      es: 'Los entrevistadores buscan pragmatismo. Nunca propongas una solución de 6 meses sin entregas intermedias.',
+      en: 'Interviewers look for pragmatism. Never propose a 6-month solution without intermediate deliveries.',
+    },
   },
   {
-    id: 'architecture-microfrontends-decision',
+    id: 'architecture-frontend-system-design',
     category: 'architecture',
     difficulty: 'senior',
     question: {
-      es: '¿En qué situaciones recomendarías micro-frontends sobre un monolito modular? ¿Cuáles son los trade-offs principales?',
-      en: 'In which situations would you recommend micro-frontends over a modular monolith? What are the main trade-offs?',
+      es: 'Diseña la arquitectura frontend de una app de chat en tiempo real con mensajes, reacciones, typing indicators y búsqueda. ¿Cómo estructuras el estado y la comunicación?',
+      en: 'Design the frontend architecture of a real-time chat app with messages, reactions, typing indicators, and search. How do you structure state and communication?',
+    },
+    scenario: {
+      es: 'Entrevista de system design en una empresa como Slack o Discord. Tienes 45 minutos. El entrevistador espera que pienses en voz alta sobre trade-offs.',
+      en: 'System design interview at a company like Slack or Discord. You have 45 minutes. The interviewer expects you to think out loud about trade-offs.',
     },
     answer: {
-      es: 'Recomendaría micro-frontends cuando equipos autónomos necesitan desplegar independientemente con diferentes cadencias, o cuando dominios de negocio son verdaderamente independientes. Los trade-offs incluyen: complejidad de integración (shell, routing), duplicación de dependencias (mayor bundle), consistencia visual difícil de mantener, y debugging distribuido. Un monorepo con librerías bien separadas suele ser suficiente para la mayoría de casos.',
-      en: 'I would recommend micro-frontends when autonomous teams need to deploy independently with different cadences, or when business domains are truly independent. Trade-offs include: integration complexity (shell, routing), dependency duplication (larger bundle), visual consistency challenges, and distributed debugging. A monorepo with well-separated libraries is usually sufficient for most cases.',
+      es: 'Arquitectura por capas: 1) Capa de transporte: WebSocket para mensajes en tiempo real, HTTP REST para búsqueda e historial. 2) Estado: separar "messages store" (normalizados por channel), "presence store" (quién está escribiendo), "ui store" (panel abierto, scroll position). 3) Optimistic updates para enviar mensajes (mostrar antes de confirmar). 4) Virtual scrolling para historial (miles de mensajes). 5) Web Workers para búsqueda full-text sin bloquear UI. 6) Service Worker para notificaciones y cache de mensajes recientes. 7) Lazy load de emojis, archivos adjuntos y previews.',
+      en: 'Layered architecture: 1) Transport layer: WebSocket for real-time messages, HTTP REST for search and history. 2) State: separate "messages store" (normalized by channel), "presence store" (who is typing), "ui store" (open panel, scroll position). 3) Optimistic updates for sending messages (show before confirm). 4) Virtual scrolling for history (thousands of messages). 5) Web Workers for full-text search without blocking UI. 6) Service Worker for notifications and recent message cache. 7) Lazy load emojis, attachments, and previews.',
     },
     keyPoints: [
       {
-        es: 'Autonomía de equipos como motivación principal.',
-        en: 'Team autonomy as the primary motivator.',
+        es: 'Separar estado por dominio (messages, presence, ui).',
+        en: 'Separate state by domain (messages, presence, ui).',
       },
       {
-        es: 'Trade-offs: complejidad, duplicación, consistencia.',
-        en: 'Trade-offs: complexity, duplication, consistency.',
+        es: 'Optimistic updates para sensación de velocidad.',
+        en: 'Optimistic updates for perceived speed.',
       },
       {
-        es: 'Monorepo modular como alternativa más simple.',
-        en: 'Modular monorepo as a simpler alternative.',
+        es: 'Virtual scrolling + lazy loading para escalabilidad.',
+        en: 'Virtual scrolling + lazy loading for scalability.',
       },
     ],
     followUps: [
       {
-        es: '¿Cómo compartirías estado entre micro-frontends?',
-        en: 'How would you share state between micro-frontends?',
+        es: '¿Cómo manejas la reconexión cuando se pierde el WebSocket?',
+        en: 'How do you handle reconnection when the WebSocket is lost?',
       },
       {
-        es: '¿Qué patrón de integración usarías (Module Federation, iframes, Web Components)?',
-        en: 'Which integration pattern would you use (Module Federation, iframes, Web Components)?',
+        es: '¿Cómo sincronizas el estado entre múltiples pestañas?',
+        en: 'How do you sync state between multiple tabs?',
       },
     ],
+    tip: {
+      es: 'En system design, dibuja primero (aunque sea verbalmente). Empieza por los requisitos, luego la arquitectura de alto nivel, y finalmente profundiza en un área.',
+      en: 'In system design, draw first (even verbally). Start with requirements, then high-level architecture, and finally deep-dive into one area.',
+    },
   },
 
   // ─── TESTING ─────────────────────────────────────────────────────────────────
   {
-    id: 'testing-critical-flow',
+    id: 'testing-real-scenario',
     category: 'testing',
     difficulty: 'intermediate',
     question: {
-      es: '¿Cómo diseñarías la estrategia de pruebas para un flujo crítico de registro con validación y llamadas HTTP?',
-      en: 'How would you design the testing strategy for a critical registration flow with validation and HTTP calls?',
+      es: 'Un formulario de checkout tiene 12 campos, validación cruzada y 3 llamadas HTTP. Tu PM dice que "necesita tests". ¿Cuántos y de qué tipo escribes?',
+      en: 'A checkout form has 12 fields, cross-field validation, and 3 HTTP calls. Your PM says it "needs tests". How many and what kind do you write?',
+    },
+    scenario: {
+      es: 'E-commerce. El checkout es el flujo más crítico del negocio. Se despliega 3 veces por semana. Ha habido 2 bugs en producción el último mes por regresiones en el formulario.',
+      en: 'E-commerce. Checkout is the most critical business flow. Deployed 3 times per week. There have been 2 production bugs last month due to form regressions.',
     },
     answer: {
-      es: 'Probaría las reglas puras de validación de forma unitaria, el componente junto con el formulario mediante pruebas de integración y el flujo principal con una prueba end-to-end. Simularía HTTP únicamente en los límites adecuados y cubriría estados de éxito, error, carga y reintento.',
-      en: 'I would unit test pure validation rules, test the component and form through integration tests, and cover the main journey with an end-to-end test. I would mock HTTP only at appropriate boundaries and cover success, error, loading, and retry states.',
+      es: 'Estrategia basada en riesgo: 1) Unit tests para las reglas de validación puras (funciones que reciben valores y retornan errores) — rápidos y estables. 2) Integration tests del componente con el formulario: simular el servicio HTTP, verificar que el submit se deshabilita con datos inválidos y se habilita con datos válidos. 3) Un solo E2E test para el happy path completo (llenar → pagar → confirmación). 4) Test de error: ¿qué pasa cuando la API de pago falla? En total: ~8 unit, 3-4 integration, 1-2 E2E. Máximo 15 tests, no 50.',
+      en: 'Risk-based strategy: 1) Unit tests for pure validation rules (functions receiving values and returning errors) — fast and stable. 2) Integration tests of the component with the form: mock HTTP service, verify submit disables with invalid data and enables with valid data. 3) One E2E test for the complete happy path (fill → pay → confirmation). 4) Error test: what happens when the payment API fails? Total: ~8 unit, 3-4 integration, 1-2 E2E. Maximum 15 tests, not 50.',
     },
     keyPoints: [
       {
-        es: 'Pirámide de pruebas basada en riesgo.',
-        en: 'Risk-based testing pyramid.',
+        es: 'Priorizar por riesgo de negocio, no por cobertura arbitraria.',
+        en: 'Prioritize by business risk, not arbitrary coverage.',
       },
       {
-        es: 'Comportamiento observable, no implementación.',
-        en: 'Observable behavior rather than implementation.',
+        es: 'Unit para lógica pura, integration para comportamiento del componente.',
+        en: 'Unit for pure logic, integration for component behavior.',
       },
       {
-        es: 'Estados de éxito, error y carga.',
-        en: 'Success, error, and loading states.',
+        es: 'E2E solo para flujos críticos (1-2, no 20).',
+        en: 'E2E only for critical flows (1-2, not 20).',
       },
     ],
     followUps: [
       {
-        es: '¿Qué evitarías probar directamente?',
-        en: 'What would you avoid testing directly?',
+        es: '¿Cómo decides cuándo un test vale la pena mantenerlo?',
+        en: 'How do you decide when a test is worth maintaining?',
       },
       {
-        es: '¿Cuándo utilizarías una prueba end-to-end?',
-        en: 'When would you use an end-to-end test?',
+        es: '¿Qué harías si el PM pide 100% de cobertura?',
+        en: 'What would you do if the PM asks for 100% coverage?',
       },
     ],
+    tip: {
+      es: 'Nunca digas "probar todo". Los entrevistadores quieren ver que priorizas basándote en impacto al negocio.',
+      en: 'Never say "test everything". Interviewers want to see you prioritize based on business impact.',
+    },
   },
   {
-    id: 'testing-flaky-tests',
+    id: 'testing-debugging-production',
     category: 'testing',
     difficulty: 'advanced',
     question: {
-      es: '¿Cómo diagnosticarías y resolverías una suite de tests con resultados inconsistentes (flaky tests)?',
-      en: 'How would you diagnose and resolve a test suite with inconsistent results (flaky tests)?',
+      es: 'Es viernes a las 5pm. Un usuario reporta que el botón de "Guardar" no funciona, pero solo en Safari y solo para usuarios con más de 100 items. ¿Cómo investigas?',
+      en: 'It is Friday at 5pm. A user reports the "Save" button does not work, but only on Safari and only for users with 100+ items. How do you investigate?',
+    },
+    scenario: {
+      es: 'App de gestión de proyectos. El bug afecta a clientes enterprise (los que más pagan). Tu manager pregunta si es necesario hacer hotfix hoy o puede esperar al lunes.',
+      en: 'Project management app. The bug affects enterprise clients (highest paying). Your manager asks if a hotfix is needed today or can wait until Monday.',
     },
     answer: {
-      es: 'Primero identificaría los tests flaky con reportes de CI y quarantine automático. Luego categorizaría las causas: dependencias de timing (setTimeout, async), estado compartido entre tests, dependencias de red, o condiciones de carrera. Para cada uno: eliminaría dependencias temporales con fake timers, aislaría estado con setup/teardown completo, mockeraría red consistentemente, y usaría waitFor o fixture.whenStable() en vez de delays fijos.',
-      en: 'First, I would identify flaky tests using CI reports and automatic quarantine. Then I would categorize causes: timing dependencies (setTimeout, async), shared state between tests, network dependencies, or race conditions. For each: remove timing dependencies with fake timers, isolate state with complete setup/teardown, mock network consistently, and use waitFor or fixture.whenStable() instead of fixed delays.',
+      es: 'Investigación sistemática: 1) Reproducir: abrir Safari, crear un usuario con 100+ items (o pedir acceso a staging con datos reales). 2) Revisar la consola de Safari — errores de JS, warnings, network failures. 3) Hipótesis: Safari tiene límites diferentes en localStorage/IndexedDB, o un polyfill no funciona. 4) Revisar si hay un try/catch silencioso que traga el error. 5) Si es un deadline de localStorage (Safari limita a 5MB en modo privado), la solución es manejar el error gracefully. 6) Para el manager: si solo afecta saves, es hotfix hoy porque los clientes pueden perder trabajo. Workaround temporal: reducir payload o mostrar error visible.',
+      en: 'Systematic investigation: 1) Reproduce: open Safari, create a user with 100+ items (or request staging access with real data). 2) Check Safari console — JS errors, warnings, network failures. 3) Hypothesis: Safari has different limits for localStorage/IndexedDB, or a polyfill fails. 4) Check if there is a silent try/catch swallowing the error. 5) If it is a localStorage limit (Safari caps at 5MB in private mode), handle the error gracefully. 6) For the manager: if it only affects saves, hotfix today because clients may lose work. Temporary workaround: reduce payload or show visible error.',
     },
     keyPoints: [
       {
-        es: 'Quarantine y monitoreo de tests inestables.',
-        en: 'Quarantine and monitoring of unstable tests.',
+        es: 'Reproducir el bug exacto primero, no adivinar.',
+        en: 'Reproduce the exact bug first, do not guess.',
       },
       {
-        es: 'Causas comunes: timing, estado compartido, red.',
-        en: 'Common causes: timing, shared state, network.',
+        es: 'Safari tiene quirks únicos (localStorage, WebKit bugs).',
+        en: 'Safari has unique quirks (localStorage, WebKit bugs).',
       },
       {
-        es: 'Fake timers y aislamiento de estado como solución.',
-        en: 'Fake timers and state isolation as solutions.',
+        es: 'Comunicar al manager con impacto de negocio, no solo técnico.',
+        en: 'Communicate to manager with business impact, not just technical.',
       },
     ],
     followUps: [
       {
-        es: '¿Cuándo es aceptable eliminar un test en vez de arreglarlo?',
-        en: 'When is it acceptable to delete a test instead of fixing it?',
+        es: '¿Cómo prevendrías bugs específicos de navegador en el futuro?',
+        en: 'How would you prevent browser-specific bugs in the future?',
       },
       {
-        es: '¿Cómo implementarías retry automático sin ocultar problemas?',
-        en: 'How would you implement auto-retry without hiding problems?',
+        es: '¿Cuándo está bien decir "esto puede esperar al lunes"?',
+        en: 'When is it okay to say "this can wait until Monday"?',
       },
     ],
+    tip: {
+      es: 'Los bugs de producción evalúan tu proceso mental bajo presión. Muestra que eres metódico, no que te lanzas a cambiar código.',
+      en: 'Production bugs evaluate your mental process under pressure. Show you are methodical, not that you jump to change code.',
+    },
   },
 
   // ─── PERFORMANCE ─────────────────────────────────────────────────────────────
   {
-    id: 'performance-production-regression',
+    id: 'performance-core-web-vitals-real',
     category: 'performance',
     difficulty: 'advanced',
     question: {
-      es: 'Después de un despliegue, el LCP empeora significativamente. ¿Cómo investigarías y resolverías la regresión?',
-      en: 'After a deployment, LCP becomes significantly worse. How would you investigate and resolve the regression?',
+      es: 'Google Search Console marca tu LCP en 4.2s (rojo) y tu CLS en 0.3. El equipo de marketing dice que pierde conversiones. ¿Qué haces primero?',
+      en: 'Google Search Console flags your LCP at 4.2s (red) and CLS at 0.3. The marketing team says conversions are dropping. What do you do first?',
+    },
+    scenario: {
+      es: 'Landing page de un SaaS B2B. El hero tiene una imagen grande, un video, fuentes custom y un chatbot de terceros. El servidor responde en 200ms. El problema es client-side.',
+      en: 'B2B SaaS landing page. The hero has a large image, a video, custom fonts, and a third-party chatbot. Server responds in 200ms. The problem is client-side.',
     },
     answer: {
-      es: 'Compararía mediciones de usuarios reales y pruebas de laboratorio antes y después del despliegue. Identificaría el elemento LCP y analizaría red, servidor, recursos bloqueantes, imágenes y JavaScript. Aplicaría la corrección sobre la causa medida y validaría nuevamente con presupuestos de rendimiento en CI.',
-      en: 'I would compare real-user measurements and lab tests before and after the deployment. I would identify the LCP element and analyze network, server response, render-blocking resources, images, and JavaScript. I would fix the measured cause and validate it again using performance budgets in CI.',
+      es: 'Ataque en orden de impacto: LCP primero (más impacto en conversiones): 1) Identificar el elemento LCP con Lighthouse. Probablemente es la imagen hero. 2) Convertir a formato WebP/AVIF con srcset para diferentes tamaños. 3) Preload de la imagen LCP en el <head>. 4) Font-display: swap para que el texto sea visible inmediatamente. 5) Defer del chatbot hasta después de la interacción (no bloquear el render). CLS después: 6) Poner width/height explícitos en imagen y video. 7) Reservar espacio para el chatbot con un placeholder del tamaño correcto. 8) Fuentes: usar font-display: optional si el layout shift es por tipografía.',
+      en: 'Attack in impact order. LCP first (highest impact on conversions): 1) Identify the LCP element with Lighthouse. Probably the hero image. 2) Convert to WebP/AVIF with srcset for different sizes. 3) Preload the LCP image in <head>. 4) Font-display: swap so text is visible immediately. 5) Defer chatbot until after interaction (do not block render). CLS after: 6) Set explicit width/height on image and video. 7) Reserve space for chatbot with a correctly-sized placeholder. 8) Fonts: use font-display: optional if layout shift is from typography.',
     },
     keyPoints: [
       {
-        es: 'Combinar RUM y pruebas de laboratorio.',
-        en: 'Combine RUM and lab testing.',
+        es: 'Identificar el elemento LCP exacto antes de optimizar.',
+        en: 'Identify the exact LCP element before optimizing.',
       },
       {
-        es: 'Identificar el elemento y la fase que domina el LCP.',
-        en: 'Identify the element and phase dominating LCP.',
+        es: 'Preload + formato moderno = mayor impacto en LCP.',
+        en: 'Preload + modern format = highest LCP impact.',
       },
       {
-        es: 'Agregar presupuestos para evitar regresiones.',
-        en: 'Add budgets to prevent regressions.',
+        es: 'CLS: reservar espacio explícito para todo contenido dinámico.',
+        en: 'CLS: reserve explicit space for all dynamic content.',
       },
     ],
     followUps: [
       {
-        es: '¿Cómo optimizarías una imagen LCP?',
-        en: 'How would you optimize an LCP image?',
+        es: '¿Cómo monitoreas Core Web Vitals continuamente?',
+        en: 'How do you continuously monitor Core Web Vitals?',
       },
       {
-        es: '¿Qué métricas revisarías además de LCP?',
-        en: 'Which metrics would you review besides LCP?',
+        es: '¿Qué métricas de usuario real (RUM) implementarías?',
+        en: 'What real user metrics (RUM) would you implement?',
       },
     ],
+    tip: {
+      es: 'Conecta siempre rendimiento con negocio. "LCP de 4.2s" no importa al PM, pero "perdemos 12% de conversiones" sí.',
+      en: 'Always connect performance to business. "4.2s LCP" does not matter to the PM, but "we lose 12% conversions" does.',
+    },
   },
   {
-    id: 'performance-runtime-optimization',
+    id: 'performance-bundle-analysis',
     category: 'performance',
     difficulty: 'senior',
     question: {
-      es: '¿Cómo optimizarías una aplicación Angular donde el profiling muestra que el 60% del tiempo de CPU se gasta en change detection?',
-      en: 'How would you optimize an Angular application where profiling shows 60% of CPU time is spent in change detection?',
+      es: 'Tu app Angular tiene un bundle inicial de 1.2MB. El target es <400KB. ¿Cuál es tu plan de acción paso a paso?',
+      en: 'Your Angular app has an initial bundle of 1.2MB. Target is <400KB. What is your step-by-step action plan?',
+    },
+    scenario: {
+      es: 'App empresarial con 3 años de desarrollo. Usa Material, Moment.js, Lodash completo, y tiene imports circulares. El equipo nunca ha hecho bundle analysis.',
+      en: 'Enterprise app with 3 years of development. Uses Material, Moment.js, full Lodash, and has circular imports. The team has never done bundle analysis.',
     },
     answer: {
-      es: 'Primero activaría OnPush en todos los componentes que no lo tengan. Luego reemplazaría getters y llamadas a funciones en templates por computed signals. Usaría @defer para secciones pesadas fuera del viewport. Para listas, aseguraría track by con identificador estable. Finalmente, evaluaría zoneless con provideExperimentalZonelessChangeDetection() para eliminar Zone.js y su overhead.',
-      en: 'First, I would enable OnPush on all components that lack it. Then replace getters and function calls in templates with computed signals. Use @defer for heavy sections outside the viewport. For lists, ensure track by with stable identifiers. Finally, evaluate zoneless with provideExperimentalZonelessChangeDetection() to eliminate Zone.js overhead.',
+      es: 'Plan de reducción: 1) Analizar: npx source-map-explorer para ver qué ocupa más espacio. 2) Quick wins: reemplazar Moment.js por date-fns o Temporal API (ahorro ~70KB). Reemplazar Lodash por lodash-es con imports específicos (ahorro ~50KB). 3) Tree-shaking: verificar que no hay barrel exports que impidan tree shaking. Eliminar imports circulares. 4) Lazy loading: cada ruta como lazy chunk. Mover Material modules pesados (table, datepicker) a rutas lazy. 5) @defer: cargar below-the-fold content después del initial render. 6) Auditar dependencias: ¿realmente necesitamos X librería o hay una alternativa más ligera? 7) Budget en angular.json para alertar si crece de nuevo.',
+      en: 'Reduction plan: 1) Analyze: npx source-map-explorer to see what takes most space. 2) Quick wins: replace Moment.js with date-fns or Temporal API (saves ~70KB). Replace Lodash with lodash-es with specific imports (saves ~50KB). 3) Tree-shaking: verify no barrel exports prevent tree shaking. Remove circular imports. 4) Lazy loading: each route as lazy chunk. Move heavy Material modules (table, datepicker) to lazy routes. 5) @defer: load below-the-fold content after initial render. 6) Audit dependencies: do we really need library X or is there a lighter alternative? 7) Budget in angular.json to alert if it grows again.',
     },
     keyPoints: [
       {
-        es: 'OnPush como baseline para todos los componentes.',
-        en: 'OnPush as baseline for all components.',
+        es: 'Medir con source-map-explorer antes de actuar.',
+        en: 'Measure with source-map-explorer before acting.',
       },
       {
-        es: 'Signals y computed en vez de getters en templates.',
-        en: 'Signals and computed instead of template getters.',
+        es: 'Quick wins: reemplazar Moment.js y Lodash completo.',
+        en: 'Quick wins: replace Moment.js and full Lodash.',
       },
       {
-        es: '@defer y track by para reducir trabajo del DOM.',
-        en: '@defer and track by to reduce DOM work.',
+        es: 'Lazy loading + budgets para mantener la ganancia.',
+        en: 'Lazy loading + budgets to maintain the gains.',
       },
     ],
     followUps: [
       {
-        es: '¿Qué riesgos tiene desactivar Zone.js?',
-        en: 'What are the risks of disabling Zone.js?',
+        es: '¿Cómo priorizas si tienes una semana para reducir el bundle?',
+        en: 'How do you prioritize if you have one week to reduce the bundle?',
       },
       {
-        es: '¿Cómo medirías el impacto real de estas optimizaciones?',
-        en: 'How would you measure the actual impact of these optimizations?',
+        es: '¿Qué impacto tiene el bundle size en SEO y mobile?',
+        en: 'What impact does bundle size have on SEO and mobile?',
       },
     ],
+    tip: {
+      es: 'Siempre menciona que medirías primero. "Analizar antes de optimizar" demuestra experiencia senior real.',
+      en: 'Always mention you would measure first. "Analyze before optimizing" demonstrates real senior experience.',
+    },
   },
 ] as const satisfies readonly InterviewQuestion[];

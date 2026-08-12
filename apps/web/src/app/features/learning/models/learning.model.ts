@@ -6,19 +6,29 @@ export type LearningDifficulty =
   | 'intermediate'
   | 'advanced';
 
+export interface LearningResource {
+  readonly title: string;
+  readonly url: string;
+  readonly type: 'docs' | 'video' | 'article' | 'tool';
+}
+
 export interface LearningTopic {
-  id: string;
-  title: LocalizedText;
+  readonly id: string;
+  readonly title: LocalizedText;
+  readonly description: LocalizedText;
 }
 
 export interface LearningModule {
-  id: string;
-  category: DiagnosticCategory;
-  title: LocalizedText;
-  description: LocalizedText;
-  topics: readonly LearningTopic[];
-  estimatedHours: number;
-  difficulty: LearningDifficulty;
+  readonly id: string;
+  readonly category: DiagnosticCategory;
+  readonly title: LocalizedText;
+  readonly description: LocalizedText;
+  readonly whyItMatters: LocalizedText;
+  readonly objectives: readonly LocalizedText[];
+  readonly topics: readonly LearningTopic[];
+  readonly resources: readonly LearningResource[];
+  readonly estimatedHours: number;
+  readonly difficulty: LearningDifficulty;
 }
 
 export interface LearningRecommendation {
