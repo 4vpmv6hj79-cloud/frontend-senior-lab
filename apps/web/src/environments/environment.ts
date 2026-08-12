@@ -1,21 +1,12 @@
-/**
- * Development environment configuration.
- *
- * When `useFirebase` is false, the app uses local authentication
- * (localStorage + Web Crypto) and local storage for all data.
- *
- * Set `useFirebase: true` and fill in your Firebase config to enable
- * real authentication and cloud persistence.
- */
 export const environment = {
   production: false,
-  useFirebase: false,
+  useFirebase: true,
   firebase: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+    apiKey: 'AIzaSyCqU_gjT5VCGMTZw5oXtaD8Nhvq-BU7Pz4',
+    authDomain: 'frontend-senior-lab.firebaseapp.com',
+    projectId: 'frontend-senior-lab',
+    storageBucket: 'frontend-senior-lab.firebasestorage.app',
+    messagingSenderId: '163416338529',
+    appId: '1:163416338529:web:17cca122b7f768bddf7a20',
   },
 };

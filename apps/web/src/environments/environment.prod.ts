@@ -1,21 +1,12 @@
-/**
- * Production environment configuration.
- *
- * Replace the Firebase values below with your project's config
- * from the Firebase Console > Project Settings > Web App.
- *
- * If you don't have Firebase configured, set `useFirebase: false`
- * to run in demo mode (local auth + localStorage).
- */
 export const environment = {
   production: true,
-  useFirebase: false, // Set to true once you configure Firebase
+  useFirebase: true,
   firebase: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+    apiKey: 'AIzaSyCqU_gjT5VCGMTZw5oXtaD8Nhvq-BU7Pz4',
+    authDomain: 'frontend-senior-lab.firebaseapp.com',
+    projectId: 'frontend-senior-lab',
+    storageBucket: 'frontend-senior-lab.firebasestorage.app',
+    messagingSenderId: '163416338529',
+    appId: '1:163416338529:web:17cca122b7f768bddf7a20',
   },
 };
