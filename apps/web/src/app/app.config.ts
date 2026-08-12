@@ -8,6 +8,7 @@ import {
   withViewTransitions,
 } from '@angular/router';
 
+import { provideFirebaseIfEnabled } from './core/auth/firebase-auth.provider';
 import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -18,5 +19,6 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withComponentInputBinding(),
     ),
+    ...provideFirebaseIfEnabled(),
   ],
 };

@@ -25,10 +25,7 @@
             "output": "/"
           }
         ],
-        "styles": [
-              "apps/web/src/tailwind.css",
-              "apps/web/src/styles.css"
-            ]
+        "styles": ["apps/web/src/tailwind.css", "apps/web/src/styles.css"]
       },
       "configurations": {
         "production": {
@@ -44,7 +41,13 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/web/src/environments/environment.ts",
+              "with": "apps/web/src/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "optimization": false,
