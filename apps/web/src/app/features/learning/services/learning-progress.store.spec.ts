@@ -1,10 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
+import {
+  mockAuthStoreProvider,
+  testUserStorageKey,
+} from '../../../core/testing/auth-test.helpers';
 import { LEARNING_MODULES } from '../data/learning.modules';
 import { LearningProgressStore } from './learning-progress.store';
 
-const STORAGE_KEY =
-  'frontend-senior-lab.learning-progress';
+const STORAGE_KEY = testUserStorageKey('learning-progress');
 
 describe('LearningProgressStore', () => {
   let store: LearningProgressStore;
@@ -12,7 +15,9 @@ describe('LearningProgressStore', () => {
   beforeEach(() => {
     localStorage.removeItem(STORAGE_KEY);
 
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [mockAuthStoreProvider()],
+    });
 
     store = TestBed.inject(
       LearningProgressStore,
@@ -98,24 +103,18 @@ describe('LearningProgressStore', () => {
       'testing-behavior',
     );
 
-    TestBed.resetTestingModule();
-    TestBed.configureTestingModule({});
-
-    const restoredStore = TestBed.inject(
-      LearningProgressStore,
-    );
+    // Simulate app reload by creating a fresh store instance
+    store.reload();
 
     expect(
-      restoredStore.isTopicCompleted(
+      store.isTopicCompleted(
         'testing-behavior',
       ),
     ).toBe(true);
 
     expect(
-      restoredStore.progress().activeModuleId,
+      store.progress().activeModuleId,
     ).toBe('testing-strategy');
-
-    restoredStore.clear();
   });
 
   it('should clear learning progress', () => {

@@ -1,35 +1,176 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router, provideRouter } from '@angular/router';
 
+import { LanguageService } from '../../../../core/i18n/language.service';
+import { AuthStore } from '../../services/auth.store';
 import { LoginPage } from './login-page';
+
+const ACCOUNTS_KEY = 'frontend-senior-lab.auth.accounts';
+const SESSION_KEY = 'frontend-senior-lab.auth.session';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
+  let authStore: AuthStore;
+  let router: Router;
 
   beforeEach(async () => {
+    localStorage.removeItem(ACCOUNTS_KEY);
+    localStorage.removeItem(SESSION_KEY);
+
     await TestBed.configureTestingModule({
       imports: [LoginPage],
-      providers: [provideRouter([])],
+      providers: [provideRouter([{ path: 'dashboard', component: LoginPage }])],
     }).compileComponents();
 
-    fixture =
-      TestBed.createComponent(LoginPage);
+    authStore = TestBed.inject(AuthStore);
+    router = TestBed.inject(Router);
 
-    component =
-      fixture.componentInstance;
+    const languageService = TestBed.inject(LanguageService);
+    languageService.setLanguage('es');
 
+    fixture = TestBed.createComponent(LoginPage);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   afterEach(() => {
     fixture.destroy();
+    authStore.logout();
+    localStorage.removeItem(ACCOUNTS_KEY);
+    localStorage.removeItem(SESSION_KEY);
   });
+
+  function pageContent(): string {
+    return fixture.nativeElement.textContent;
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the login form', () => {
+    expect(pageContent()).toContain('Iniciar sesión');
+  });
+
+  it('should not submit when form is invalid (empty fields)', async () => {
+    await component['submit']();
+    fixture.detectChanges();
+
+    expect(authStore.isAuthenticated()).toBe(false);
+  });
+
+  it('should show error when login fails', async () => {
+    // Mock login to return failure
+    vi.spyOn(authStore, 'login').mockResolvedValue({
+      success: false,
+      error: 'invalid-credentials',
+    });
+
+    component['form'].setValue({
+      email: 'test@test.com',
+      password: 'Password1',
+    });
+
+    await component['submit']();
+    fixture.detectChanges();
+
+    expect(pageContent()).toContain('no son correctos');
+    expect(component['authError']()).toBe('invalid-credentials');
+  });
+
+  it('should navigate to dashboard on successful login', async () => {
+    const testUser = {
+      id: 'u1',
+      name: 'Test',
+      email: 'test@test.com',
+      role: 'student' as const,
+      createdAt: new Date().toISOString(),
+    };
+
+    vi.spyOn(authStore, 'login').mockResolvedValue({
+      success: true,
+      user: testUser,
+    });
+
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    component['form'].setValue({
+      email: 'test@test.com',
+      password: 'Password1',
+    });
+
+    await component['submit']();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/dashboard']);
+  });
+
+  it('should navigate to returnUrl when provided', async () => {
+    const testUser = {
+      id: 'u1',
+      name: 'Test',
+      email: 'test@test.com',
+      role: 'student' as const,
+      createdAt: new Date().toISOString(),
+    };
+
+    vi.spyOn(authStore, 'login').mockResolvedValue({
+      success: true,
+      user: testUser,
+    });
+
+    const navigateByUrlSpy = vi
+      .spyOn(router, 'navigateByUrl')
+      .mockResolvedValue(true);
+
+    // Mock returnUrl query param
+    Object.defineProperty(component['route'].snapshot.queryParamMap, 'get', {
+      value: (key: string) => (key === 'returnUrl' ? '/learning' : null),
+    });
+
+    component['form'].setValue({
+      email: 'test@test.com',
+      password: 'Password1',
+    });
+
+    await component['submit']();
+
+    expect(navigateByUrlSpy).toHaveBeenCalledWith('/learning');
+  });
+
+  it('should not redirect to external URLs via returnUrl', async () => {
+    const testUser = {
+      id: 'u1',
+      name: 'Test',
+      email: 'test@test.com',
+      role: 'student' as const,
+      createdAt: new Date().toISOString(),
+    };
+
+    vi.spyOn(authStore, 'login').mockResolvedValue({
+      success: true,
+      user: testUser,
+    });
+
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+    const navigateByUrlSpy = vi
+      .spyOn(router, 'navigateByUrl')
+      .mockResolvedValue(true);
+
+    // Mock malicious returnUrl
+    Object.defineProperty(component['route'].snapshot.queryParamMap, 'get', {
+      value: (key: string) => (key === 'returnUrl' ? '//evil.com' : null),
+    });
+
+    component['form'].setValue({
+      email: 'test@test.com',
+      password: 'Password1',
+    });
+
+    await component['submit']();
+
+    // Should go to dashboard, NOT to the external URL
+    expect(navigateByUrlSpy).not.toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['/dashboard']);
   });
 });

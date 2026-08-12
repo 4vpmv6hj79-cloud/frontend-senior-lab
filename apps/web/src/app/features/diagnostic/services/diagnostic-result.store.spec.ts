@@ -1,10 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
+import {
+  mockAuthStoreProvider,
+  testUserStorageKey,
+} from '../../../core/testing/auth-test.helpers';
 import { DiagnosticResult } from '../models/diagnostic.model';
 import { DiagnosticResultStore } from './diagnostic-result.store';
 
-const STORAGE_KEY =
-  'frontend-senior-lab.diagnostic-result';
+const STORAGE_KEY = testUserStorageKey('diagnostic-result');
 
 const RESULT: DiagnosticResult = {
   score: 12,
@@ -25,7 +28,9 @@ describe('DiagnosticResultStore', () => {
   beforeEach(() => {
     localStorage.removeItem(STORAGE_KEY);
 
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [mockAuthStoreProvider()],
+    });
   });
 
   afterEach(() => {
@@ -49,6 +54,7 @@ describe('DiagnosticResultStore', () => {
     );
 
     const store = TestBed.inject(DiagnosticResultStore);
+    store.reload();
 
     expect(store.result()).toEqual(RESULT);
   });

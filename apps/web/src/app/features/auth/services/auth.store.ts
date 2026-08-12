@@ -187,6 +187,48 @@ export class AuthStore {
     }
   }
 
+  updateName(newName: string): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+
+    const currentUser = this.userState();
+
+    if (!currentUser) {
+      return false;
+    }
+
+    const trimmedName = newName.trim();
+
+    if (trimmedName.length < 2) {
+      return false;
+    }
+
+    const updatedUser: AuthUser = {
+      ...currentUser,
+      name: trimmedName,
+    };
+
+    // Update the account in accounts list
+    const accounts = this.loadAccounts();
+    const updatedAccounts = accounts.map(
+      (account) =>
+        account.user.id === updatedUser.id
+          ? { ...account, user: updatedUser }
+          : account,
+    );
+
+    localStorage.setItem(
+      ACCOUNTS_STORAGE_KEY,
+      JSON.stringify(updatedAccounts),
+    );
+
+    // Update the session
+    this.saveSession(updatedUser);
+
+    return true;
+  }
+
   private saveSession(user: AuthUser): void {
     const session: AuthSession = {
       user,

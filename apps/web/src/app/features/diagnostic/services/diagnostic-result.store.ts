@@ -1,73 +1,71 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
-  PLATFORM_ID,
   computed,
+  effect,
   inject,
   Injectable,
   signal,
 } from '@angular/core';
 
+import { UserStorageService } from '../../../core/services/user-storage.service';
 import { DiagnosticResult } from '../models/diagnostic.model';
 
-const STORAGE_KEY = 'frontend-senior-lab.diagnostic-result';
+const STORAGE_KEY = 'diagnostic-result';
+const GLOBAL_LEGACY_KEY = 'frontend-senior-lab.diagnostic-result';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DiagnosticResultStore {
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly resultState = signal<DiagnosticResult | null>(
-    this.loadResult(),
-  );
+  private readonly storage = inject(UserStorageService);
+  private readonly resultState = signal<DiagnosticResult | null>(null);
 
   readonly result = this.resultState.asReadonly();
   readonly hasResult = computed(
     () => this.resultState() !== null,
   );
 
+  constructor() {
+    // Reload data whenever the user changes (login/logout)
+    effect(() => {
+      this.storage.userChanged();
+      this.reloadFromStorage();
+    });
+  }
+
   save(result: DiagnosticResult): void {
     this.resultState.set(result);
-
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(result),
-      );
-    }
+    this.storage.setItem(STORAGE_KEY, JSON.stringify(result));
   }
 
   clear(): void {
     this.resultState.set(null);
-
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(STORAGE_KEY);
-    }
+    this.storage.removeItem(STORAGE_KEY);
   }
 
   reload(): void {
-    this.resultState.set(this.loadResult());
+    this.reloadFromStorage();
   }
 
-  private loadResult(): DiagnosticResult | null {
-    if (!isPlatformBrowser(this.platformId)) {
-      return null;
-    }
+  private reloadFromStorage(): void {
+    // Migrate from global key if needed (one-time per user)
+    this.storage.migrateFromGlobal(GLOBAL_LEGACY_KEY, STORAGE_KEY);
 
-    const storedResult = localStorage.getItem(STORAGE_KEY);
+    const storedResult = this.storage.getItem(STORAGE_KEY);
 
     if (!storedResult) {
-      return null;
+      this.resultState.set(null);
+      return;
     }
 
     try {
       const parsedResult: unknown = JSON.parse(storedResult);
 
-      return this.isDiagnosticResult(parsedResult)
-        ? parsedResult
-        : null;
+      this.resultState.set(
+        this.isDiagnosticResult(parsedResult) ? parsedResult : null,
+      );
     } catch {
-      localStorage.removeItem(STORAGE_KEY);
-      return null;
+      this.storage.removeItem(STORAGE_KEY);
+      this.resultState.set(null);
     }
   }
 

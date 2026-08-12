@@ -1,20 +1,20 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
   Injectable,
-  PLATFORM_ID,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
 
+import { UserStorageService } from '../../../core/services/user-storage.service';
 import { LEARNING_MODULES } from '../data/learning.modules';
 import type {
   LearningModule,
   LearningProgress,
 } from '../models/learning.model';
 
-const STORAGE_KEY =
-  'frontend-senior-lab.learning-progress';
+const STORAGE_KEY = 'learning-progress';
+const GLOBAL_LEGACY_KEY = 'frontend-senior-lab.learning-progress';
 
 const INITIAL_PROGRESS: LearningProgress = {
   completedTopicIds: [],
@@ -25,13 +25,10 @@ const INITIAL_PROGRESS: LearningProgress = {
   providedIn: 'root',
 })
 export class LearningProgressStore {
-  private readonly platformId =
-    inject(PLATFORM_ID);
+  private readonly storage = inject(UserStorageService);
 
   private readonly progressState =
-    signal<LearningProgress>(
-      this.loadProgress(),
-    );
+    signal<LearningProgress>(INITIAL_PROGRESS);
 
   readonly progress =
     this.progressState.asReadonly();
@@ -78,6 +75,13 @@ export class LearningProgressStore {
       );
     },
   );
+
+  constructor() {
+    effect(() => {
+      this.storage.userChanged();
+      this.reloadFromStorage();
+    });
+  }
 
   setActiveModule(moduleId: string): void {
     if (
@@ -172,62 +176,46 @@ export class LearningProgressStore {
   }
 
   clear(): void {
-    this.progressState.set(
-      INITIAL_PROGRESS,
-    );
-
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(STORAGE_KEY);
-    }
+    this.progressState.set(INITIAL_PROGRESS);
+    this.storage.removeItem(STORAGE_KEY);
   }
 
   reload(): void {
-    this.progressState.set(this.loadProgress());
+    this.reloadFromStorage();
   }
 
   private saveProgress(
     progress: LearningProgress,
   ): void {
     this.progressState.set(progress);
-
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(progress),
-      );
-    }
+    this.storage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }
 
-  private loadProgress(): LearningProgress {
-    if (!isPlatformBrowser(this.platformId)) {
-      return INITIAL_PROGRESS;
-    }
+  private reloadFromStorage(): void {
+    this.storage.migrateFromGlobal(GLOBAL_LEGACY_KEY, STORAGE_KEY);
 
-    const storedProgress =
-      localStorage.getItem(STORAGE_KEY);
+    const storedProgress = this.storage.getItem(STORAGE_KEY);
 
     if (!storedProgress) {
-      return INITIAL_PROGRESS;
+      this.progressState.set(INITIAL_PROGRESS);
+      return;
     }
 
     try {
       const parsedProgress: unknown =
         JSON.parse(storedProgress);
 
-      if (
-        !this.isLearningProgress(
-          parsedProgress,
-        )
-      ) {
-        return INITIAL_PROGRESS;
+      if (!this.isLearningProgress(parsedProgress)) {
+        this.progressState.set(INITIAL_PROGRESS);
+        return;
       }
 
-      return this.sanitizeProgress(
-        parsedProgress,
+      this.progressState.set(
+        this.sanitizeProgress(parsedProgress),
       );
     } catch {
-      localStorage.removeItem(STORAGE_KEY);
-      return INITIAL_PROGRESS;
+      this.storage.removeItem(STORAGE_KEY);
+      this.progressState.set(INITIAL_PROGRESS);
     }
   }
 
@@ -235,12 +223,12 @@ export class LearningProgressStore {
     progress: LearningProgress,
   ): LearningProgress {
     const validTopicIds = new Set<string>(
-        LEARNING_MODULES.flatMap((module) =>
-            module.topics.map(
-            (topic) => topic.id,
-            ),
+      LEARNING_MODULES.flatMap((module) =>
+        module.topics.map(
+          (topic) => topic.id,
         ),
-        );
+      ),
+    );
 
     const completedTopicIds =
       progress.completedTopicIds.filter(

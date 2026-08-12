@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
+import {
+  mockAuthStoreProvider,
+  testUserStorageKey,
+} from '../../../core/testing/auth-test.helpers';
 import { InterviewProgressStore } from './interview-progress.store';
 
-const STORAGE_KEY =
-  'frontend-senior-lab.interview-progress';
+const STORAGE_KEY = testUserStorageKey('interview-progress');
 
 describe('InterviewProgressStore', () => {
   let store: InterviewProgressStore;
@@ -11,7 +14,9 @@ describe('InterviewProgressStore', () => {
   beforeEach(() => {
     localStorage.removeItem(STORAGE_KEY);
 
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [mockAuthStoreProvider()],
+    });
 
     store = TestBed.inject(
       InterviewProgressStore,
@@ -25,27 +30,27 @@ describe('InterviewProgressStore', () => {
 
   it('should mark a question as reviewed', () => {
     store.markReviewed(
-      'angular-reactivity-strategy',
+      'angular-performance-dashboard',
     );
 
     expect(store.reviewedCount()).toBe(1);
 
     expect(store.isReviewed(
-      'angular-reactivity-strategy',
+      'angular-performance-dashboard',
     )).toBe(true);
 
     expect(
       store.progress().lastQuestionId,
-    ).toBe('angular-reactivity-strategy');
+    ).toBe('angular-performance-dashboard');
   });
 
   it('should not duplicate reviewed questions', () => {
     store.markReviewed(
-      'typescript-boundary-safety',
+      'typescript-api-contract',
     );
 
     store.markReviewed(
-      'typescript-boundary-safety',
+      'typescript-api-contract',
     );
 
     expect(store.reviewedCount()).toBe(1);
@@ -53,42 +58,36 @@ describe('InterviewProgressStore', () => {
     expect(
       store.progress().reviewedQuestionIds,
     ).toEqual([
-      'typescript-boundary-safety',
+      'typescript-api-contract',
     ]);
   });
 
   it('should persist and restore progress', () => {
     store.markReviewed(
-      'architecture-design-system-evolution',
+      'architecture-design-system-real',
     );
 
-    TestBed.resetTestingModule();
-    TestBed.configureTestingModule({});
+    // Simulate app reload
+    store.reload();
 
-    const restoredStore = TestBed.inject(
-      InterviewProgressStore,
-    );
-
-    expect(restoredStore.reviewedCount()).toBe(1);
+    expect(store.reviewedCount()).toBe(1);
 
     expect(
-      restoredStore.isReviewed(
-        'architecture-design-system-evolution',
+      store.isReviewed(
+        'architecture-design-system-real',
       ),
     ).toBe(true);
 
     expect(
-      restoredStore.progress().lastQuestionId,
+      store.progress().lastQuestionId,
     ).toBe(
-      'architecture-design-system-evolution',
+      'architecture-design-system-real',
     );
-
-    restoredStore.clear();
   });
 
   it('should clear progress', () => {
     store.markReviewed(
-      'performance-production-regression',
+      'performance-core-web-vitals-real',
     );
 
     store.clear();

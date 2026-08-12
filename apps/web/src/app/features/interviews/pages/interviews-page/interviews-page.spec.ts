@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { mockAuthStoreProvider, testUserStorageKey } from '../../../../core/testing/auth-test.helpers';
 import { InterviewProgressStore } from '../../services/interview-progress.store';
 import { InterviewsPage } from './interviews-page';
 
-const STORAGE_KEY = 'frontend-senior-lab.interview-progress';
+const STORAGE_KEY = testUserStorageKey('interview-progress');
 
 describe('InterviewsPage', () => {
   let fixture: ComponentFixture<InterviewsPage>;
@@ -18,7 +19,7 @@ describe('InterviewsPage', () => {
 
     await TestBed.configureTestingModule({
       imports: [InterviewsPage],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), mockAuthStoreProvider()],
     }).compileComponents();
 
     progressStore = TestBed.inject(InterviewProgressStore);

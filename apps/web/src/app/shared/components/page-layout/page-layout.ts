@@ -4,21 +4,27 @@ import {
   computed,
   inject,
   input,
+  output,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../core/i18n/language.service';
+import { AuthStore } from '../../../features/auth/services/auth.store';
 import { AppFooterComponent } from '../app-footer/app-footer';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
 
-const BACK_LABELS = {
+const LABELS = {
   es: {
     home: 'Inicio',
     dashboard: 'Panel',
+    logout: 'Salir',
+    profile: 'Perfil',
   },
   en: {
     home: 'Home',
     dashboard: 'Dashboard',
+    logout: 'Sign out',
+    profile: 'Profile',
   },
 } as const;
 
@@ -58,7 +64,28 @@ const BACK_LABELS = {
             {{ backLabel() }}
           </a>
 
-          <div class="flex items-center gap-3">
+          <div class="flex flex-wrap items-center justify-end gap-3">
+            <!-- User info (when authenticated and showUser is true) -->
+            @if (showUser() && userName()) {
+              <div class="hidden items-center gap-2 sm:flex">
+                <a
+                  routerLink="/profile"
+                  class="max-w-36 truncate text-sm font-bold text-slate-200 transition hover:text-cyan-300"
+                  [title]="userName()"
+                >
+                  {{ userName() }}
+                </a>
+
+                <button
+                  type="button"
+                  class="rounded-lg border border-white/10 bg-slate-900 px-2.5 py-1.5 text-xs font-bold text-slate-400 transition hover:border-red-400/40 hover:text-red-300"
+                  (click)="handleLogout()"
+                >
+                  {{ labels().logout }}
+                </button>
+              </div>
+            }
+
             <ng-content select="[headerActions]" />
             <app-language-switcher />
           </div>
@@ -77,6 +104,8 @@ const BACK_LABELS = {
 })
 export class PageLayoutComponent {
   private readonly languageService = inject(LanguageService);
+  private readonly authStore = inject(AuthStore);
+  private readonly router = inject(Router);
 
   /** Route for the back link. Defaults to '/' */
   readonly backRoute = input<string>('/');
@@ -93,7 +122,27 @@ export class PageLayoutComponent {
   /** Whether to show the footer. Defaults to true */
   readonly showFooter = input(true);
 
-  protected readonly backLabel = computed(
-    () => BACK_LABELS[this.languageService.language()][this.backLabelKey()],
+  /** Whether to show user name + logout button. Defaults to true */
+  readonly showUser = input(true);
+
+  /** Emitted when user clicks logout (parent can override behavior) */
+  readonly loggedOut = output<void>();
+
+  protected readonly labels = computed(
+    () => LABELS[this.languageService.language()],
   );
+
+  protected readonly backLabel = computed(
+    () => this.labels()[this.backLabelKey()],
+  );
+
+  protected readonly userName = computed(
+    () => this.authStore.user()?.name ?? null,
+  );
+
+  protected async handleLogout(): Promise<void> {
+    this.authStore.logout();
+    this.loggedOut.emit();
+    await this.router.navigate(['/']);
+  }
 }

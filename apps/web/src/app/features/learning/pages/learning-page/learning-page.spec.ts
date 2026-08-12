@@ -5,6 +5,7 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { mockAuthStoreProvider } from '../../../../core/testing/auth-test.helpers';
 import type { DiagnosticResult } from '../../../diagnostic/models/diagnostic.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { LearningProgressStore } from '../../services/learning-progress.store';
@@ -59,7 +60,7 @@ describe('LearningPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LearningPage],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), mockAuthStoreProvider()],
     }).compileComponents();
 
     resultStore = TestBed.inject(

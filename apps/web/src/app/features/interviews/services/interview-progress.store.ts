@@ -1,16 +1,16 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
   Injectable,
-  PLATFORM_ID,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
 
+import { UserStorageService } from '../../../core/services/user-storage.service';
 import type { InterviewPracticeProgress } from '../models/interview.model';
 
-const STORAGE_KEY =
-  'frontend-senior-lab.interview-progress';
+const STORAGE_KEY = 'interview-progress';
+const GLOBAL_LEGACY_KEY = 'frontend-senior-lab.interview-progress';
 
 const INITIAL_PROGRESS: InterviewPracticeProgress = {
   reviewedQuestionIds: [],
@@ -21,13 +21,10 @@ const INITIAL_PROGRESS: InterviewPracticeProgress = {
   providedIn: 'root',
 })
 export class InterviewProgressStore {
-  private readonly platformId =
-    inject(PLATFORM_ID);
+  private readonly storage = inject(UserStorageService);
 
   private readonly progressState =
-    signal<InterviewPracticeProgress>(
-      this.loadProgress(),
-    );
+    signal<InterviewPracticeProgress>(INITIAL_PROGRESS);
 
   readonly progress =
     this.progressState.asReadonly();
@@ -36,6 +33,13 @@ export class InterviewProgressStore {
     () =>
       this.progressState().reviewedQuestionIds.length,
   );
+
+  constructor() {
+    effect(() => {
+      this.storage.userChanged();
+      this.reloadFromStorage();
+    });
+  }
 
   isReviewed(questionId: string): boolean {
     return this.progressState()
@@ -73,53 +77,42 @@ export class InterviewProgressStore {
 
   clear(): void {
     this.progressState.set(INITIAL_PROGRESS);
-
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(STORAGE_KEY);
-    }
+    this.storage.removeItem(STORAGE_KEY);
   }
 
   reload(): void {
-    this.progressState.set(this.loadProgress());
+    this.reloadFromStorage();
   }
 
   private saveProgress(
     progress: InterviewPracticeProgress,
   ): void {
     this.progressState.set(progress);
-
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(progress),
-      );
-    }
+    this.storage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }
 
-  private loadProgress(): InterviewPracticeProgress {
-    if (!isPlatformBrowser(this.platformId)) {
-      return INITIAL_PROGRESS;
-    }
+  private reloadFromStorage(): void {
+    this.storage.migrateFromGlobal(GLOBAL_LEGACY_KEY, STORAGE_KEY);
 
-    const storedProgress =
-      localStorage.getItem(STORAGE_KEY);
+    const storedProgress = this.storage.getItem(STORAGE_KEY);
 
     if (!storedProgress) {
-      return INITIAL_PROGRESS;
+      this.progressState.set(INITIAL_PROGRESS);
+      return;
     }
 
     try {
       const parsedProgress: unknown =
         JSON.parse(storedProgress);
 
-      return this.isPracticeProgress(
-        parsedProgress,
-      )
-        ? parsedProgress
-        : INITIAL_PROGRESS;
+      this.progressState.set(
+        this.isPracticeProgress(parsedProgress)
+          ? parsedProgress
+          : INITIAL_PROGRESS,
+      );
     } catch {
-      localStorage.removeItem(STORAGE_KEY);
-      return INITIAL_PROGRESS;
+      this.storage.removeItem(STORAGE_KEY);
+      this.progressState.set(INITIAL_PROGRESS);
     }
   }
 

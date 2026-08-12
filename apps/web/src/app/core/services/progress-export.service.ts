@@ -4,8 +4,9 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DiagnosticResultStore } from '../../features/diagnostic/services/diagnostic-result.store';
 import { InterviewProgressStore } from '../../features/interviews/services/interview-progress.store';
 import { LearningProgressStore } from '../../features/learning/services/learning-progress.store';
+import { UserStorageService } from './user-storage.service';
 
-const EXPORT_VERSION = 1;
+const EXPORT_VERSION = 2;
 
 export interface ProgressExportData {
   readonly version: number;
@@ -17,13 +18,17 @@ export interface ProgressExportData {
 
 export type ImportResult =
   | { success: true; importedAt: string }
-  | { success: false; error: 'invalid-format' | 'invalid-version' | 'parse-error' };
+  | {
+      success: false;
+      error: 'invalid-format' | 'invalid-version' | 'parse-error';
+    };
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProgressExportService {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly storage = inject(UserStorageService);
   private readonly diagnosticStore = inject(DiagnosticResultStore);
   private readonly learningStore = inject(LearningProgressStore);
   private readonly interviewStore = inject(InterviewProgressStore);
@@ -39,9 +44,9 @@ export class ProgressExportService {
     const data: ProgressExportData = {
       version: EXPORT_VERSION,
       exportedAt: new Date().toISOString(),
-      diagnostic: this.getDiagnosticData(),
-      learning: this.getLearningData(),
-      interviews: this.getInterviewData(),
+      diagnostic: this.storage.getItem('diagnostic-result'),
+      learning: this.storage.getItem('learning-progress'),
+      interviews: this.storage.getItem('interview-progress'),
     };
 
     const json = JSON.stringify(data, null, 2);
@@ -69,13 +74,24 @@ export class ProgressExportService {
         return { success: false, error: 'invalid-format' };
       }
 
-      if (data.version !== EXPORT_VERSION) {
+      if (data.version !== EXPORT_VERSION && data.version !== 1) {
         return { success: false, error: 'invalid-version' };
       }
 
-      this.restoreDiagnosticData(data.diagnostic);
-      this.restoreLearningData(data.learning);
-      this.restoreInterviewData(data.interviews);
+      if (typeof data.diagnostic === 'string') {
+        this.storage.setItem('diagnostic-result', data.diagnostic);
+        this.diagnosticStore.reload();
+      }
+
+      if (typeof data.learning === 'string') {
+        this.storage.setItem('learning-progress', data.learning);
+        this.learningStore.reload();
+      }
+
+      if (typeof data.interviews === 'string') {
+        this.storage.setItem('interview-progress', data.interviews);
+        this.interviewStore.reload();
+      }
 
       return { success: true, importedAt: new Date().toISOString() };
     } catch {
@@ -98,39 +114,6 @@ export class ProgressExportService {
     );
   }
 
-  private getDiagnosticData(): unknown {
-    return localStorage.getItem('frontend-senior-lab.diagnostic-result');
-  }
-
-  private getLearningData(): unknown {
-    return localStorage.getItem('frontend-senior-lab.learning-progress');
-  }
-
-  private getInterviewData(): unknown {
-    return localStorage.getItem('frontend-senior-lab.interview-progress');
-  }
-
-  private restoreDiagnosticData(data: unknown): void {
-    if (typeof data === 'string') {
-      localStorage.setItem('frontend-senior-lab.diagnostic-result', data);
-      this.diagnosticStore.reload();
-    }
-  }
-
-  private restoreLearningData(data: unknown): void {
-    if (typeof data === 'string') {
-      localStorage.setItem('frontend-senior-lab.learning-progress', data);
-      this.learningStore.reload();
-    }
-  }
-
-  private restoreInterviewData(data: unknown): void {
-    if (typeof data === 'string') {
-      localStorage.setItem('frontend-senior-lab.interview-progress', data);
-      this.interviewStore.reload();
-    }
-  }
-
   private formatDate(): string {
     return new Date().toISOString().slice(0, 10);
   }
@@ -143,8 +126,7 @@ export class ProgressExportService {
     const data = value as Partial<ProgressExportData>;
 
     return (
-      typeof data.version === 'number' &&
-      typeof data.exportedAt === 'string'
+      typeof data.version === 'number' && typeof data.exportedAt === 'string'
     );
   }
 }
