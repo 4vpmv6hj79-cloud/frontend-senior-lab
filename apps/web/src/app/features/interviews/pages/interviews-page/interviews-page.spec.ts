@@ -1,15 +1,11 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { InterviewProgressStore } from '../../services/interview-progress.store';
 import { InterviewsPage } from './interviews-page';
 
-const STORAGE_KEY =
-  'frontend-senior-lab.interview-progress';
+const STORAGE_KEY = 'frontend-senior-lab.interview-progress';
 
 describe('InterviewsPage', () => {
   let fixture: ComponentFixture<InterviewsPage>;
@@ -25,20 +21,14 @@ describe('InterviewsPage', () => {
       providers: [provideRouter([])],
     }).compileComponents();
 
-    progressStore = TestBed.inject(
-      InterviewProgressStore,
-    );
+    progressStore = TestBed.inject(InterviewProgressStore);
 
-    languageService = TestBed.inject(
-      LanguageService,
-    );
+    languageService = TestBed.inject(LanguageService);
 
     progressStore.clear();
     languageService.setLanguage('es');
 
-    fixture = TestBed.createComponent(
-      InterviewsPage,
-    );
+    fixture = TestBed.createComponent(InterviewsPage);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -50,23 +40,15 @@ describe('InterviewsPage', () => {
     localStorage.removeItem(STORAGE_KEY);
   });
 
-  function findButton(
-    text: string,
-  ): HTMLButtonElement {
+  function findButton(text: string): HTMLButtonElement {
     const buttons = Array.from(
-      fixture.nativeElement.querySelectorAll(
-        'button',
-      ),
+      fixture.nativeElement.querySelectorAll('button'),
     ) as HTMLButtonElement[];
 
-    const button = buttons.find((item) =>
-      item.textContent?.includes(text),
-    );
+    const button = buttons.find((item) => item.textContent?.includes(text));
 
     if (!button) {
-      throw new Error(
-        `Button not found: ${text}`,
-      );
+      throw new Error(`Button not found: ${text}`);
     }
 
     return button;
@@ -81,44 +63,45 @@ describe('InterviewsPage', () => {
   });
 
   it('should display the first interview question', () => {
-    expect(pageContent()).toContain(
-      '¿Cómo decidirías entre Signals y RxJS',
-    );
+    expect(pageContent()).toContain('dashboard con 50+ widgets');
 
-    expect(pageContent()).toContain(
-      'Pregunta 1 de 5',
-    );
+    expect(pageContent()).toContain('Pregunta 1 de 10');
+  });
+
+  it('should display the scenario context', () => {
+    expect(pageContent()).toContain('Contexto del escenario');
+
+    expect(pageContent()).toContain('fintech');
   });
 
   it('should reveal and hide the reference answer', () => {
     findButton('Mostrar respuesta').click();
     fixture.detectChanges();
 
-    expect(pageContent()).toContain(
-      'Respuesta de referencia',
-    );
+    expect(pageContent()).toContain('Respuesta de referencia');
 
-    expect(pageContent()).toContain(
-      'Utilizaría Signals para estado síncrono',
-    );
+    expect(pageContent()).toContain('OnPush');
 
     findButton('Ocultar respuesta').click();
     fixture.detectChanges();
 
-    expect(pageContent()).not.toContain(
-      'Utilizaría Signals para estado síncrono',
-    );
+    expect(pageContent()).not.toContain('Respuesta de referencia');
+  });
+
+  it('should show the interview tip when answer is revealed', () => {
+    findButton('Mostrar respuesta').click();
+    fixture.detectChanges();
+
+    expect(pageContent()).toContain('Consejo para la entrevista');
   });
 
   it('should mark the current question as reviewed', () => {
-    findButton(
-      'Marcar como practicada',
-    ).click();
+    findButton('Marcar como practicada').click();
 
     fixture.detectChanges();
 
     expect(progressStore.reviewedCount()).toBe(1);
-    expect(pageContent()).toContain('20%');
+    expect(pageContent()).toContain('10%');
     expect(pageContent()).toContain('Practicada');
   });
 
@@ -126,75 +109,53 @@ describe('InterviewsPage', () => {
     findButton('Siguiente').click();
     fixture.detectChanges();
 
-    expect(pageContent()).toContain(
-      'Una API externa devuelve datos',
-    );
+    expect(pageContent()).toContain('200+ componentes usando NgModules');
 
-    expect(pageContent()).toContain(
-      'Pregunta 2 de 5',
-    );
+    expect(pageContent()).toContain('Pregunta 2 de 10');
   });
 
   it('should filter questions by category', () => {
-    const selects =
-      fixture.nativeElement.querySelectorAll(
-        'select',
-      ) as NodeListOf<HTMLSelectElement>;
+    const selects = fixture.nativeElement.querySelectorAll(
+      'select',
+    ) as NodeListOf<HTMLSelectElement>;
 
     const categorySelect = selects[0];
 
     categorySelect.value = 'performance';
-    categorySelect.dispatchEvent(
-      new Event('change'),
-    );
+    categorySelect.dispatchEvent(new Event('change'));
 
     fixture.detectChanges();
 
-    expect(pageContent()).toContain(
-      'Después de un despliegue, el LCP',
-    );
+    expect(pageContent()).toContain('Google Search Console marca tu LCP');
 
-    expect(pageContent()).toContain(
-      'Pregunta 1 de 1',
-    );
+    expect(pageContent()).toContain('Pregunta 1 de 2');
   });
 
   it('should display the empty state when filters do not match', () => {
-    const selects =
-      fixture.nativeElement.querySelectorAll(
-        'select',
-      ) as NodeListOf<HTMLSelectElement>;
+    const selects = fixture.nativeElement.querySelectorAll(
+      'select',
+    ) as NodeListOf<HTMLSelectElement>;
 
     const categorySelect = selects[0];
     const difficultySelect = selects[1];
 
     categorySelect.value = 'angular';
-    categorySelect.dispatchEvent(
-      new Event('change'),
-    );
+    categorySelect.dispatchEvent(new Event('change'));
 
     difficultySelect.value = 'intermediate';
-    difficultySelect.dispatchEvent(
-      new Event('change'),
-    );
+    difficultySelect.dispatchEvent(new Event('change'));
 
     fixture.detectChanges();
 
-    expect(pageContent()).toContain(
-      'No hay preguntas con estos filtros',
-    );
+    expect(pageContent()).toContain('No hay preguntas con estos filtros');
   });
 
   it('should update the interface language', () => {
     languageService.setLanguage('en');
     fixture.detectChanges();
 
-    expect(pageContent()).toContain(
-      'Practice senior-level answers',
-    );
+    expect(pageContent()).toContain('Practice senior-level answers');
 
-    expect(pageContent()).toContain(
-      'How would you decide between Signals and RxJS',
-    );
+    expect(pageContent()).toContain('dashboard with 50+ widgets');
   });
 });
