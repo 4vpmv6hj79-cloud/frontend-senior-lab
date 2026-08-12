@@ -7,6 +7,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { LEARNING_MODULES } from '../../data/learning.modules';
@@ -19,7 +20,7 @@ import { LEARNING_PAGE_COPY } from './learning-page.copy';
 
 @Component({
   selector: 'app-learning-page',
-  imports: [RouterLink],
+  imports: [RouterLink, PageLayoutComponent],
   templateUrl: './learning-page.html',
   styleUrl: './learning-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

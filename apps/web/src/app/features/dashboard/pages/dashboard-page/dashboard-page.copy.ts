@@ -43,6 +43,10 @@ interface DashboardPageCopy {
   viewRoadmap: string;
   retakeDiagnostic: string;
   practiceInterviews: string;
+  exportProgress: string;
+  importProgress: string;
+  importSuccess: string;
+  importError: string;
   categoryLabels: Record<DiagnosticCategory, string>;
   levelLabels: Record<DiagnosticLevel, string>;
   difficultyLabels: Record<LearningDifficulty, string>;
@@ -90,6 +94,10 @@ export const DASHBOARD_PAGE_COPY = {
     viewRoadmap: 'Ver ruta completa',
     retakeDiagnostic: 'Repetir diagnóstico',
     practiceInterviews: 'Practicar entrevistas',
+    exportProgress: 'Exportar progreso',
+    importProgress: 'Importar progreso',
+    importSuccess: 'Progreso importado correctamente',
+    importError: 'Error al importar: archivo inválido',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',
@@ -150,6 +158,10 @@ export const DASHBOARD_PAGE_COPY = {
     viewRoadmap: 'View full roadmap',
     retakeDiagnostic: 'Retake diagnostic',
     practiceInterviews: 'Practice interviews',
+    exportProgress: 'Export progress',
+    importProgress: 'Import progress',
+    importSuccess: 'Progress imported successfully',
+    importError: 'Import error: invalid file',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',

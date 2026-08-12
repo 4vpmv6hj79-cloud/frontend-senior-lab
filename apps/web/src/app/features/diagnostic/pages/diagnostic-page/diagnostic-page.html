@@ -1,59 +1,10 @@
-<div class="min-h-screen bg-slate-950 text-white">
-  <header class="border-b border-white/10 bg-slate-950/90">
-    <div
-      class="mx-auto flex max-w-5xl items-center justify-between px-5 py-5"
-    >
-      <a
-        routerLink="/"
-        class="inline-flex items-center gap-2 text-sm font-bold text-slate-300 transition hover:text-cyan-400"
-      >
-        <span aria-hidden="true">←</span>
-        {{ copy().backHome }}
-      </a>
-
-      <div
-        class="flex rounded-lg border border-white/10 bg-slate-900 p-1"
-        role="group"
-        aria-label="Language selector"
-      >
-        <button
-          type="button"
-          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
-          [class.bg-cyan-400]="
-            languageService.language() === 'es'
-          "
-          [class.text-slate-950]="
-            languageService.language() === 'es'
-          "
-          [class.text-slate-400]="
-            languageService.language() !== 'es'
-          "
-          (click)="languageService.setLanguage('es')"
-        >
-          ES
-        </button>
-
-        <button
-          type="button"
-          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
-          [class.bg-cyan-400]="
-            languageService.language() === 'en'
-          "
-          [class.text-slate-950]="
-            languageService.language() === 'en'
-          "
-          [class.text-slate-400]="
-            languageService.language() !== 'en'
-          "
-          (click)="languageService.setLanguage('en')"
-        >
-          EN
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="mx-auto max-w-5xl px-5 py-12 sm:py-16">
+<app-page-layout
+  backRoute="/"
+  backLabelKey="home"
+  maxWidth="6xl"
+  [showBackgroundBlob]="false"
+>
+  <main class="py-4 sm:py-8">
     @if (!completed()) {
       <section>
         <div class="max-w-3xl">
@@ -364,4 +315,4 @@
       }
     }
   </main>
-</div>
+</app-page-layout>

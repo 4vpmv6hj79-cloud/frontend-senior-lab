@@ -11,6 +11,7 @@ import {
 } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { ProgressExportService } from '../../../../core/services/progress-export.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { AuthStore } from '../../../auth/services/auth.store';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
@@ -162,6 +163,9 @@ export class DashboardPage {
   );
 
   protected readonly showLogoutDialog = signal(false);
+  protected readonly importMessage = signal<string | null>(null);
+
+  private readonly exportService = inject(ProgressExportService);
 
   protected modulePercentage(
     module: LearningModule,
@@ -200,6 +204,33 @@ export class DashboardPage {
     this.authStore.logout();
 
     await this.router.navigate(['/']);
+  }
+
+  protected exportProgress(): void {
+    this.exportService.exportProgress();
+  }
+
+  protected async importProgress(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const result = await this.exportService.importProgress(file);
+
+    if (result.success) {
+      this.importMessage.set(this.copy().importSuccess);
+    } else {
+      this.importMessage.set(this.copy().importError);
+    }
+
+    // Reset input so the same file can be selected again
+    input.value = '';
+
+    // Clear message after 4 seconds
+    setTimeout(() => this.importMessage.set(null), 4000);
   }
 
   protected text(value: LocalizedText): string {

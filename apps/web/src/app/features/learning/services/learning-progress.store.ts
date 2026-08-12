@@ -181,6 +181,10 @@ export class LearningProgressStore {
     }
   }
 
+  reload(): void {
+    this.progressState.set(this.loadProgress());
+  }
+
   private saveProgress(
     progress: LearningProgress,
   ): void {

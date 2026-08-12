@@ -44,6 +44,10 @@ export class DiagnosticResultStore {
     }
   }
 
+  reload(): void {
+    this.resultState.set(this.loadResult());
+  }
+
   private loadResult(): DiagnosticResult | null {
     if (!isPlatformBrowser(this.platformId)) {
       return null;

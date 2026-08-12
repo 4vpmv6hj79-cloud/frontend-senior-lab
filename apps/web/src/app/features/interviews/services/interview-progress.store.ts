@@ -79,6 +79,10 @@ export class InterviewProgressStore {
     }
   }
 
+  reload(): void {
+    this.progressState.set(this.loadProgress());
+  }
+
   private saveProgress(
     progress: InterviewPracticeProgress,
   ): void {

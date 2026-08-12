@@ -8,6 +8,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../core/i18n/language.service';
+import { AppFooterComponent } from '../app-footer/app-footer';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
 
 const BACK_LABELS = {
@@ -24,7 +25,7 @@ const BACK_LABELS = {
 @Component({
   selector: 'app-page-layout',
   standalone: true,
-  imports: [RouterLink, LanguageSwitcherComponent],
+  imports: [RouterLink, LanguageSwitcherComponent, AppFooterComponent],
   template: `
     <main
       class="relative min-h-screen overflow-hidden bg-slate-950 text-white"
@@ -67,6 +68,10 @@ const BACK_LABELS = {
         <ng-content />
       </div>
     </main>
+
+    @if (showFooter()) {
+      <app-footer />
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -84,6 +89,9 @@ export class PageLayoutComponent {
 
   /** Whether to show the decorative background blob */
   readonly showBackgroundBlob = input(true);
+
+  /** Whether to show the footer. Defaults to true */
+  readonly showFooter = input(true);
 
   protected readonly backLabel = computed(
     () => BACK_LABELS[this.languageService.language()][this.backLabelKey()],

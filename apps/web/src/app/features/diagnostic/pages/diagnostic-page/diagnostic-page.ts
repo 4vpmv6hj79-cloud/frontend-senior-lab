@@ -10,6 +10,7 @@ import { DIAGNOSTIC_PAGE_COPY } from './diagnostic-page.copy';
 import { DiagnosticResultStore } from '../../services/diagnostic-result.store';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import { DIAGNOSTIC_QUESTIONS } from '../../data/diagnostic.questions';
 import {
   CategoryScore,
@@ -33,7 +34,7 @@ const CATEGORIES: readonly DiagnosticCategory[] = [
 
 @Component({
   selector: 'app-diagnostic-page',
-  imports: [RouterLink],
+  imports: [RouterLink, PageLayoutComponent],
   templateUrl: './diagnostic-page.html',
   styleUrl: './diagnostic-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

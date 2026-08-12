@@ -1,59 +1,9 @@
-<main class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
-  <div
-    class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-cyan-500/10 to-transparent"
-  ></div>
-
-  <div class="relative mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:px-12">
-    <header class="flex items-center justify-between gap-4">
-      <a
-        routerLink="/dashboard"
-        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 transition hover:text-cyan-300"
-      >
-        <span aria-hidden="true">←</span>
-        {{ copy().backDashboard }}
-      </a>
-
-      <div
-        class="flex rounded-lg border border-white/10 bg-slate-900 p-1"
-        role="group"
-        aria-label="Language selector"
-      >
-        <button
-          type="button"
-          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
-          [class.bg-cyan-400]="
-            languageService.language() === 'es'
-          "
-          [class.text-slate-950]="
-            languageService.language() === 'es'
-          "
-          [class.text-slate-400]="
-            languageService.language() !== 'es'
-          "
-          (click)="languageService.setLanguage('es')"
-        >
-          ES
-        </button>
-
-        <button
-          type="button"
-          class="rounded-md px-3 py-1.5 text-xs font-bold transition"
-          [class.bg-cyan-400]="
-            languageService.language() === 'en'
-          "
-          [class.text-slate-950]="
-            languageService.language() === 'en'
-          "
-          [class.text-slate-400]="
-            languageService.language() !== 'en'
-          "
-          (click)="languageService.setLanguage('en')"
-        >
-          EN
-        </button>
-      </div>
-    </header>
-
+<app-page-layout
+  backRoute="/dashboard"
+  backLabelKey="dashboard"
+  maxWidth="6xl"
+  [showBackgroundBlob]="false"
+>
     <section class="pb-10 pt-16 sm:pt-20">
       <p
         class="text-sm font-black uppercase tracking-[0.24em] text-cyan-400"
@@ -389,5 +339,4 @@
         </p>
       </section>
     }
-  </div>
-</main>
+</app-page-layout>

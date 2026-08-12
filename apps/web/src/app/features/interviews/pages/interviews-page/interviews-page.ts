@@ -6,9 +6,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { INTERVIEW_QUESTIONS } from '../../data/interview.questions';
 import type {
@@ -25,7 +25,7 @@ type DifficultyFilter =
 
 @Component({
   selector: 'app-interviews-page',
-  imports: [RouterLink],
+  imports: [PageLayoutComponent],
   templateUrl: './interviews-page.html',
   styleUrl: './interviews-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
