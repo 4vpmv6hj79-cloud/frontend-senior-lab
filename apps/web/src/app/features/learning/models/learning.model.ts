@@ -7,6 +7,7 @@ export interface LearningResource {
   readonly title: string;
   readonly url: string;
   readonly type: 'docs' | 'video' | 'article' | 'tool';
+  readonly duration?: string; // for videos, e.g. "15:22"
 }
 
 export type ContentBlockType = 'text' | 'code' | 'tip';

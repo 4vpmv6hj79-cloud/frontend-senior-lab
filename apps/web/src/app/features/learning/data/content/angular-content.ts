@@ -62,6 +62,67 @@ effect(() => {
       en: 'The key difference between signals and observables (RxJS) is that signals are synchronous and always have a current value. Observables are for asynchronous flows. In practice, use signals for UI state and observables for server or user events.',
     },
   },
+  {
+    type: 'text',
+    content: {
+      es: 'Errores comunes con Signals: 1) No llames a un signal dentro de un setTimeout o callback — Angular no lo rastreará. 2) Nunca mutes el valor de un signal directamente (ej: miArray.push()) — siempre crea una nueva referencia. 3) Los effects no deberían escribir en otros signals (causa bucles). 4) computed() es lazy — solo se recalcula cuando alguien lo lee.',
+      en: "Common mistakes with Signals: 1) Don't call a signal inside setTimeout or callbacks — Angular won't track it. 2) Never mutate a signal value directly (e.g., myArray.push()) — always create a new reference. 3) Effects should not write to other signals (causes loops). 4) computed() is lazy — only recalculates when someone reads it.",
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      es: `// Ejemplo real: carrito de compras con signals
+export class CartStore {
+  private readonly items = signal<CartItem[]>([]);
+
+  // Derivaciones automáticas
+  readonly itemCount = computed(() => this.items().length);
+  readonly total = computed(() =>
+    this.items().reduce((sum, item) => sum + item.price * item.qty, 0)
+  );
+
+  // Métodos que producen NUEVAS referencias (no mutan)
+  addItem(product: Product): void {
+    this.items.update(current => [
+      ...current,
+      { ...product, qty: 1 }
+    ]);
+  }
+
+  removeItem(id: string): void {
+    this.items.update(current =>
+      current.filter(item => item.id !== id)
+    );
+  }
+}`,
+      en: `// Real-world example: shopping cart with signals
+export class CartStore {
+  private readonly items = signal<CartItem[]>([]);
+
+  // Automatic derivations
+  readonly itemCount = computed(() => this.items().length);
+  readonly total = computed(() =>
+    this.items().reduce((sum, item) => sum + item.price * item.qty, 0)
+  );
+
+  // Methods that produce NEW references (no mutation)
+  addItem(product: Product): void {
+    this.items.update(current => [
+      ...current,
+      { ...product, qty: 1 }
+    ]);
+  }
+
+  removeItem(id: string): void {
+    this.items.update(current =>
+      current.filter(item => item.id !== id)
+    );
+  }
+}`,
+    },
+    language: 'typescript',
+  },
 ];
 
 export const ANGULAR_ONPUSH_CONTENT: readonly ContentBlock[] = [
@@ -122,7 +183,7 @@ export class ProfileCard {
     type: 'tip',
     content: {
       es: 'Regla de oro: TODOS tus componentes deberían usar OnPush. Si alguno no funciona con OnPush, probablemente tiene un bug de mutación que se manifestará después de todas formas.',
-      en: 'Golden rule: ALL your components should use OnPush. If one doesn\'t work with OnPush, it probably has a mutation bug that will manifest later anyway.',
+      en: "Golden rule: ALL your components should use OnPush. If one doesn't work with OnPush, it probably has a mutation bug that will manifest later anyway.",
     },
   },
 ];

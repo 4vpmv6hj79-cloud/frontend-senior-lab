@@ -100,9 +100,21 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
+        title: 'Angular Signals: The Complete Guide',
+        url: 'https://www.youtube.com/watch?v=6W6gycuhiN0',
+        type: 'video',
+        duration: '15:22',
+      },
+      {
         title: 'Angular Change Detection Explained',
         url: 'https://angular.dev/best-practices/runtime-performance',
         type: 'docs',
+      },
+      {
+        title: 'RxJS in Angular - Full Course',
+        url: 'https://www.youtube.com/watch?v=2LCo926NFLI',
+        type: 'video',
+        duration: '1:45:00',
       },
       {
         title: 'RxJS Official Docs',
@@ -187,9 +199,21 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
+        title: 'TypeScript Generics - No BS TS',
+        url: 'https://www.youtube.com/watch?v=nViEqpgwxHE',
+        type: 'video',
+        duration: '23:00',
+      },
+      {
         title: 'TypeScript Handbook - Generics',
         url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html',
         type: 'docs',
+      },
+      {
+        title: 'Advanced TypeScript - Matt Pocock',
+        url: 'https://www.youtube.com/watch?v=dLPgQRbVquo',
+        type: 'video',
+        duration: '38:00',
       },
       {
         title: 'Total TypeScript (Matt Pocock)',
@@ -274,9 +298,21 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
+        title: 'Scalable Angular Architecture with Nx',
+        url: 'https://www.youtube.com/watch?v=ZAO0yXupIIE',
+        type: 'video',
+        duration: '45:00',
+      },
+      {
         title: 'Angular Architecture Patterns',
         url: 'https://angular.dev/best-practices/style-guide',
         type: 'docs',
+      },
+      {
+        title: 'Micro Frontends Explained',
+        url: 'https://www.youtube.com/watch?v=s_Fs4AXsTnA',
+        type: 'video',
+        duration: '12:00',
       },
       {
         title: 'Storybook for Angular',
@@ -361,9 +397,21 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
+        title: 'Angular Testing - Full Tutorial',
+        url: 'https://www.youtube.com/watch?v=BumgayeUC08',
+        type: 'video',
+        duration: '1:20:00',
+      },
+      {
         title: 'Vitest Documentation',
         url: 'https://vitest.dev/guide/',
         type: 'docs',
+      },
+      {
+        title: 'Testing Library - Guiding Principles',
+        url: 'https://www.youtube.com/watch?v=OVNjsIto9xM',
+        type: 'video',
+        duration: '22:00',
       },
       {
         title: 'Testing Library Principles',
@@ -448,9 +496,21 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
+        title: 'Core Web Vitals - Complete Guide',
+        url: 'https://www.youtube.com/watch?v=AQqFZ5t8uNc',
+        type: 'video',
+        duration: '18:00',
+      },
+      {
         title: 'Chrome DevTools Performance',
         url: 'https://developer.chrome.com/docs/devtools/performance',
         type: 'docs',
+      },
+      {
+        title: 'Angular Performance Optimization',
+        url: 'https://www.youtube.com/watch?v=I5iKxGkl8sI',
+        type: 'video',
+        duration: '28:00',
       },
       {
         title: 'Angular Performance Best Practices',

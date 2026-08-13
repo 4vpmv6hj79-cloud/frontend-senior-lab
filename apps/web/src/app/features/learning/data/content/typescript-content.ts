@@ -60,8 +60,75 @@ if (isUser(raw)) {
     type: 'tip',
     content: {
       es: 'Para validaciones complejas, considera usar Zod: const UserSchema = z.object({ id: z.string(), name: z.string() }). Es más declarativo y genera el tipo automáticamente.',
-      en: 'For complex validations, consider using Zod: const UserSchema = z.object({ id: z.string(), name: z.string() }). It\'s more declarative and generates the type automatically.',
+      en: "For complex validations, consider using Zod: const UserSchema = z.object({ id: z.string(), name: z.string() }). It's more declarative and generates the type automatically.",
     },
+  },
+  {
+    type: 'text',
+    content: {
+      es: 'Cuándo usar cada enfoque: 1) Type guards manuales → para validaciones simples (1-3 campos). 2) Zod/Valibot → para objetos complejos con muchos campos y validaciones anidadas. 3) class-validator → si vienes de NestJS y quieres consistencia frontend/backend. La regla es: si tu type guard tiene más de 10 líneas, usa Zod.',
+      en: 'When to use each approach: 1) Manual type guards → for simple validations (1-3 fields). 2) Zod/Valibot → for complex objects with many fields and nested validations. 3) class-validator → if you come from NestJS and want frontend/backend consistency. The rule: if your type guard is more than 10 lines, use Zod.',
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      es: `// Ejemplo con Zod (librería de validación)
+import { z } from 'zod';
+
+// Define el esquema (sirve como tipo Y validador)
+const UserSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(2),
+  email: z.string().email(),
+  role: z.enum(['admin', 'user', 'guest']),
+  createdAt: z.string().datetime(),
+});
+
+// El tipo se infiere automáticamente del esquema
+type User = z.infer<typeof UserSchema>;
+
+// Validar datos de la API
+const response = await fetch('/api/user');
+const raw = await response.json();
+const result = UserSchema.safeParse(raw);
+
+if (result.success) {
+  // result.data es tipo User (seguro)
+  console.log(result.data.name);
+} else {
+  // result.error tiene los errores detallados
+  console.error(result.error.issues);
+}`,
+      en: `// Example with Zod (validation library)
+import { z } from 'zod';
+
+// Define the schema (serves as type AND validator)
+const UserSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(2),
+  email: z.string().email(),
+  role: z.enum(['admin', 'user', 'guest']),
+  createdAt: z.string().datetime(),
+});
+
+// Type is inferred automatically from the schema
+type User = z.infer<typeof UserSchema>;
+
+// Validate API data
+const response = await fetch('/api/user');
+const raw = await response.json();
+const result = UserSchema.safeParse(raw);
+
+if (result.success) {
+  // result.data is type User (safe)
+  console.log(result.data.name);
+} else {
+  // result.error has detailed errors
+  console.error(result.error.issues);
+}`,
+    },
+    language: 'typescript',
   },
 ];
 

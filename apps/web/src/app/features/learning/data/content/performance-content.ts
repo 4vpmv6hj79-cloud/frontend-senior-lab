@@ -66,7 +66,7 @@ export const routes: Route[] = [
     type: 'tip',
     content: {
       es: 'Usa npx source-map-explorer dist/browser/main.*.js para ver qué ocupa espacio en tu bundle. A menudo encontrarás librerías que importaste completas cuando solo necesitabas una función.',
-      en: 'Use npx source-map-explorer dist/browser/main.*.js to see what takes space in your bundle. You\'ll often find libraries you imported completely when you only needed one function.',
+      en: "Use npx source-map-explorer dist/browser/main.*.js to see what takes space in your bundle. You'll often find libraries you imported completely when you only needed one function.",
     },
   },
 ];
@@ -139,7 +139,7 @@ export class UserList {
     type: 'tip',
     content: {
       es: 'Virtual scrolling no es la única solución para listas grandes. Considera también: paginación (más simple), infinite scroll (carga progresiva), o filtrado en el servidor si los datos son demasiados.',
-      en: 'Virtual scrolling isn\'t the only solution for large lists. Also consider: pagination (simpler), infinite scroll (progressive loading), or server-side filtering if data is too large.',
+      en: "Virtual scrolling isn't the only solution for large lists. Also consider: pagination (simpler), infinite scroll (progressive loading), or server-side filtering if data is too large.",
     },
   },
 ];
@@ -210,5 +210,54 @@ async function processLargeList(items: Item[]) {
       es: 'Mide siempre con datos reales (RUM), no solo Lighthouse. PageSpeed Insights muestra los datos del Chrome UX Report (CrUX) que representan usuarios reales en los últimos 28 días.',
       en: 'Always measure with real data (RUM), not just Lighthouse. PageSpeed Insights shows Chrome UX Report (CrUX) data representing real users over the last 28 days.',
     },
+  },
+  {
+    type: 'text',
+    content: {
+      es: 'Herramientas esenciales para medir rendimiento: 1) PageSpeed Insights (pagespeed.web.dev) — datos reales + laboratorio. 2) Chrome DevTools → Performance tab — para profiling local. 3) web-vitals library — mide CWV en tu propia app con código. 4) Lighthouse CI — automatiza mediciones en cada deploy.',
+      en: 'Essential tools for measuring performance: 1) PageSpeed Insights (pagespeed.web.dev) — real + lab data. 2) Chrome DevTools → Performance tab — for local profiling. 3) web-vitals library — measure CWV in your own app with code. 4) Lighthouse CI — automate measurements on each deploy.',
+    },
+  },
+  {
+    type: 'code',
+    content: {
+      es: `// Medir Core Web Vitals en tu app con la librería web-vitals
+import { onLCP, onINP, onCLS } from 'web-vitals';
+
+// Enviar métricas a tu analytics
+function sendToAnalytics(metric) {
+  console.log(metric.name, metric.value);
+  // Enviar a Google Analytics, Datadog, etc.
+  navigator.sendBeacon('/api/vitals', JSON.stringify({
+    name: metric.name,
+    value: metric.value,
+    rating: metric.rating, // 'good' | 'needs-improvement' | 'poor'
+    url: window.location.href,
+  }));
+}
+
+onLCP(sendToAnalytics);  // Largest Contentful Paint
+onINP(sendToAnalytics);  // Interaction to Next Paint
+onCLS(sendToAnalytics);  // Cumulative Layout Shift`,
+      en: `// Measure Core Web Vitals in your app with web-vitals library
+import { onLCP, onINP, onCLS } from 'web-vitals';
+
+// Send metrics to your analytics
+function sendToAnalytics(metric) {
+  console.log(metric.name, metric.value);
+  // Send to Google Analytics, Datadog, etc.
+  navigator.sendBeacon('/api/vitals', JSON.stringify({
+    name: metric.name,
+    value: metric.value,
+    rating: metric.rating, // 'good' | 'needs-improvement' | 'poor'
+    url: window.location.href,
+  }));
+}
+
+onLCP(sendToAnalytics);  // Largest Contentful Paint
+onINP(sendToAnalytics);  // Interaction to Next Paint
+onCLS(sendToAnalytics);  // Cumulative Layout Shift`,
+    },
+    language: 'typescript',
   },
 ];

@@ -291,10 +291,34 @@
                 [href]="resource.url"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+                class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition"
+                [class.border-red-400/30]="resource.type === 'video'"
+                [class.bg-red-400/5]="resource.type === 'video'"
+                [class.text-red-300]="resource.type === 'video'"
+                [class.hover:border-red-400]="resource.type === 'video'"
+                [class.hover:text-red-200]="resource.type === 'video'"
+                [class.border-slate-700]="resource.type !== 'video'"
+                [class.bg-slate-950/50]="resource.type !== 'video'"
+                [class.text-slate-300]="resource.type !== 'video'"
+                [class.hover:border-cyan-400]="resource.type !== 'video'"
+                [class.hover:text-cyan-300]="resource.type !== 'video'"
               >
-                {{ resource.title }}
-                <span class="text-cyan-400" aria-hidden="true">↗</span>
+                @if (resource.type === 'video') {
+                <span aria-hidden="true">▶</span>
+                } @else if (resource.type === 'docs') {
+                <span aria-hidden="true">📄</span>
+                } @else if (resource.type === 'tool') {
+                <span aria-hidden="true">🔧</span>
+                } @else {
+                <span aria-hidden="true">📝</span>
+                } {{ resource.title }} @if (resource.duration) {
+                <span
+                  class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] font-bold text-slate-400"
+                >
+                  {{ resource.duration }}
+                </span>
+                }
+                <span class="text-slate-500" aria-hidden="true">↗</span>
               </a>
               }
             </div>
