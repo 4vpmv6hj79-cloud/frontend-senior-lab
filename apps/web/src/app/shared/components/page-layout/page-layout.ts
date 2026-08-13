@@ -34,29 +34,13 @@ const LABELS = {
   standalone: true,
   imports: [RouterLink, LanguageSwitcherComponent, AppFooterComponent, ThemeToggleComponent],
   template: `
-    <main
-      class="relative min-h-screen overflow-hidden bg-slate-950 text-white"
-    >
-      <!-- Background decorations -->
+    <!-- Sticky header OUTSIDE of overflow-hidden main -->
+    <header class="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
       <div
-        class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-cyan-500/10 to-transparent"
-        aria-hidden="true"
-      ></div>
-
-      @if (showBackgroundBlob()) {
-        <div
-          class="pointer-events-none absolute -right-40 top-36 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"
-          aria-hidden="true"
-        ></div>
-      }
-
-      <div
-        class="relative mx-auto px-5 py-8 sm:px-8 lg:px-12"
+        class="mx-auto flex items-center justify-between gap-4 px-5 py-4 sm:px-8 lg:px-12"
         [class.max-w-7xl]="maxWidth() === '7xl'"
         [class.max-w-6xl]="maxWidth() === '6xl'"
       >
-        <!-- Header -->
-        <header class="sticky top-0 z-40 -mx-5 mb-4 flex items-center justify-between gap-4 border-b border-white/10 bg-slate-950/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
           <a
             [routerLink]="backRoute()"
             class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 transition hover:text-cyan-300"
@@ -91,8 +75,30 @@ const LABELS = {
             <app-language-switcher />
             <app-theme-toggle />
           </div>
-        </header>
+      </div>
+    </header>
 
+    <main
+      class="relative min-h-screen overflow-hidden bg-slate-950 text-white"
+    >
+      <!-- Background decorations -->
+      <div
+        class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-cyan-500/10 to-transparent"
+        aria-hidden="true"
+      ></div>
+
+      @if (showBackgroundBlob()) {
+        <div
+          class="pointer-events-none absolute -right-40 top-36 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"
+          aria-hidden="true"
+        ></div>
+      }
+
+      <div
+        class="relative mx-auto px-5 py-8 sm:px-8 lg:px-12"
+        [class.max-w-7xl]="maxWidth() === '7xl'"
+        [class.max-w-6xl]="maxWidth() === '6xl'"
+      >
         <!-- Page content slot -->
         <ng-content />
       </div>
