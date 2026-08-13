@@ -6,313 +6,239 @@
 >
   <main class="py-4 sm:py-8">
     @if (!completed()) {
-      <section>
-        <div class="max-w-3xl">
-          <p
-            class="text-xs font-black uppercase tracking-[0.2em] text-cyan-400"
-          >
-            {{ copy().eyebrow }}
-          </p>
+    <section>
+      <div class="max-w-3xl">
+        <p class="text-xs font-black uppercase tracking-[0.2em] text-cyan-400">
+          {{ copy().eyebrow }}
+        </p>
 
-          <h1
-            class="mt-4 text-3xl font-black tracking-tight sm:text-5xl"
-          >
-            {{ copy().title }}
-          </h1>
+        <h1 class="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
+          {{ copy().title }}
+        </h1>
 
-          <p class="mt-5 max-w-2xl leading-7 text-slate-300">
-            {{ copy().description }}
-          </p>
+        <p class="mt-5 max-w-2xl leading-7 text-slate-300">
+          {{ copy().description }}
+        </p>
+      </div>
+
+      <div class="mt-10">
+        <div class="mb-3 flex items-center justify-between text-sm">
+          <span class="font-bold text-slate-300"> {{ copy().progress }} </span>
+
+          <span class="font-mono text-cyan-400"> {{ progress() }}% </span>
         </div>
 
-        <div class="mt-10">
-          <div
-            class="mb-3 flex items-center justify-between text-sm"
-          >
-            <span class="font-bold text-slate-300">
-              {{ copy().progress }}
-            </span>
-
-            <span class="font-mono text-cyan-400">
-              {{ progress() }}%
-            </span>
-          </div>
-
-          <div
-            class="h-2 overflow-hidden rounded-full bg-slate-800"
-            role="progressbar"
-            [attr.aria-valuenow]="progress()"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            <div
-              class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-sky-500 transition-all duration-300"
-              [style.width.%]="progress()"
-            ></div>
-          </div>
-        </div>
-
-        <article
-          class="mt-8 rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl shadow-black/20 sm:p-9"
-          [class.animate-slide-in-left]="slideDirection() === 'left'"
-          [class.animate-slide-in-right]="slideDirection() === 'right'"
-          (animationend)="onAnimationEnd()"
+        <div
+          class="h-2 overflow-hidden rounded-full bg-slate-800"
+          role="progressbar"
+          [attr.aria-valuenow]="progress()"
+          aria-valuemin="0"
+          aria-valuemax="100"
         >
           <div
-            class="flex flex-wrap items-center justify-between gap-3"
+            class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-sky-500 transition-all duration-300"
+            [style.width.%]="progress()"
+          ></div>
+        </div>
+      </div>
+
+      <article
+        class="mt-8 rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl shadow-black/20 sm:p-9"
+        [class.animate-slide-in-left]="slideDirection() === 'left'"
+        [class.animate-slide-in-right]="slideDirection() === 'right'"
+        (animationend)="onAnimationEnd()"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span
+            class="rounded-full bg-cyan-400/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-cyan-300"
+          >
+            {{ copy().categoryLabels[ currentQuestion().category ] }}
+          </span>
+
+          <span class="font-mono text-sm text-slate-400">
+            {{ copy().question }} {{ questionNumber() }} {{ copy().of }} {{
+            questions().length }}
+          </span>
+        </div>
+
+        <h2 class="mt-7 text-xl font-black leading-8 text-white sm:text-2xl">
+          {{ text(currentQuestion().text) }}
+        </h2>
+
+        <p class="mt-3 text-sm text-slate-400">{{ copy().chooseAnswer }}</p>
+
+        <div
+          class="mt-7 grid gap-3"
+          role="radiogroup"
+          [attr.aria-label]="copy().chooseAnswer"
+        >
+          @for ( option of currentQuestion().options; track option.id; let
+          optionIndex = $index ) {
+          <button
+            type="button"
+            role="radio"
+            class="group flex w-full items-start gap-4 rounded-xl border p-4 text-left transition sm:p-5"
+            [class.border-cyan-400]="
+                  selectedOptionId() === option.id
+                "
+            [class.bg-cyan-400/10]="
+                  selectedOptionId() === option.id
+                "
+            [class.border-white/10]="
+                  selectedOptionId() !== option.id
+                "
+            [class.bg-slate-950/40]="
+                  selectedOptionId() !== option.id
+                "
+            [attr.aria-checked]="
+                  selectedOptionId() === option.id
+                "
+            (click)="selectOption(option.id)"
           >
             <span
-              class="rounded-full bg-cyan-400/10 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-cyan-300"
+              class="grid size-8 shrink-0 place-items-center rounded-lg border font-mono text-xs font-black transition"
+              [class.border-cyan-400]="
+                    selectedOptionId() === option.id
+                  "
+              [class.bg-cyan-400]="
+                    selectedOptionId() === option.id
+                  "
+              [class.text-slate-950]="
+                    selectedOptionId() === option.id
+                  "
+              [class.border-white/15]="
+                    selectedOptionId() !== option.id
+                  "
+              [class.text-slate-400]="
+                    selectedOptionId() !== option.id
+                  "
             >
-              {{
-                copy().categoryLabels[
-                  currentQuestion().category
-                ]
-              }}
+              {{ optionIndex + 1 }}
             </span>
 
-            <span class="font-mono text-sm text-slate-400">
-              {{ copy().question }}
-              {{ questionNumber() }}
-              {{ copy().of }}
-              {{ questions.length }}
+            <span class="pt-1 text-sm leading-6 text-slate-200 sm:text-base">
+              {{ text(option.text) }}
             </span>
-          </div>
+          </button>
+          }
+        </div>
 
-          <h2
-            class="mt-7 text-xl font-black leading-8 text-white sm:text-2xl"
+        <footer
+          class="mt-8 flex items-center justify-between border-t border-white/10 pt-6"
+        >
+          <button
+            type="button"
+            class="rounded-xl border border-white/15 px-5 py-3 text-sm font-bold text-slate-200 transition hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
+            [disabled]="isFirstQuestion()"
+            (click)="previousQuestion()"
           >
-            {{ text(currentQuestion().text) }}
-          </h2>
+            ← {{ copy().previous }}
+          </button>
 
-          <p class="mt-3 text-sm text-slate-400">
-            {{ copy().chooseAnswer }}
+          <button
+            type="button"
+            class="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
+            [disabled]="!canContinue()"
+            (click)="nextQuestion()"
+          >
+            @if (isLastQuestion()) { {{ copy().finish }} } @else { {{
+            copy().next }} → }
+          </button>
+        </footer>
+      </article>
+    </section>
+    } @else { @if (result(); as diagnosticResult) {
+    <section>
+      <div class="text-center">
+        <p class="text-xs font-black uppercase tracking-[0.2em] text-cyan-400">
+          {{ copy().resultsEyebrow }}
+        </p>
+
+        <h1 class="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
+          {{ copy().resultsTitle }}
+        </h1>
+
+        <p class="mx-auto mt-5 max-w-2xl leading-7 text-slate-300">
+          {{ copy().resultsDescription }}
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+        <article
+          class="rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 to-slate-900 p-7"
+        >
+          <p class="text-sm font-bold uppercase tracking-wider text-slate-400">
+            {{ copy().score }}
           </p>
 
-          <div
-            class="mt-7 grid gap-3"
-            role="radiogroup"
-            [attr.aria-label]="copy().chooseAnswer"
-          >
-            @for (
-              option of currentQuestion().options;
-              track option.id;
-              let optionIndex = $index
-            ) {
-              <button
-                type="button"
-                role="radio"
-                class="group flex w-full items-start gap-4 rounded-xl border p-4 text-left transition sm:p-5"
-                [class.border-cyan-400]="
-                  selectedOptionId() === option.id
-                "
-                [class.bg-cyan-400/10]="
-                  selectedOptionId() === option.id
-                "
-                [class.border-white/10]="
-                  selectedOptionId() !== option.id
-                "
-                [class.bg-slate-950/40]="
-                  selectedOptionId() !== option.id
-                "
-                [attr.aria-checked]="
-                  selectedOptionId() === option.id
-                "
-                (click)="selectOption(option.id)"
-              >
-                <span
-                  class="grid size-8 shrink-0 place-items-center rounded-lg border font-mono text-xs font-black transition"
-                  [class.border-cyan-400]="
-                    selectedOptionId() === option.id
-                  "
-                  [class.bg-cyan-400]="
-                    selectedOptionId() === option.id
-                  "
-                  [class.text-slate-950]="
-                    selectedOptionId() === option.id
-                  "
-                  [class.border-white/15]="
-                    selectedOptionId() !== option.id
-                  "
-                  [class.text-slate-400]="
-                    selectedOptionId() !== option.id
-                  "
-                >
-                  {{ optionIndex + 1 }}
+          <div class="mt-4 flex items-end gap-2">
+            <strong class="text-6xl font-black text-cyan-400">
+              {{ diagnosticResult.percentage }}
+            </strong>
+
+            <span class="pb-2 text-xl text-slate-400"> % </span>
+          </div>
+
+          <div class="mt-8 border-t border-white/10 pt-6">
+            <p class="text-sm text-slate-400">{{ copy().level }}</p>
+
+            <strong class="mt-1 block text-2xl text-white">
+              {{ copy().levelLabels[ diagnosticResult.level ] }}
+            </strong>
+
+            <p class="mt-4 leading-7 text-slate-300">
+              {{ copy().levelDescriptions[ diagnosticResult.level ] }}
+            </p>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-white/10 bg-slate-900 p-7">
+          <h2 class="text-xl font-black text-white">{{ copy().breakdown }}</h2>
+
+          <div class="mt-7 space-y-6">
+            @for ( category of diagnosticResult.categories; track
+            category.category ) {
+            <div>
+              <div class="mb-2 flex items-center justify-between gap-4">
+                <span class="text-sm font-bold text-slate-200">
+                  {{ copy().categoryLabels[ category.category ] }}
                 </span>
 
-                <span
-                  class="pt-1 text-sm leading-6 text-slate-200 sm:text-base"
-                >
-                  {{ text(option.text) }}
+                <span class="font-mono text-sm text-cyan-400">
+                  {{ category.percentage }}%
                 </span>
-              </button>
+              </div>
+
+              <div class="h-2 overflow-hidden rounded-full bg-slate-800">
+                <div
+                  class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400"
+                  [style.width.%]="category.percentage"
+                ></div>
+              </div>
+            </div>
             }
           </div>
-
-          <footer
-            class="mt-8 flex items-center justify-between border-t border-white/10 pt-6"
-          >
-            <button
-              type="button"
-              class="rounded-xl border border-white/15 px-5 py-3 text-sm font-bold text-slate-200 transition hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
-              [disabled]="isFirstQuestion()"
-              (click)="previousQuestion()"
-            >
-              ← {{ copy().previous }}
-            </button>
-
-            <button
-              type="button"
-              class="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
-              [disabled]="!canContinue()"
-              (click)="nextQuestion()"
-            >
-              @if (isLastQuestion()) {
-                {{ copy().finish }}
-              } @else {
-                {{ copy().next }} →
-              }
-            </button>
-          </footer>
         </article>
-      </section>
-    } @else {
-      @if (result(); as diagnosticResult) {
-        <section>
-          <div class="text-center">
-            <p
-              class="text-xs font-black uppercase tracking-[0.2em] text-cyan-400"
-            >
-              {{ copy().resultsEyebrow }}
-            </p>
+      </div>
 
-            <h1
-              class="mt-4 text-3xl font-black tracking-tight sm:text-5xl"
-            >
-              {{ copy().resultsTitle }}
-            </h1>
+      <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+        <button
+          type="button"
+          class="rounded-xl border border-white/15 px-6 py-3 text-sm font-bold text-white transition hover:border-cyan-400"
+          (click)="restart()"
+        >
+          {{ copy().restart }}
+        </button>
 
-            <p
-              class="mx-auto mt-5 max-w-2xl leading-7 text-slate-300"
-            >
-              {{ copy().resultsDescription }}
-            </p>
-          </div>
-
-          <div
-            class="mt-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]"
-          >
-            <article
-              class="rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 to-slate-900 p-7"
-            >
-              <p
-                class="text-sm font-bold uppercase tracking-wider text-slate-400"
-              >
-                {{ copy().score }}
-              </p>
-
-              <div class="mt-4 flex items-end gap-2">
-                <strong
-                  class="text-6xl font-black text-cyan-400"
-                >
-                  {{ diagnosticResult.percentage }}
-                </strong>
-
-                <span class="pb-2 text-xl text-slate-400">
-                  %
-                </span>
-              </div>
-
-              <div class="mt-8 border-t border-white/10 pt-6">
-                <p class="text-sm text-slate-400">
-                  {{ copy().level }}
-                </p>
-
-                <strong class="mt-1 block text-2xl text-white">
-                  {{
-                    copy().levelLabels[
-                      diagnosticResult.level
-                    ]
-                  }}
-                </strong>
-
-                <p class="mt-4 leading-7 text-slate-300">
-                  {{
-                    copy().levelDescriptions[
-                      diagnosticResult.level
-                    ]
-                  }}
-                </p>
-              </div>
-            </article>
-
-            <article
-              class="rounded-2xl border border-white/10 bg-slate-900 p-7"
-            >
-              <h2 class="text-xl font-black text-white">
-                {{ copy().breakdown }}
-              </h2>
-
-              <div class="mt-7 space-y-6">
-                @for (
-                  category of diagnosticResult.categories;
-                  track category.category
-                ) {
-                  <div>
-                    <div
-                      class="mb-2 flex items-center justify-between gap-4"
-                    >
-                      <span class="text-sm font-bold text-slate-200">
-                        {{
-                          copy().categoryLabels[
-                            category.category
-                          ]
-                        }}
-                      </span>
-
-                      <span
-                        class="font-mono text-sm text-cyan-400"
-                      >
-                        {{ category.percentage }}%
-                      </span>
-                    </div>
-
-                    <div
-                      class="h-2 overflow-hidden rounded-full bg-slate-800"
-                    >
-                      <div
-                        class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-indigo-400"
-                        [style.width.%]="category.percentage"
-                      ></div>
-                    </div>
-                  </div>
-                }
-              </div>
-            </article>
-          </div>
-
-          <div
-            class="mt-8 flex flex-col justify-center gap-4 sm:flex-row"
-          >
-            <button
-              type="button"
-              class="rounded-xl border border-white/15 px-6 py-3 text-sm font-bold text-white transition hover:border-cyan-400"
-              (click)="restart()"
-            >
-              {{ copy().restart }}
-            </button>
-
-            <a
-              routerLink="/learning"
-              class="rounded-xl bg-cyan-400 px-6 py-3 text-center text-sm font-black text-slate-950 transition hover:bg-cyan-300"
-            >
-              {{ copy().goToLearning }}
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </section>
-      }
-    }
+        <a
+          routerLink="/learning"
+          class="rounded-xl bg-cyan-400 px-6 py-3 text-center text-sm font-black text-slate-950 transition hover:bg-cyan-300"
+        >
+          {{ copy().goToLearning }}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+    } }
   </main>
 </app-page-layout>

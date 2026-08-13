@@ -58,6 +58,9 @@ export const DIAGNOSTIC_PAGE_COPY = {
       architecture: 'Arquitectura',
       testing: 'Testing',
       performance: 'Rendimiento',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     levelLabels: {
       foundation: 'Fundamentos',
@@ -72,8 +75,7 @@ export const DIAGNOSTIC_PAGE_COPY = {
         'Tienes una base funcional y puedes avanzar trabajando las áreas con menor puntuación.',
       advanced:
         'Demuestras conocimientos sólidos; enfócate en decisiones arquitectónicas y liderazgo técnico.',
-      senior:
-        'Demuestras criterio técnico consistente en las áreas evaluadas.',
+      senior: 'Demuestras criterio técnico consistente en las áreas evaluadas.',
     },
   },
   en: {
@@ -104,6 +106,9 @@ export const DIAGNOSTIC_PAGE_COPY = {
       architecture: 'Architecture',
       testing: 'Testing',
       performance: 'Performance',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     levelLabels: {
       foundation: 'Foundation',
@@ -122,7 +127,4 @@ export const DIAGNOSTIC_PAGE_COPY = {
         'You demonstrate consistent technical judgment across the assessed areas.',
     },
   },
-} as const satisfies Record<
-  SupportedLanguage,
-  DiagnosticPageCopy
->;
+} as const satisfies Record<SupportedLanguage, DiagnosticPageCopy>;

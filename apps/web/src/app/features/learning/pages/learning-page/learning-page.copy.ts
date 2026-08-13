@@ -92,6 +92,9 @@ export const LEARNING_PAGE_COPY = {
       architecture: 'Arquitectura',
       testing: 'Testing',
       performance: 'Rendimiento',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     difficultyLabels: {
       foundation: 'Fundamentos',
@@ -145,6 +148,9 @@ export const LEARNING_PAGE_COPY = {
       architecture: 'Architecture',
       testing: 'Testing',
       performance: 'Performance',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     difficultyLabels: {
       foundation: 'Foundation',

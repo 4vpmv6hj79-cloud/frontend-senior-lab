@@ -113,6 +113,9 @@ export const DASHBOARD_PAGE_COPY = {
       architecture: 'Arquitectura',
       testing: 'Testing',
       performance: 'Rendimiento',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     levelLabels: {
       foundation: 'Fundamentos',
@@ -182,6 +185,9 @@ export const DASHBOARD_PAGE_COPY = {
       architecture: 'Architecture',
       testing: 'Testing',
       performance: 'Performance',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     levelLabels: {
       foundation: 'Foundation',

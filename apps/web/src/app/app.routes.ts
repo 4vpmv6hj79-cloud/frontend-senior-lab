@@ -77,6 +77,15 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'tracks',
+    title: 'Choose Framework | Frontend Senior Lab',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/tracks/pages/track-selection-page/track-selection-page').then(
+        ({ TrackSelectionPage }) => TrackSelectionPage,
+      ),
+  },
+  {
     path: 'pricing',
     title: 'Pricing | Frontend Senior Lab',
     loadComponent: () =>

@@ -31,14 +31,8 @@ interface InterviewsPageCopy {
   emptyDescription: string;
   hintTitle: string;
   hintDescription: string;
-  categoryLabels: Record<
-    DiagnosticCategory,
-    string
-  >;
-  difficultyLabels: Record<
-    InterviewDifficulty,
-    string
-  >;
+  categoryLabels: Record<DiagnosticCategory, string>;
+  difficultyLabels: Record<InterviewDifficulty, string>;
 }
 
 export const INTERVIEWS_PAGE_COPY = {
@@ -72,13 +66,17 @@ export const INTERVIEWS_PAGE_COPY = {
     emptyDescription:
       'Cambia la categoría o la dificultad para continuar practicando.',
     hintTitle: '¿Cómo practicar?',
-    hintDescription: 'Lee la pregunta y el escenario. Intenta formular tu respuesta en voz alta (como en una entrevista real) antes de revelar la respuesta modelo. Compara tus puntos con los key points.',
+    hintDescription:
+      'Lee la pregunta y el escenario. Intenta formular tu respuesta en voz alta (como en una entrevista real) antes de revelar la respuesta modelo. Compara tus puntos con los key points.',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',
       architecture: 'Arquitectura',
       testing: 'Testing',
       performance: 'Rendimiento',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     difficultyLabels: {
       intermediate: 'Intermedio',
@@ -116,13 +114,17 @@ export const INTERVIEWS_PAGE_COPY = {
     emptyDescription:
       'Change the category or difficulty to continue practicing.',
     hintTitle: 'How to practice?',
-    hintDescription: 'Read the question and scenario. Try formulating your answer out loud (as in a real interview) before revealing the model answer. Compare your points with the key points.',
+    hintDescription:
+      'Read the question and scenario. Try formulating your answer out loud (as in a real interview) before revealing the model answer. Compare your points with the key points.',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',
       architecture: 'Architecture',
       testing: 'Testing',
       performance: 'Performance',
+      react: 'React',
+      vue: 'Vue.js',
+      framework: 'Framework',
     },
     difficultyLabels: {
       intermediate: 'Intermediate',
@@ -130,7 +132,4 @@ export const INTERVIEWS_PAGE_COPY = {
       senior: 'Senior',
     },
   },
-} as const satisfies Record<
-  SupportedLanguage,
-  InterviewsPageCopy
->;
+} as const satisfies Record<SupportedLanguage, InterviewsPageCopy>;

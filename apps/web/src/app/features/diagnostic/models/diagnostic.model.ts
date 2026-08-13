@@ -4,16 +4,16 @@ export type { LocalizedText } from '../../../shared/models/i18n.model';
 
 export type DiagnosticCategory =
   | 'angular'
+  | 'react'
+  | 'vue'
+  | 'framework'
   | 'typescript'
   | 'architecture'
   | 'testing'
   | 'performance';
 
 export type DiagnosticLevel =
-  | 'foundation'
-  | 'intermediate'
-  | 'advanced'
-  | 'senior';
+  'foundation' | 'intermediate' | 'advanced' | 'senior';
 
 export interface DiagnosticOption {
   id: string;

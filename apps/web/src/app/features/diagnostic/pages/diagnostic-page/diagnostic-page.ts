@@ -12,7 +12,7 @@ import { DiagnosticResultStore } from '../../services/diagnostic-result.store';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
-import { DIAGNOSTIC_QUESTIONS } from '../../data/diagnostic.questions';
+import { DiagnosticQuestionsService } from '../../services/diagnostic-questions.service';
 import {
   CategoryScore,
   DiagnosticAnswer,
@@ -25,14 +25,6 @@ import {
 
 export type SlideDirection = 'left' | 'right' | 'none';
 
-const CATEGORIES: readonly DiagnosticCategory[] = [
-  'angular',
-  'typescript',
-  'architecture',
-  'testing',
-  'performance',
-];
-
 @Component({
   selector: 'app-diagnostic-page',
   imports: [RouterLink, PageLayoutComponent],
@@ -44,8 +36,9 @@ export class DiagnosticPage {
   protected readonly languageService = inject(LanguageService);
   private readonly resultStore = inject(DiagnosticResultStore);
   private readonly historyStore = inject(DiagnosticHistoryStore);
+  private readonly questionsService = inject(DiagnosticQuestionsService);
 
-  protected readonly questions = DIAGNOSTIC_QUESTIONS;
+  protected readonly questions = this.questionsService.questions;
   protected readonly currentIndex = signal(0);
   protected readonly answers = signal<DiagnosticAnswer[]>([]);
   protected readonly selectedOptionId = signal<string | null>(null);
@@ -53,7 +46,7 @@ export class DiagnosticPage {
   protected readonly slideDirection = signal<SlideDirection>('none');
 
   protected readonly currentQuestion = computed(
-    () => this.questions[this.currentIndex()] as DiagnosticQuestion,
+    () => this.questions()[this.currentIndex()] as DiagnosticQuestion,
   );
 
   protected readonly questionNumber = computed(() => this.currentIndex() + 1);
@@ -63,7 +56,7 @@ export class DiagnosticPage {
       return 100;
     }
 
-    return Math.round((this.currentIndex() / this.questions.length) * 100);
+    return Math.round((this.currentIndex() / this.questions().length) * 100);
   });
 
   protected readonly canContinue = computed(
@@ -75,7 +68,7 @@ export class DiagnosticPage {
   );
 
   protected readonly isLastQuestion = computed(
-    () => this.currentIndex() === this.questions.length - 1,
+    () => this.currentIndex() === this.questions().length - 1,
   );
 
   protected readonly copy = computed(
@@ -187,7 +180,7 @@ export class DiagnosticPage {
 
     const score = answers.reduce((total, answer) => total + answer.score, 0);
 
-    const maximumScore = this.questions.reduce(
+    const maximumScore = this.questions().reduce(
       (total, question) =>
         total + Math.max(...question.options.map((option) => option.score)),
       0,
@@ -208,8 +201,11 @@ export class DiagnosticPage {
   private calculateCategoryScores(
     answers: readonly DiagnosticAnswer[],
   ): readonly CategoryScore[] {
-    return CATEGORIES.map((category) => {
-      const questions = this.questions.filter(
+    // Derive unique categories from the current questions
+    const categories = [...new Set(this.questions().map((q) => q.category))];
+
+    return categories.map((category) => {
+      const questions = this.questions().filter(
         (question) => question.category === category,
       );
 
