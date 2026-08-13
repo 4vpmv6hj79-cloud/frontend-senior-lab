@@ -176,11 +176,21 @@
   </section>
 
   <section class="mt-14 space-y-6" aria-label="Learning modules">
-    @for ( recommendation of recommendations(); track recommendation.module.id )
+    @for ( recommendation of recommendations(); track recommendation.module.id; let i = $index )
     {
     <article
       class="group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/70 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/30"
+      [class.opacity-60]="isModuleLocked(i)"
+      [class.pointer-events-none]="isModuleLocked(i)"
     >
+      @if (isModuleLocked(i)) {
+        <div class="border-b border-amber-400/20 bg-amber-400/5 px-6 py-3">
+          <div class="flex items-center gap-2 text-sm font-bold text-amber-300">
+            <span>🔒</span>
+            <span>{{ subscriptionService.isFree() ? 'Plan Pro requerido' : '' }}</span>
+          </div>
+        </div>
+      }
       <div class="grid lg:grid-cols-[220px_1fr]">
         <div
           class="flex flex-col justify-between border-b border-slate-800 bg-slate-950/50 p-6 lg:border-b-0 lg:border-r"
@@ -519,5 +529,11 @@
     (passed)="onQuizPassed($event)"
     (cancelled)="onQuizCancelled()"
   />
+  }
+
+  @if (subscriptionService.isFree()) {
+    <div class="mt-10 pb-8">
+      <app-upgrade-banner />
+    </div>
   }
 </app-page-layout>

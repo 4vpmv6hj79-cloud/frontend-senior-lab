@@ -2,7 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
-import { mockAuthStoreProvider, testUserStorageKey } from '../../../../core/testing/auth-test.helpers';
+import {
+  mockAuthStoreProvider,
+  testUserStorageKey,
+} from '../../../../core/testing/auth-test.helpers';
+import { SubscriptionService } from '../../../../core/services/subscription.service';
 import { InterviewProgressStore } from '../../services/interview-progress.store';
 import { InterviewsPage } from './interviews-page';
 
@@ -28,6 +32,10 @@ describe('InterviewsPage', () => {
 
     progressStore.clear();
     languageService.setLanguage('es');
+
+    // Activate Pro to see all questions in tests
+    const subscriptionService = TestBed.inject(SubscriptionService);
+    subscriptionService.activatePro('monthly');
 
     fixture = TestBed.createComponent(InterviewsPage);
 

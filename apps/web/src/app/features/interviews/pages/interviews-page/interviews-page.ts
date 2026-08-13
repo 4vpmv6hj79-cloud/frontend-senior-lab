@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { SubscriptionService } from '../../../../core/services/subscription.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
+import { UpgradeBannerComponent } from '../../../../shared/components/upgrade-banner/upgrade-banner';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { INTERVIEW_QUESTIONS } from '../../data/interview.questions';
 import type {
@@ -25,7 +27,7 @@ type DifficultyFilter =
 
 @Component({
   selector: 'app-interviews-page',
-  imports: [PageLayoutComponent],
+  imports: [PageLayoutComponent, UpgradeBannerComponent],
   templateUrl: './interviews-page.html',
   styleUrl: './interviews-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,9 @@ export class InterviewsPage implements OnInit {
 
   protected readonly progressStore =
     inject(InterviewProgressStore);
+
+  protected readonly subscriptionService =
+    inject(SubscriptionService);
 
   protected readonly questions =
     INTERVIEW_QUESTIONS;
@@ -59,8 +64,8 @@ export class InterviewsPage implements OnInit {
 
   protected readonly filteredQuestions =
     computed<readonly InterviewQuestion[]>(
-      () =>
-        this.questions.filter((question) => {
+      () => {
+        const all = this.questions.filter((question) => {
           const category =
             this.categoryFilter();
 
@@ -79,7 +84,12 @@ export class InterviewsPage implements OnInit {
             matchesCategory &&
             matchesDifficulty
           );
-        }),
+        });
+
+        // Limit questions for free users
+        const limit = this.subscriptionService.limits().maxInterviewQuestions;
+        return limit === Infinity ? all : all.slice(0, limit);
+      },
     );
 
   protected readonly currentQuestion =

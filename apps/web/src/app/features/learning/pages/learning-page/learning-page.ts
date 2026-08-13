@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
+import { UpgradeBannerComponent } from '../../../../shared/components/upgrade-banner/upgrade-banner';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { TopicQuizComponent } from '../../components/topic-quiz/topic-quiz';
@@ -21,10 +22,11 @@ import type {
 import type { TopicQuiz, TopicQuizResult } from '../../models/topic-quiz.model';
 import { LearningProgressStore } from '../../services/learning-progress.store';
 import { LEARNING_PAGE_COPY } from './learning-page.copy';
+import { SubscriptionService } from '../../../../core/services/subscription.service';
 
 @Component({
   selector: 'app-learning-page',
-  imports: [RouterLink, PageLayoutComponent, TopicQuizComponent],
+  imports: [RouterLink, PageLayoutComponent, TopicQuizComponent, UpgradeBannerComponent],
   templateUrl: './learning-page.html',
   styleUrl: './learning-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +37,8 @@ export class LearningPage {
   protected readonly resultStore = inject(DiagnosticResultStore);
 
   protected readonly progressStore = inject(LearningProgressStore);
+
+  protected readonly subscriptionService = inject(SubscriptionService);
 
   protected readonly copy = computed(
     () => LEARNING_PAGE_COPY[this.languageService.language()],
@@ -159,6 +163,10 @@ export class LearningPage {
 
   protected isActiveModule(module: LearningModule): boolean {
     return this.progressStore.progress().activeModuleId === module.id;
+  }
+
+  protected isModuleLocked(index: number): boolean {
+    return this.subscriptionService.isLimitReached('modules', index);
   }
 
   protected resetLearningProgress(): void {
