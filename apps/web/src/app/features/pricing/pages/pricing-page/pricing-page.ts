@@ -7,12 +7,13 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import type { BillingPeriod } from '../../../../core/models/subscription.model';
+
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { SubscriptionService } from '../../../../core/services/subscription.service';
 import { LanguageSwitcherComponent } from '../../../../shared/components/language-switcher/language-switcher';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle';
 import { PRICING_PAGE_COPY } from './pricing-page.copy';
-
-type BillingPeriod = 'monthly' | 'quarterly' | 'annual';
 
 @Component({
   selector: 'app-pricing-page',
@@ -24,6 +25,7 @@ type BillingPeriod = 'monthly' | 'quarterly' | 'annual';
 })
 export class PricingPage {
   protected readonly languageService = inject(LanguageService);
+  protected readonly subscriptionService = inject(SubscriptionService);
 
   protected readonly billingPeriod = signal<BillingPeriod>('monthly');
 
@@ -47,5 +49,9 @@ export class PricingPage {
 
   protected setBillingPeriod(period: BillingPeriod): void {
     this.billingPeriod.set(period);
+  }
+
+  protected subscribePro(): void {
+    this.subscriptionService.checkout(this.billingPeriod());
   }
 }
