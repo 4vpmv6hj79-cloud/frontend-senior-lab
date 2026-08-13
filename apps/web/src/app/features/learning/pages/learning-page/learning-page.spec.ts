@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
@@ -63,17 +60,11 @@ describe('LearningPage', () => {
       providers: [provideRouter([]), mockAuthStoreProvider()],
     }).compileComponents();
 
-    resultStore = TestBed.inject(
-      DiagnosticResultStore,
-    );
+    resultStore = TestBed.inject(DiagnosticResultStore);
 
-    progressStore = TestBed.inject(
-      LearningProgressStore,
-    );
+    progressStore = TestBed.inject(LearningProgressStore);
 
-    languageService = TestBed.inject(
-      LanguageService,
-    );
+    languageService = TestBed.inject(LanguageService);
 
     resultStore.clear();
     progressStore.clear();
@@ -87,9 +78,7 @@ describe('LearningPage', () => {
   });
 
   function createComponent(): void {
-    fixture = TestBed.createComponent(
-      LearningPage,
-    );
+    fixture = TestBed.createComponent(LearningPage);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -103,22 +92,15 @@ describe('LearningPage', () => {
     ) as HTMLElement[];
   }
 
-  function findButton(
-    container: HTMLElement,
-    text: string,
-  ): HTMLButtonElement {
+  function findButton(container: HTMLElement, text: string): HTMLButtonElement {
     const buttons = Array.from(
       container.querySelectorAll('button'),
     ) as HTMLButtonElement[];
 
-    const button = buttons.find((item) =>
-      item.textContent?.includes(text),
-    );
+    const button = buttons.find((item) => item.textContent?.includes(text));
 
     if (!button) {
-      throw new Error(
-        `Button not found: ${text}`,
-      );
+      throw new Error(`Button not found: ${text}`);
     }
 
     return button;
@@ -133,17 +115,13 @@ describe('LearningPage', () => {
   it('should invite the user to complete the diagnostic when no result exists', () => {
     createComponent();
 
-    const content =
-      fixture.nativeElement.textContent;
+    const content = fixture.nativeElement.textContent;
 
-    const diagnosticLink =
-      fixture.nativeElement.querySelector(
-        'a[href="/diagnostic"]',
-      );
-
-    expect(content).toContain(
-      'Primero completa tu diagnóstico',
+    const diagnosticLink = fixture.nativeElement.querySelector(
+      'a[href="/diagnostic"]',
     );
+
+    expect(content).toContain('Primero completa tu diagnóstico');
 
     expect(diagnosticLink).toBeTruthy();
   });
@@ -153,15 +131,12 @@ describe('LearningPage', () => {
 
     createComponent();
 
-    const content =
-      fixture.nativeElement.textContent;
+    const content = fixture.nativeElement.textContent;
 
     expect(content).toContain('60%');
     expect(content).toContain('Intermedio');
     expect(content).toContain('39 horas');
-    expect(content).toContain(
-      '0 / 15 temas completados',
-    );
+    expect(content).toContain('0 / 15 temas completados');
   });
 
   it('should order recommendations from weakest to strongest category', () => {
@@ -172,12 +147,8 @@ describe('LearningPage', () => {
     const cards = moduleCards();
 
     expect(cards).toHaveLength(5);
-    expect(cards[0].textContent).toContain(
-      'Testing',
-    );
-    expect(cards[4].textContent).toContain(
-      'Arquitectura',
-    );
+    expect(cards[0].textContent).toContain('Testing');
+    expect(cards[4].textContent).toContain('Arquitectura');
   });
 
   it('should start the highest-priority module', () => {
@@ -187,30 +158,21 @@ describe('LearningPage', () => {
 
     const firstCard = moduleCards()[0];
 
-    findButton(
-      firstCard,
-      'Comenzar módulo',
-    ).click();
+    findButton(firstCard, 'Comenzar módulo').click();
 
     fixture.detectChanges();
 
-    expect(
-      progressStore.progress().activeModuleId,
-    ).toBe('testing-strategy');
+    expect(progressStore.progress().activeModuleId).toBe('testing-strategy');
 
-    const normalizedContent = String(
-  fixture.nativeElement.textContent,
-)
-  .replace(/\s+/g, ' ')
-  .trim();
+    const normalizedContent = String(fixture.nativeElement.textContent)
+      .replace(/\s+/g, ' ')
+      .trim();
 
-expect(normalizedContent).toContain(
-  'Módulo activo: Estrategia de testing frontend',
-);
-
-    expect(firstCard.textContent).toContain(
-      'Continuar módulo',
+    expect(normalizedContent).toContain(
+      'Módulo activo: Estrategia de testing frontend',
     );
+
+    expect(firstCard.textContent).toContain('Continuar módulo');
   });
 
   it('should complete a topic and update progress', () => {
@@ -218,33 +180,27 @@ expect(normalizedContent).toContain(
 
     createComponent();
 
-    const firstTopic =
-      fixture.nativeElement.querySelector(
-        'button[aria-label^="Marcar como completado"]',
-      ) as HTMLButtonElement;
+    // Click topic button — should open quiz (not complete directly)
+    const firstTopic = fixture.nativeElement.querySelector(
+      'button[aria-label^="Marcar como completado"]',
+    ) as HTMLButtonElement;
 
     firstTopic.click();
     fixture.detectChanges();
 
-    expect(
-      progressStore.isTopicCompleted(
-        'testing-behavior',
-      ),
-    ).toBe(true);
+    // Topic not completed yet (quiz must be passed first)
+    // Simulate passing by using the store directly
+    progressStore.toggleTopic('testing-strategy', 'testing-behavior');
 
-    expect(
-      progressStore.completedTopicCount(),
-    ).toBe(1);
+    fixture.detectChanges();
 
-    expect(
-      progressStore.overallPercentage(),
-    ).toBe(7);
+    expect(progressStore.isTopicCompleted('testing-behavior')).toBe(true);
 
-    expect(
-      firstTopic.getAttribute(
-        'aria-pressed',
-      ),
-    ).toBe('true');
+    expect(progressStore.completedTopicCount()).toBe(1);
+
+    expect(progressStore.overallPercentage()).toBe(7);
+
+    expect(firstTopic.getAttribute('aria-pressed')).toBe('true');
   });
 
   it('should update the content when the language changes', () => {
@@ -255,14 +211,10 @@ expect(normalizedContent).toContain(
     languageService.setLanguage('en');
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.textContent,
-    ).toContain(
+    expect(fixture.nativeElement.textContent).toContain(
       'Your frontend growth plan',
     );
 
-    expect(
-      fixture.nativeElement.textContent,
-    ).toContain('Overall level');
+    expect(fixture.nativeElement.textContent).toContain('Overall level');
   });
 });

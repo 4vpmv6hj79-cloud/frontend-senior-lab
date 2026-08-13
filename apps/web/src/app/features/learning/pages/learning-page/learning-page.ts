@@ -11,17 +11,20 @@ import { LanguageService } from '../../../../core/i18n/language.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
+import { TopicQuizComponent } from '../../components/topic-quiz/topic-quiz';
 import { LEARNING_MODULES } from '../../data/learning.modules';
+import { getQuizForTopic } from '../../data/quizzes';
 import type {
   LearningModule,
   LearningRecommendation,
 } from '../../models/learning.model';
+import type { TopicQuiz, TopicQuizResult } from '../../models/topic-quiz.model';
 import { LearningProgressStore } from '../../services/learning-progress.store';
 import { LEARNING_PAGE_COPY } from './learning-page.copy';
 
 @Component({
   selector: 'app-learning-page',
-  imports: [RouterLink, PageLayoutComponent],
+  imports: [RouterLink, PageLayoutComponent, TopicQuizComponent],
   templateUrl: './learning-page.html',
   styleUrl: './learning-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -103,7 +106,39 @@ export class LearningPage {
   }
 
   protected toggleTopic(module: LearningModule, topicId: string): void {
-    this.progressStore.toggleTopic(module.id, topicId);
+    // If already completed, allow unchecking without quiz
+    if (this.isTopicCompleted(topicId)) {
+      this.progressStore.toggleTopic(module.id, topicId);
+      return;
+    }
+
+    // Open quiz to validate knowledge before completing
+    const quiz = getQuizForTopic(topicId);
+    if (quiz) {
+      this.activeQuiz.set(quiz);
+      this.activeQuizModuleId.set(module.id);
+    } else {
+      // No quiz available for this topic — complete directly
+      this.progressStore.toggleTopic(module.id, topicId);
+    }
+  }
+
+  // Quiz state
+  protected readonly activeQuiz = signal<TopicQuiz | null>(null);
+  protected readonly activeQuizModuleId = signal<string | null>(null);
+
+  protected onQuizPassed(result: TopicQuizResult): void {
+    const moduleId = this.activeQuizModuleId();
+    if (moduleId) {
+      this.progressStore.toggleTopic(moduleId, result.topicId);
+    }
+    this.activeQuiz.set(null);
+    this.activeQuizModuleId.set(null);
+  }
+
+  protected onQuizCancelled(): void {
+    this.activeQuiz.set(null);
+    this.activeQuizModuleId.set(null);
   }
 
   protected isTopicCompleted(topicId: string): boolean {

@@ -513,5 +513,11 @@
     </article>
     }
   </section>
+  } @if (activeQuiz(); as quiz) {
+  <app-topic-quiz
+    [quiz]="quiz"
+    (passed)="onQuizPassed($event)"
+    (cancelled)="onQuizCancelled()"
+  />
   }
 </app-page-layout>
