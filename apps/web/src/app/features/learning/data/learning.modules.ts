@@ -100,10 +100,9 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'Angular Signals: The Complete Guide',
-        url: 'https://www.youtube.com/watch?v=6W6gycuhiN0',
-        type: 'video',
-        duration: '15:22',
+        title: 'Angular University - Signals Blog',
+        url: 'https://blog.angular-university.io/angular-signals/',
+        type: 'article',
       },
       {
         title: 'Angular Change Detection Explained',
@@ -111,15 +110,14 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'RxJS in Angular - Full Course',
-        url: 'https://www.youtube.com/watch?v=2LCo926NFLI',
-        type: 'video',
-        duration: '1:45:00',
-      },
-      {
         title: 'RxJS Official Docs',
         url: 'https://rxjs.dev/guide/overview',
         type: 'docs',
+      },
+      {
+        title: 'Decoded Frontend - Angular Signals',
+        url: 'https://decodedfrontend.io/first-look-at-signals-in-angular/',
+        type: 'article',
       },
     ],
     estimatedHours: 8,
@@ -199,26 +197,24 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'TypeScript Generics - No BS TS',
-        url: 'https://www.youtube.com/watch?v=nViEqpgwxHE',
-        type: 'video',
-        duration: '23:00',
-      },
-      {
         title: 'TypeScript Handbook - Generics',
         url: 'https://www.typescriptlang.org/docs/handbook/2/generics.html',
         type: 'docs',
       },
       {
-        title: 'Advanced TypeScript - Matt Pocock',
-        url: 'https://www.youtube.com/watch?v=dLPgQRbVquo',
-        type: 'video',
-        duration: '38:00',
-      },
-      {
         title: 'Total TypeScript (Matt Pocock)',
         url: 'https://www.totaltypescript.com/',
         type: 'tool',
+      },
+      {
+        title: 'TypeScript Playground - Type Guards',
+        url: 'https://www.typescriptlang.org/play/typescript/language/type-guards.ts.html',
+        type: 'tool',
+      },
+      {
+        title: 'Learn TypeScript - FreeCodeCamp',
+        url: 'https://www.freecodecamp.org/news/learn-typescript-for-practical-projects/',
+        type: 'article',
       },
     ],
     estimatedHours: 6,
@@ -298,10 +294,9 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'Scalable Angular Architecture with Nx',
-        url: 'https://www.youtube.com/watch?v=ZAO0yXupIIE',
-        type: 'video',
-        duration: '45:00',
+        title: 'Scalable Angular Architecture - angular.love',
+        url: 'https://www.angular.love/beyond-clean-code-building-a-scalable-angular-frontend-architecture-with-nx-monorepos',
+        type: 'article',
       },
       {
         title: 'Angular Architecture Patterns',
@@ -309,10 +304,9 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'Micro Frontends Explained',
-        url: 'https://www.youtube.com/watch?v=s_Fs4AXsTnA',
-        type: 'video',
-        duration: '12:00',
+        title: 'Module Federation with Nx',
+        url: 'https://nx.dev/docs/technologies/module-federation/concepts/micro-frontend-architecture',
+        type: 'docs',
       },
       {
         title: 'Storybook for Angular',
@@ -397,26 +391,24 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'Angular Testing - Full Tutorial',
-        url: 'https://www.youtube.com/watch?v=BumgayeUC08',
-        type: 'video',
-        duration: '1:20:00',
-      },
-      {
         title: 'Vitest Documentation',
         url: 'https://vitest.dev/guide/',
         type: 'docs',
       },
       {
         title: 'Testing Library - Guiding Principles',
-        url: 'https://www.youtube.com/watch?v=OVNjsIto9xM',
-        type: 'video',
-        duration: '22:00',
-      },
-      {
-        title: 'Testing Library Principles',
         url: 'https://testing-library.com/docs/guiding-principles',
         type: 'article',
+      },
+      {
+        title: 'Angular Vitest Testing Guide (GitHub)',
+        url: 'https://github.com/olayeancarh/angular-vitest-testing-guide',
+        type: 'article',
+      },
+      {
+        title: 'Migrating from Karma to Vitest',
+        url: 'https://angular.dev/guide/testing/migrating-to-vitest',
+        type: 'docs',
       },
     ],
     estimatedHours: 7,
@@ -496,10 +488,9 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'Core Web Vitals - Complete Guide',
-        url: 'https://www.youtube.com/watch?v=AQqFZ5t8uNc',
-        type: 'video',
-        duration: '18:00',
+        title: 'Optimizing Core Web Vitals - Vercel',
+        url: 'https://vercel.com/kb/guide/optimizing-core-web-vitals-in-2024',
+        type: 'article',
       },
       {
         title: 'Chrome DevTools Performance',
@@ -507,15 +498,14 @@ export const LEARNING_MODULES = [
         type: 'docs',
       },
       {
-        title: 'Angular Performance Optimization',
-        url: 'https://www.youtube.com/watch?v=I5iKxGkl8sI',
-        type: 'video',
-        duration: '28:00',
-      },
-      {
         title: 'Angular Performance Best Practices',
         url: 'https://angular.dev/best-practices/runtime-performance',
         type: 'docs',
+      },
+      {
+        title: 'Core Web Vitals - Practical Fix Guide',
+        url: 'https://www.corewebvitals.io/core-web-vitals',
+        type: 'article',
       },
     ],
     estimatedHours: 8,
