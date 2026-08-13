@@ -56,7 +56,7 @@ const LABELS = {
         [class.max-w-6xl]="maxWidth() === '6xl'"
       >
         <!-- Header -->
-        <header class="flex items-center justify-between gap-4">
+        <header class="sticky top-0 z-40 -mx-5 mb-4 flex items-center justify-between gap-4 border-b border-white/10 bg-slate-950/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
           <a
             [routerLink]="backRoute()"
             class="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 transition hover:text-cyan-300"
