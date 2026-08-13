@@ -627,5 +627,7 @@
     (confirmed)="confirmLogout()"
     (cancelled)="cancelLogout()"
   />
+  } @if (showOnboarding()) {
+  <app-onboarding-tour (completed)="completeOnboarding()" />
   }
 </main>

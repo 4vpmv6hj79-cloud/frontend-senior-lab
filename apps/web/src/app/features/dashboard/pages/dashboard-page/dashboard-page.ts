@@ -9,7 +9,9 @@ import { Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { ProgressExportService } from '../../../../core/services/progress-export.service';
+import { UserStorageService } from '../../../../core/services/user-storage.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
+import { OnboardingTourComponent } from '../../../../shared/components/onboarding-tour/onboarding-tour';
 import { AchievementStore } from '../../../achievements/services/achievement.store';
 import { AuthStore } from '../../../auth/services/auth.store';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
@@ -22,7 +24,7 @@ import { DASHBOARD_PAGE_COPY } from './dashboard-page.copy';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [RouterLink, ConfirmDialogComponent],
+  imports: [RouterLink, ConfirmDialogComponent, OnboardingTourComponent],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -133,9 +135,24 @@ export class DashboardPage {
 
   protected readonly showLogoutDialog = signal(false);
   protected readonly importMessage = signal<string | null>(null);
+  protected readonly showOnboarding = signal(false);
 
   private readonly exportService = inject(ProgressExportService);
+  private readonly userStorage = inject(UserStorageService);
   protected readonly achievementStore = inject(AchievementStore);
+
+  constructor() {
+    // Show onboarding tour for first-time users
+    const tourSeen = this.userStorage.getItem('onboarding-completed');
+    if (!tourSeen) {
+      this.showOnboarding.set(true);
+    }
+  }
+
+  protected completeOnboarding(): void {
+    this.showOnboarding.set(false);
+    this.userStorage.setItem('onboarding-completed', 'true');
+  }
 
   protected modulePercentage(module: LearningModule): number {
     return this.progressStore.modulePercentage(module);
