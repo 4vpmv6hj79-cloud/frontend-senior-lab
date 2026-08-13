@@ -47,9 +47,6 @@ export class DiagnosticResultStore {
   }
 
   private reloadFromStorage(): void {
-    // Migrate from global key if needed (one-time per user)
-    this.storage.migrateFromGlobal(GLOBAL_LEGACY_KEY, STORAGE_KEY);
-
     const storedResult = this.storage.getItem(STORAGE_KEY);
 
     if (!storedResult) {

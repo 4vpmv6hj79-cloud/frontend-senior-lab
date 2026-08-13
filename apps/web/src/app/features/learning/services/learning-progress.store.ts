@@ -192,8 +192,6 @@ export class LearningProgressStore {
   }
 
   private reloadFromStorage(): void {
-    this.storage.migrateFromGlobal(GLOBAL_LEGACY_KEY, STORAGE_KEY);
-
     const storedProgress = this.storage.getItem(STORAGE_KEY);
 
     if (!storedProgress) {
