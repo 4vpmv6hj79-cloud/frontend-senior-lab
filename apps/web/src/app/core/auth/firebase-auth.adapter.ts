@@ -10,6 +10,7 @@ import {
   Auth,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -61,6 +62,11 @@ export class FirebaseAuthAdapter {
 
       await updateProfile(result.user, {
         displayName: credentials.name.trim(),
+      });
+
+      // Send verification email
+      await sendEmailVerification(result.user).catch(() => {
+        // Non-blocking: if email fails, registration still succeeds
       });
 
       const user = this.mapFirebaseUser(result.user, credentials.name.trim());

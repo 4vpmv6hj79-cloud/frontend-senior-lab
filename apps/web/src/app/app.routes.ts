@@ -77,6 +77,14 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'pricing',
+    title: 'Pricing | Frontend Senior Lab',
+    loadComponent: () =>
+      import('./features/pricing/pages/pricing-page/pricing-page').then(
+        ({ PricingPage }) => PricingPage,
+      ),
+  },
+  {
     path: '**',
     title: '404 | Frontend Senior Lab',
     loadComponent: () =>
