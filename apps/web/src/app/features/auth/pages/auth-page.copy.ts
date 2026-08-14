@@ -62,6 +62,7 @@ export const AUTH_PAGE_COPY = {
       passwordRequirements:
         'Usa al menos 8 caracteres, una mayúscula, una minúscula y un número.',
       invalidCredentials: 'El correo o la contraseña no son correctos.',
+      nameInvalid: 'El nombre solo puede contener letras y espacios.',
       storageError:
         'No fue posible completar la operación. Inténtalo nuevamente.',
     },
@@ -109,6 +110,7 @@ export const AUTH_PAGE_COPY = {
       passwordRequirements:
         'Use at least 8 characters, one uppercase letter, one lowercase letter, and one number.',
       invalidCredentials: 'The email or password is incorrect.',
+      nameInvalid: 'Name can only contain letters and spaces.',
       storageError: 'The operation could not be completed. Please try again.',
     },
     login: {
