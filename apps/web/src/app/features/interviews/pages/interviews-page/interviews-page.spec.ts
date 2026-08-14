@@ -7,6 +7,7 @@ import {
   testUserStorageKey,
 } from '../../../../core/testing/auth-test.helpers';
 import { SubscriptionService } from '../../../../core/services/subscription.service';
+import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { InterviewProgressStore } from '../../services/interview-progress.store';
 import { InterviewsPage } from './interviews-page';
 
@@ -36,6 +37,16 @@ describe('InterviewsPage', () => {
     // Activate Pro to see all questions in tests
     const subscriptionService = TestBed.inject(SubscriptionService);
     subscriptionService.activatePro('monthly');
+
+    // Set diagnostic level to senior to unlock all difficulty levels
+    const diagnosticStore = TestBed.inject(DiagnosticResultStore);
+    diagnosticStore.save({
+      score: 13,
+      maximumScore: 15,
+      percentage: 87,
+      level: 'senior',
+      categories: [],
+    });
 
     fixture = TestBed.createComponent(InterviewsPage);
 
