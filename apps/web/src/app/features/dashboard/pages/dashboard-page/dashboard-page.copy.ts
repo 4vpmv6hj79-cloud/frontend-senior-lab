@@ -46,6 +46,7 @@ interface DashboardPageCopy {
   historyVsLast: string;
   viewRoadmap: string;
   retakeDiagnostic: string;
+  changeTrack: string;
   practiceInterviews: string;
   exportProgress: string;
   importProgress: string;
@@ -102,6 +103,7 @@ export const DASHBOARD_PAGE_COPY = {
     historyVsLast: 'vs. anterior',
     viewRoadmap: 'Ver ruta completa',
     retakeDiagnostic: 'Repetir diagnóstico',
+    changeTrack: 'Cambiar framework',
     practiceInterviews: 'Practicar entrevistas',
     exportProgress: 'Exportar progreso',
     importProgress: 'Importar progreso',
@@ -174,6 +176,7 @@ export const DASHBOARD_PAGE_COPY = {
     historyVsLast: 'vs. previous',
     viewRoadmap: 'View full roadmap',
     retakeDiagnostic: 'Retake diagnostic',
+    changeTrack: 'Change framework',
     practiceInterviews: 'Practice interviews',
     exportProgress: 'Export progress',
     importProgress: 'Import progress',

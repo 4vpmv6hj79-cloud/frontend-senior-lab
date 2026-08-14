@@ -86,6 +86,20 @@
     </header>
 
     <section class="pb-12 pt-16 sm:pt-20">
+      <!-- Current track indicator -->
+      @if (trackService.track(); as currentTrack) {
+        <div class="mb-6 flex items-center gap-3">
+          <span class="text-2xl">{{ currentTrack.icon }}</span>
+          <span class="text-sm font-bold text-slate-300">{{ currentTrack.name }}</span>
+          <a
+            routerLink="/tracks"
+            class="ml-2 rounded-lg border border-slate-700 px-3 py-1 text-xs font-medium text-slate-400 transition hover:border-cyan-400 hover:text-cyan-300"
+          >
+            {{ copy().changeTrack }}
+          </a>
+        </div>
+      }
+
       <p class="text-sm font-black uppercase tracking-[0.24em] text-cyan-400">
         {{ copy().eyebrow }}
       </p>

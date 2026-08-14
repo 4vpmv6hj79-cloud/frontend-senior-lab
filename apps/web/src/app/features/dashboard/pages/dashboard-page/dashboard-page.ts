@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { ProgressExportService } from '../../../../core/services/progress-export.service';
+import { TrackSelectionService } from '../../../../core/services/track-selection.service';
 import { UserStorageService } from '../../../../core/services/user-storage.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { OnboardingTourComponent } from '../../../../shared/components/onboarding-tour/onboarding-tour';
@@ -140,8 +141,15 @@ export class DashboardPage {
   private readonly exportService = inject(ProgressExportService);
   private readonly userStorage = inject(UserStorageService);
   protected readonly achievementStore = inject(AchievementStore);
+  protected readonly trackService = inject(TrackSelectionService);
 
   constructor() {
+    // Redirect to track selection if no framework chosen
+    if (!this.trackService.hasSelection()) {
+      this.router.navigate(['/tracks']);
+      return;
+    }
+
     // Show onboarding tour for first-time users
     const tourSeen = this.userStorage.getItem('onboarding-completed');
     if (!tourSeen) {
