@@ -124,7 +124,9 @@
                 "
         >
           <option value="all">{{ copy().allCategories }}</option>
-          <option value="angular">{{ copy().categoryLabels.angular }}</option>
+          <option [value]="trackService.trackId() ?? 'angular'">
+            {{ trackService.track()?.name ?? 'Angular' }}
+          </option>
           <option value="typescript">
             {{ copy().categoryLabels.typescript }}
           </option>

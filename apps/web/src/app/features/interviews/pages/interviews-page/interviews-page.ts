@@ -49,7 +49,7 @@ export class InterviewsPage implements OnInit {
   private readonly diagnosticStore =
     inject(DiagnosticResultStore);
 
-  private readonly trackService =
+  protected readonly trackService =
     inject(TrackSelectionService);
 
   protected readonly questions = computed(() => {
