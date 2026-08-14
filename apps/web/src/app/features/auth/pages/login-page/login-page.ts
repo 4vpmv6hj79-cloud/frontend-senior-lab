@@ -13,6 +13,7 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { RateLimiterService } from '../../../../core/services/rate-limiter.service';
 import type { AuthErrorCode } from '../../models/auth.model';
 import { AuthStore } from '../../services/auth.store';
 import { AUTH_PAGE_COPY } from '../auth-page.copy';
@@ -42,6 +43,10 @@ export class LoginPage {
   protected readonly resetEmailStatus = signal<'idle' | 'sent' | 'error'>(
     'idle',
   );
+
+  private readonly rateLimiter = inject(RateLimiterService);
+  protected readonly isBlocked = signal(false);
+  protected readonly lockoutSeconds = signal(0);
 
   protected readonly copy = computed(
     () => AUTH_PAGE_COPY[this.languageService.language()],
@@ -73,25 +78,37 @@ export class LoginPage {
   protected async submit(): Promise<void> {
     this.authError.set(null);
 
+    // Check rate limiting
+    if (this.rateLimiter.isBlocked('login')) {
+      this.isBlocked.set(true);
+      this.lockoutSeconds.set(this.rateLimiter.getRemainingLockoutSeconds('login'));
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-
       return;
     }
 
     this.submitting.set(true);
 
     const credentials = this.form.getRawValue();
-
     const result = await this.authStore.login(credentials);
 
     this.submitting.set(false);
 
     if (!result.success) {
       this.authError.set(result.error);
-
+      const blocked = this.rateLimiter.recordFailure('login');
+      if (blocked) {
+        this.isBlocked.set(true);
+        this.lockoutSeconds.set(this.rateLimiter.getRemainingLockoutSeconds('login'));
+      }
       return;
     }
+
+    // Success — reset rate limiter
+    this.rateLimiter.reset('login');
 
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
