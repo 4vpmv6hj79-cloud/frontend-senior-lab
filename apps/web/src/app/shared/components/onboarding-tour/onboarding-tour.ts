@@ -21,7 +21,7 @@ const TOUR_STEPS = {
       icon: '🎯',
       title: 'Diagnóstico técnico',
       description:
-        'Comienza evaluando tu nivel actual en 5 áreas: Angular, TypeScript, Arquitectura, Testing y Rendimiento. Solo toma 10 minutos.',
+        'Elige tu framework (Angular, React o Vue) y evalúa tu nivel en 5 áreas: framework, TypeScript, Arquitectura, Testing y Rendimiento. Solo toma 10 minutos.',
     },
     {
       icon: '📚',
@@ -59,7 +59,7 @@ const TOUR_STEPS = {
       icon: '🎯',
       title: 'Technical diagnostic',
       description:
-        'Start by evaluating your current level in 5 areas: Angular, TypeScript, Architecture, Testing, and Performance. It only takes 10 minutes.',
+        'Choose your framework (Angular, React, or Vue) and evaluate your level in 5 areas: framework, TypeScript, Architecture, Testing, and Performance. It only takes 10 minutes.',
     },
     {
       icon: '📚',
