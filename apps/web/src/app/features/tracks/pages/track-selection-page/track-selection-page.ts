@@ -4,7 +4,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import type { FrameworkId } from '../../../../core/models/framework.model';
@@ -15,7 +15,7 @@ import { TRACK_SELECTION_PAGE_COPY } from './track-selection-page.copy';
 @Component({
   selector: 'app-track-selection-page',
   standalone: true,
-  imports: [RouterLink, PageLayoutComponent],
+  imports: [PageLayoutComponent],
   templateUrl: './track-selection-page.html',
   styleUrl: './track-selection-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
