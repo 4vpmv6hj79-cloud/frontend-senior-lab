@@ -47,6 +47,12 @@ const TOUR_STEPS = {
       description:
         'Toda la plataforma funciona en español e inglés. Cambia el idioma con el botón ES/EN en cualquier momento. También puedes cambiar entre modo oscuro y claro.',
     },
+    {
+      icon: '🔄',
+      title: 'Cambia de framework cuando quieras',
+      description:
+        'Cuando termines un framework, puedes cambiar a otro (React, Vue o Angular) desde tu dashboard. Tu progreso de cada framework se guarda por separado.',
+    },
   ],
   en: [
     {
@@ -78,6 +84,12 @@ const TOUR_STEPS = {
       title: 'Bilingual ES/EN',
       description:
         'The entire platform works in Spanish and English. Switch languages with the ES/EN button anytime. You can also toggle between dark and light mode.',
+    },
+    {
+      icon: '🔄',
+      title: 'Switch frameworks anytime',
+      description:
+        'When you finish one framework, you can switch to another (React, Vue, or Angular) from your dashboard. Your progress for each framework is saved separately.',
     },
   ],
 } as const;
