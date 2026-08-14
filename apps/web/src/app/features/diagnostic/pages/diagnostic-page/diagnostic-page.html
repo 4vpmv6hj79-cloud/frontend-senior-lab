@@ -72,7 +72,7 @@
           role="radiogroup"
           [attr.aria-label]="copy().chooseAnswer"
         >
-          @for ( option of currentQuestion().options; track option.id; let
+          @for ( option of shuffledOptions(); track option.id; let
           optionIndex = $index ) {
           <button
             type="button"
