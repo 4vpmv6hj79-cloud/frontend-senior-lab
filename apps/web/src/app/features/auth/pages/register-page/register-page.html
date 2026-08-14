@@ -190,6 +190,16 @@
               >
                 {{ copy().register.nameRequired }}
               </p>
+            } @else if (
+              form.controls.name.touched &&
+              form.controls.name.hasError('pattern')
+            ) {
+              <p
+                id="register-name-error"
+                class="mt-2 text-sm text-red-300"
+              >
+                {{ copy().common.nameInvalid }}
+              </p>
             }
           </div>
 

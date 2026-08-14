@@ -10,6 +10,7 @@ interface AuthCommonCopy {
   passwordRequired: string;
   passwordRequirements: string;
   invalidCredentials: string;
+  nameInvalid: string;
   storageError: string;
 }
 

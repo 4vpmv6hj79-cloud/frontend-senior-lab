@@ -35,6 +35,15 @@ const PASSWORD_PATTERN =
 const EMAIL_PATTERN =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
 
+/**
+ * Name pattern: only letters (including accented), spaces, and hyphens.
+ * Minimum 2 characters.
+ * Examples valid: "Erik", "María José", "Jean-Pierre", "José López"
+ * Examples invalid: "test123", "@user", "name!"
+ */
+const NAME_PATTERN =
+  /^[a-zA-ZáéíóúñüÁÉÍÓÚÑÜàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜç\s\-]{2,50}$/;
+
 function passwordsMatchValidator(
   control: AbstractControl,
 ): ValidationErrors | null {
@@ -116,6 +125,7 @@ export class RegisterPage {
           {
             validators: [
               Validators.required,
+              Validators.pattern(NAME_PATTERN),
             ],
           },
         ),
