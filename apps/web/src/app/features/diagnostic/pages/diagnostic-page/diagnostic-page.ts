@@ -49,6 +49,25 @@ export class DiagnosticPage {
     () => this.questions()[this.currentIndex()] as DiagnosticQuestion,
   );
 
+  /**
+   * Shuffled options for the current question.
+   * Uses a deterministic shuffle based on question ID so options stay
+   * consistent within the same session but aren't always in the same position.
+   */
+  protected readonly shuffledOptions = computed(() => {
+    const question = this.currentQuestion();
+    if (!question) return [];
+
+    const options = [...question.options];
+    // Simple deterministic shuffle using question id as seed
+    const seed = question.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = (seed * (i + 1) + i) % (i + 1);
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    return options;
+  });
+
   protected readonly questionNumber = computed(() => this.currentIndex() + 1);
 
   protected readonly progress = computed(() => {
