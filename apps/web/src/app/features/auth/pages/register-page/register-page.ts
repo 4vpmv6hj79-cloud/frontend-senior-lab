@@ -30,10 +30,10 @@ const PASSWORD_PATTERN =
  * - Valid characters before @ (letters, numbers, dots, hyphens, underscores)
  * - An @ symbol
  * - A domain name with at least one dot
- * - A TLD of 2-10 characters (com, net, org, io, etc.)
+ * - Only valid/common TLDs (com, net, org, io, dev, co, mx, es, etc.)
  */
 const EMAIL_PATTERN =
-  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|io|dev|co|mx|es|ar|cl|pe|info|app|me|us|uk|ca|au|de|fr|it|br|jp|xyz|tech|online|site|store|pro|biz)$/;
 
 /**
  * Name pattern: only letters (including accented), spaces, and hyphens.
