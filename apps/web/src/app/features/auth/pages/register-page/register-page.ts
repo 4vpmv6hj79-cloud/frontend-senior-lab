@@ -25,6 +25,16 @@ import { AUTH_PAGE_COPY } from '../auth-page.copy';
 const PASSWORD_PATTERN =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
+/**
+ * Strict email pattern that requires:
+ * - Valid characters before @ (letters, numbers, dots, hyphens, underscores)
+ * - An @ symbol
+ * - A domain name with at least one dot
+ * - A TLD of 2-10 characters (com, net, org, io, etc.)
+ */
+const EMAIL_PATTERN =
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+
 function passwordsMatchValidator(
   control: AbstractControl,
 ): ValidationErrors | null {
@@ -114,7 +124,7 @@ export class RegisterPage {
           {
             validators: [
               Validators.required,
-              Validators.email,
+              Validators.pattern(EMAIL_PATTERN),
             ],
           },
         ),
