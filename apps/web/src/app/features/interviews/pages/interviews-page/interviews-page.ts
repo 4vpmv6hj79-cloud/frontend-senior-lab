@@ -9,11 +9,14 @@ import {
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { SubscriptionService } from '../../../../core/services/subscription.service';
+import { TrackSelectionService } from '../../../../core/services/track-selection.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import { UpgradeBannerComponent } from '../../../../shared/components/upgrade-banner/upgrade-banner';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
 import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { INTERVIEW_QUESTIONS } from '../../data/interview.questions';
+import { REACT_INTERVIEW_QUESTIONS } from '../../data/interview-react.questions';
+import { VUE_INTERVIEW_QUESTIONS } from '../../data/interview-vue.questions';
 import type {
   InterviewCategoryFilter,
   InterviewDifficulty,
@@ -46,6 +49,18 @@ export class InterviewsPage implements OnInit {
   private readonly diagnosticStore =
     inject(DiagnosticResultStore);
 
+  private readonly trackService =
+    inject(TrackSelectionService);
+
+  protected readonly questions = computed(() => {
+    const trackId = this.trackService.trackId();
+    switch (trackId) {
+      case 'react': return REACT_INTERVIEW_QUESTIONS;
+      case 'vue': return VUE_INTERVIEW_QUESTIONS;
+      default: return INTERVIEW_QUESTIONS;
+    }
+  });
+
   /** Difficulties accessible based on diagnostic level */
   protected readonly accessibleDifficulties = computed<readonly InterviewDifficulty[]>(() => {
     const result = this.diagnosticStore.result();
@@ -64,9 +79,6 @@ export class InterviewsPage implements OnInit {
         return ['intermediate'];
     }
   });
-
-  protected readonly questions =
-    INTERVIEW_QUESTIONS;
 
   protected readonly categoryFilter =
     signal<InterviewCategoryFilter>('all');
@@ -90,7 +102,7 @@ export class InterviewsPage implements OnInit {
       () => {
         const accessible = this.accessibleDifficulties();
 
-        const all = this.questions.filter((question) => {
+        const all = this.questions().filter((question) => {
           const category =
             this.categoryFilter();
 
@@ -153,7 +165,7 @@ export class InterviewsPage implements OnInit {
       Math.round(
         (
           this.progressStore.reviewedCount() /
-          this.questions.length
+          this.questions().length
         ) * 100,
       ),
     );
