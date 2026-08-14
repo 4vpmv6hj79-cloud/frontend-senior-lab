@@ -31,6 +31,8 @@ interface InterviewsPageCopy {
   emptyDescription: string;
   hintTitle: string;
   hintDescription: string;
+  levelAccessTitle: string;
+  levelAccessDescription: string;
   categoryLabels: Record<DiagnosticCategory, string>;
   difficultyLabels: Record<InterviewDifficulty, string>;
 }
@@ -68,6 +70,8 @@ export const INTERVIEWS_PAGE_COPY = {
     hintTitle: '¿Cómo practicar?',
     hintDescription:
       'Lee la pregunta y el escenario. Intenta formular tu respuesta en voz alta (como en una entrevista real) antes de revelar la respuesta modelo. Compara tus puntos con los key points.',
+    levelAccessTitle: 'Preguntas según tu nivel',
+    levelAccessDescription: 'Mejora tu diagnóstico para desbloquear preguntas más avanzadas.',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',
@@ -116,6 +120,8 @@ export const INTERVIEWS_PAGE_COPY = {
     hintTitle: 'How to practice?',
     hintDescription:
       'Read the question and scenario. Try formulating your answer out loud (as in a real interview) before revealing the model answer. Compare your points with the key points.',
+    levelAccessTitle: 'Questions based on your level',
+    levelAccessDescription: 'Improve your diagnostic to unlock more advanced questions.',
     categoryLabels: {
       angular: 'Angular',
       typescript: 'TypeScript',

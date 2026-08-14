@@ -12,6 +12,7 @@ import { SubscriptionService } from '../../../../core/services/subscription.serv
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import { UpgradeBannerComponent } from '../../../../shared/components/upgrade-banner/upgrade-banner';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
+import { DiagnosticResultStore } from '../../../diagnostic/services/diagnostic-result.store';
 import { INTERVIEW_QUESTIONS } from '../../data/interview.questions';
 import type {
   InterviewCategoryFilter,
@@ -42,6 +43,28 @@ export class InterviewsPage implements OnInit {
   protected readonly subscriptionService =
     inject(SubscriptionService);
 
+  private readonly diagnosticStore =
+    inject(DiagnosticResultStore);
+
+  /** Difficulties accessible based on diagnostic level */
+  protected readonly accessibleDifficulties = computed<readonly InterviewDifficulty[]>(() => {
+    const result = this.diagnosticStore.result();
+    if (!result) return ['intermediate']; // No diagnostic → only basic
+
+    switch (result.level) {
+      case 'foundation':
+        return ['intermediate'];
+      case 'intermediate':
+        return ['intermediate', 'advanced'];
+      case 'advanced':
+        return ['intermediate', 'advanced', 'senior'];
+      case 'senior':
+        return ['intermediate', 'advanced', 'senior'];
+      default:
+        return ['intermediate'];
+    }
+  });
+
   protected readonly questions =
     INTERVIEW_QUESTIONS;
 
@@ -65,6 +88,8 @@ export class InterviewsPage implements OnInit {
   protected readonly filteredQuestions =
     computed<readonly InterviewQuestion[]>(
       () => {
+        const accessible = this.accessibleDifficulties();
+
         const all = this.questions.filter((question) => {
           const category =
             this.categoryFilter();
@@ -80,9 +105,14 @@ export class InterviewsPage implements OnInit {
             difficulty === 'all' ||
             question.difficulty === difficulty;
 
+          // Only show questions at or below user's level
+          const matchesLevel =
+            accessible.includes(question.difficulty);
+
           return (
             matchesCategory &&
-            matchesDifficulty
+            matchesDifficulty &&
+            matchesLevel
           );
         });
 
