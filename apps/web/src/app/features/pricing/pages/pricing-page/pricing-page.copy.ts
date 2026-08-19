@@ -49,7 +49,7 @@ export const PRICING_PAGE_COPY = {
       free: {
         name: 'Free',
         price: '$0',
-        period: 'por siempre',
+        period: 'plan gratuito',
         description: 'Perfecto para explorar y evaluar tu nivel actual.',
         features: [
           '1 diagnóstico completo',
@@ -148,7 +148,7 @@ export const PRICING_PAGE_COPY = {
       free: {
         name: 'Free',
         price: '$0',
-        period: 'forever',
+        period: 'free plan',
         description: 'Perfect to explore and evaluate your current level.',
         features: [
           '1 complete diagnostic',
