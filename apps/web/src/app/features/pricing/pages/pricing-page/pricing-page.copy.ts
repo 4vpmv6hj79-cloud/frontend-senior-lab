@@ -32,6 +32,7 @@ interface PricingPageCopy {
     readonly items: readonly { question: string; answer: string }[];
   };
   readonly comingSoon: string;
+  readonly currencyNote: string;
 }
 
 export const PRICING_PAGE_COPY = {
@@ -132,6 +133,7 @@ export const PRICING_PAGE_COPY = {
       ],
     },
     comingSoon: 'Pagos disponibles próximamente. Por ahora, todo el contenido es gratuito.',
+    currencyNote: 'Precios en USD. Al momento del pago, se muestra el equivalente en tu moneda local.',
   },
   en: {
     eyebrow: 'Plans and pricing',
@@ -230,5 +232,6 @@ export const PRICING_PAGE_COPY = {
       ],
     },
     comingSoon: 'Payments coming soon. For now, all content is free.',
+    currencyNote: 'Prices in USD. At checkout, the equivalent in your local currency will be displayed.',
   },
 } as const satisfies Record<SupportedLanguage, PricingPageCopy>;

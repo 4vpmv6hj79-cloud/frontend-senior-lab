@@ -33,7 +33,10 @@
     </div>
 
     <!-- Billing toggle -->
-    <div class="mt-10 flex justify-center">
+    <div class="mt-10 flex flex-col items-center gap-3">
+      <p class="text-xs font-medium text-slate-500">
+        {{ copy().currencyNote }}
+      </p>
       <div class="inline-flex rounded-xl border border-white/10 bg-slate-900 p-1" role="group">
         <button
           type="button"
@@ -75,7 +78,7 @@
         <h3 class="text-xl font-black">{{ copy().plans.free.name }}</h3>
         <div class="mt-4 flex items-end gap-1">
           <span class="text-5xl font-black text-white">{{ copy().plans.free.price }}</span>
-          <span class="pb-1 text-sm text-slate-400">{{ copy().plans.free.period }}</span>
+          <span class="pb-1 text-sm text-slate-400">USD {{ copy().plans.free.period }}</span>
         </div>
         <p class="mt-4 text-sm leading-6 text-slate-400">
           {{ copy().plans.free.description }}
@@ -108,7 +111,7 @@
 
         <div class="mt-4 flex items-end gap-1">
           <span class="text-5xl font-black text-cyan-400">{{ activePlan().price }}</span>
-          <span class="pb-1 text-sm text-slate-400">{{ activePlan().period }}</span>
+          <span class="pb-1 text-sm text-slate-400">USD {{ activePlan().period }}</span>
         </div>
 
         @if (activePlan().savings) {
