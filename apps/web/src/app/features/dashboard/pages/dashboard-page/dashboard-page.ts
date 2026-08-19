@@ -155,7 +155,23 @@ export class DashboardPage {
     if (!tourSeen) {
       this.showOnboarding.set(true);
     }
+
+    // Record last visit for inactivity tracking
+    this.userStorage.setItem('last-visit', new Date().toISOString());
   }
+
+  /** Days since last activity (learning/interviews progress) */
+  protected readonly daysSinceLastActivity = computed(() => {
+    const lastVisit = this.userStorage.getItem('last-activity');
+    if (!lastVisit) return 0;
+
+    const diff = Date.now() - new Date(lastVisit).getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  });
+
+  protected readonly showInactivityReminder = computed(
+    () => this.daysSinceLastActivity() >= 3,
+  );
 
   protected completeOnboarding(): void {
     this.showOnboarding.set(false);

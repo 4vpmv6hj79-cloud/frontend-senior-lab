@@ -9,9 +9,11 @@ import {
 import {
   Auth,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
   type User as FirebaseUser,
@@ -125,6 +127,21 @@ export class FirebaseAuthAdapter {
     this.userState.set(updated);
 
     return true;
+  }
+
+  async loginWithGoogle(): Promise<AuthResult> {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(this.auth, provider);
+      const user = this.mapFirebaseUser(result.user);
+      this.userState.set(user);
+      return { success: true, user };
+    } catch (error: any) {
+      if (error?.code === 'auth/popup-closed-by-user') {
+        return { success: false, error: 'storage-error' };
+      }
+      return { success: false, error: 'storage-error' };
+    }
   }
 
   private mapFirebaseUser(

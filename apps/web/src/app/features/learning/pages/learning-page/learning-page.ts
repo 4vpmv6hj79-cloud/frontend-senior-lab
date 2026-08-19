@@ -8,6 +8,7 @@ import {
 import { RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
+import { CertificateService } from '../../../../core/services/certificate.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import { UpgradeBannerComponent } from '../../../../shared/components/upgrade-banner/upgrade-banner';
 import type { LocalizedText } from '../../../../shared/models/i18n.model';
@@ -23,6 +24,7 @@ import type { TopicQuiz, TopicQuizResult } from '../../models/topic-quiz.model';
 import { LearningProgressStore } from '../../services/learning-progress.store';
 import { LEARNING_PAGE_COPY } from './learning-page.copy';
 import { SubscriptionService } from '../../../../core/services/subscription.service';
+import { TrackSelectionService } from '../../../../core/services/track-selection.service';
 
 @Component({
   selector: 'app-learning-page',
@@ -39,6 +41,9 @@ export class LearningPage {
   protected readonly progressStore = inject(LearningProgressStore);
 
   protected readonly subscriptionService = inject(SubscriptionService);
+
+  private readonly certificateService = inject(CertificateService);
+  private readonly trackService = inject(TrackSelectionService);
 
   protected readonly copy = computed(
     () => LEARNING_PAGE_COPY[this.languageService.language()],
@@ -171,6 +176,14 @@ export class LearningPage {
 
   protected resetLearningProgress(): void {
     this.progressStore.clear();
+  }
+
+  protected downloadCertificate(module: LearningModule): void {
+    this.certificateService.generateCertificate({
+      moduleName: this.text(module.title),
+      frameworkName: this.trackService.track()?.name ?? 'Angular',
+      completedAt: new Date().toISOString(),
+    });
   }
 
   protected readonly expandedTopicId = signal<string | null>(null);

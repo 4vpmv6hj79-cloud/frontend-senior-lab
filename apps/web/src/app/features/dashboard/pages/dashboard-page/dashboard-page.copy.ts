@@ -46,6 +46,8 @@ interface DashboardPageCopy {
   historyVsLast: string;
   viewRoadmap: string;
   retakeDiagnostic: string;
+  inactivityTitle: string;
+  inactivityMessage: string;
   changeTrack: string;
   practiceInterviews: string;
   exportProgress: string;
@@ -103,6 +105,9 @@ export const DASHBOARD_PAGE_COPY = {
     historyVsLast: 'vs. anterior',
     viewRoadmap: 'Ver ruta completa',
     retakeDiagnostic: 'Repetir diagnóstico',
+    inactivityTitle: '¡Te extrañamos!',
+    inactivityMessage:
+      'Llevas varios días sin practicar. Dedica 10 minutos hoy a tu crecimiento frontend.',
     changeTrack: 'Cambiar framework',
     practiceInterviews: 'Practicar entrevistas',
     exportProgress: 'Exportar progreso',
@@ -176,6 +181,9 @@ export const DASHBOARD_PAGE_COPY = {
     historyVsLast: 'vs. previous',
     viewRoadmap: 'View full roadmap',
     retakeDiagnostic: 'Retake diagnostic',
+    inactivityTitle: 'We miss you!',
+    inactivityMessage:
+      "You haven't practiced in a few days. Dedicate 10 minutes today to your frontend growth.",
     changeTrack: 'Change framework',
     practiceInterviews: 'Practice interviews',
     exportProgress: 'Export progress',

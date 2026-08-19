@@ -81,7 +81,9 @@ export class LoginPage {
     // Check rate limiting
     if (this.rateLimiter.isBlocked('login')) {
       this.isBlocked.set(true);
-      this.lockoutSeconds.set(this.rateLimiter.getRemainingLockoutSeconds('login'));
+      this.lockoutSeconds.set(
+        this.rateLimiter.getRemainingLockoutSeconds('login'),
+      );
       return;
     }
 
@@ -102,7 +104,9 @@ export class LoginPage {
       const blocked = this.rateLimiter.recordFailure('login');
       if (blocked) {
         this.isBlocked.set(true);
-        this.lockoutSeconds.set(this.rateLimiter.getRemainingLockoutSeconds('login'));
+        this.lockoutSeconds.set(
+          this.rateLimiter.getRemainingLockoutSeconds('login'),
+        );
       }
       return;
     }
@@ -122,6 +126,14 @@ export class LoginPage {
     }
 
     await this.router.navigate(['/dashboard']);
+  }
+
+  protected async loginWithGoogle(): Promise<void> {
+    const result = await this.authStore.loginWithGoogle();
+    if (result.success) {
+      this.rateLimiter.reset('login');
+      await this.router.navigate(['/dashboard']);
+    }
   }
 
   protected async sendResetEmail(): Promise<void> {

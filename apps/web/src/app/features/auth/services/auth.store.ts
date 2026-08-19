@@ -165,9 +165,25 @@ export class AuthStore {
    * In demo mode (no Firebase), always returns true (simulated success).
    */
   async sendPasswordReset(_email: string): Promise<boolean> {
-    // In local auth mode, we can't actually send emails.
-    // Return true to simulate success for UX purposes.
     return true;
+  }
+
+  /**
+   * Login with Google.
+   * In demo mode, simulates a Google login with a test account.
+   */
+  async loginWithGoogle(): Promise<AuthResult> {
+    // In local auth mode, simulate Google login
+    const user: AuthUser = {
+      id: crypto.randomUUID(),
+      name: 'Google User',
+      email: 'google.user@gmail.com',
+      role: 'student',
+      createdAt: new Date().toISOString(),
+    };
+
+    this.saveSession(user);
+    return { success: true, user };
   }
 
   updateName(newName: string): boolean {

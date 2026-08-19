@@ -516,6 +516,16 @@
                 recommendation.module ) ) { {{ copy().resumeModule }} } @else {
                 {{ copy().startModule }} }
               </button>
+
+              @if (isModuleCompleted(recommendation.module)) {
+                <button
+                  type="button"
+                  class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-bold text-emerald-300 transition hover:bg-emerald-400/20"
+                  (click)="downloadCertificate(recommendation.module)"
+                >
+                  📄 Certificado
+                </button>
+              }
             </div>
           </div>
         </div>
