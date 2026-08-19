@@ -61,7 +61,9 @@ describe('DashboardPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DashboardPage],
-      providers: [provideRouter([]), mockAuthStoreProvider()],
+      providers: [provideRouter([
+        { path: 'tracks', component: DashboardPage },
+      ]), mockAuthStoreProvider()],
     }).compileComponents();
 
     resultStore = TestBed.inject(
@@ -79,6 +81,12 @@ describe('DashboardPage', () => {
     resultStore.clear();
     progressStore.clear();
     languageService.setLanguage('es');
+
+    // Set a track so dashboard doesn't redirect to /tracks
+    const trackService = TestBed.inject(
+      (await import('../../../../core/services/track-selection.service')).TrackSelectionService,
+    );
+    trackService.selectTrack('angular');
   });
 
   afterEach(() => {
