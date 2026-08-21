@@ -27,9 +27,13 @@ export function mockAuthStoreProvider() {
       user: userSignal.asReadonly(),
       isAuthenticated: signal(true).asReadonly(),
       displayName: signal(TEST_USER.name).asReadonly(),
+      ready: signal(true).asReadonly(),
       register: () => Promise.resolve({ success: true, user: TEST_USER }),
       login: () => Promise.resolve({ success: true, user: TEST_USER }),
+      loginWithGoogle: () => Promise.resolve({ success: true, user: TEST_USER }),
       logout: () => { userSignal.set(null); },
+      updateName: () => true,
+      sendPasswordReset: () => Promise.resolve(true),
     },
   };
 }

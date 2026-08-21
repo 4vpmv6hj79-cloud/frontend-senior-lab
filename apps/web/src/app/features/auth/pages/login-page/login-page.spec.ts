@@ -1,12 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 
+import { Auth } from '@angular/fire/auth';
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { AuthStore } from '../../services/auth.store';
 import { LoginPage } from './login-page';
 
-const ACCOUNTS_KEY = 'frontend-senior-lab.auth.accounts';
-const SESSION_KEY = 'frontend-senior-lab.auth.session';
+// Mock Firebase Auth to prevent real initialization
+vi.mock('@angular/fire/auth', async () => {
+  const actual = await vi.importActual('@angular/fire/auth');
+  return {
+    ...actual,
+    onAuthStateChanged: vi.fn((_auth, callback) => {
+      callback(null);
+      return () => {};
+    }),
+    createUserWithEmailAndPassword: vi.fn(),
+    signInWithEmailAndPassword: vi.fn(),
+    signInWithPopup: vi.fn(),
+    signOut: vi.fn().mockResolvedValue(undefined),
+    updateProfile: vi.fn().mockResolvedValue(undefined),
+    sendPasswordResetEmail: vi.fn().mockResolvedValue(undefined),
+    GoogleAuthProvider: vi.fn(),
+  };
+});
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -15,12 +32,12 @@ describe('LoginPage', () => {
   let router: Router;
 
   beforeEach(async () => {
-    localStorage.removeItem(ACCOUNTS_KEY);
-    localStorage.removeItem(SESSION_KEY);
-
     await TestBed.configureTestingModule({
       imports: [LoginPage],
-      providers: [provideRouter([{ path: 'dashboard', component: LoginPage }])],
+      providers: [
+        provideRouter([{ path: 'dashboard', component: LoginPage }]),
+        { provide: Auth, useValue: {} },
+      ],
     }).compileComponents();
 
     authStore = TestBed.inject(AuthStore);
@@ -36,9 +53,6 @@ describe('LoginPage', () => {
 
   afterEach(() => {
     fixture.destroy();
-    authStore.logout();
-    localStorage.removeItem(ACCOUNTS_KEY);
-    localStorage.removeItem(SESSION_KEY);
   });
 
   function pageContent(): string {

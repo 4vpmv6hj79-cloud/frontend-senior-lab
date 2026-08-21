@@ -1,63 +1,43 @@
-
-import { webcrypto } from 'node:crypto';
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
 
-import type {
-  RegisterCredentials,
-} from '../models/auth.model';
+import { Auth } from '@angular/fire/auth';
 import { AuthStore } from './auth.store';
 
-const ACCOUNTS_STORAGE_KEY =
-  'frontend-senior-lab.auth.accounts';
-
-const SESSION_STORAGE_KEY =
-  'frontend-senior-lab.auth.session';
-
-const REGISTER_CREDENTIALS: RegisterCredentials = {
-  name: 'Erik Palomares',
-  email: 'Erik@Example.com',
-  password: 'Angular123!',
-};
-
-const testCrypto =
-  webcrypto as unknown as Crypto;
-
-beforeAll(() => {
-  vi.stubGlobal('crypto', testCrypto);
-});
-
-afterAll(() => {
-  vi.unstubAllGlobals();
+// Mock Firebase Auth methods
+vi.mock('@angular/fire/auth', async () => {
+  const actual = await vi.importActual('@angular/fire/auth');
+  return {
+    ...actual,
+    onAuthStateChanged: vi.fn((_auth, callback) => {
+      // Fire immediately with null (no user)
+      callback(null);
+      return () => {};
+    }),
+    createUserWithEmailAndPassword: vi.fn(),
+    signInWithEmailAndPassword: vi.fn(),
+    signInWithPopup: vi.fn(),
+    signOut: vi.fn().mockResolvedValue(undefined),
+    updateProfile: vi.fn().mockResolvedValue(undefined),
+    sendPasswordResetEmail: vi.fn().mockResolvedValue(undefined),
+    GoogleAuthProvider: vi.fn(),
+  };
 });
 
 describe('AuthStore', () => {
   let store: AuthStore;
 
+  const mockAuth = {} as Auth;
+
   beforeEach(() => {
-    localStorage.removeItem(
-      ACCOUNTS_STORAGE_KEY,
-    );
-
-    localStorage.removeItem(
-      SESSION_STORAGE_KEY,
-    );
-
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: Auth, useValue: mockAuth },
+      ],
+    });
 
     store = TestBed.inject(AuthStore);
-  });
-
-  afterEach(() => {
-    store.logout();
-
-    localStorage.removeItem(
-      ACCOUNTS_STORAGE_KEY,
-    );
-
-    localStorage.removeItem(
-      SESSION_STORAGE_KEY,
-    );
   });
 
   it('should start without an authenticated user', () => {
@@ -67,47 +47,42 @@ describe('AuthStore', () => {
   });
 
   it('should register and authenticate a user', async () => {
-    const result = await store.register(
-      REGISTER_CREDENTIALS,
-    );
+    const { createUserWithEmailAndPassword } = await import('@angular/fire/auth');
+    const mockUser = {
+      uid: 'firebase-uid-123',
+      email: 'erik@example.com',
+      displayName: 'Erik Palomares',
+      metadata: { creationTime: '2024-01-01T00:00:00.000Z' },
+    };
+
+    (createUserWithEmailAndPassword as ReturnType<typeof vi.fn>).mockResolvedValue({
+      user: mockUser,
+    });
+
+    const result = await store.register({
+      name: 'Erik Palomares',
+      email: 'Erik@Example.com',
+      password: 'Angular123!',
+    });
 
     expect(result.success).toBe(true);
     expect(store.isAuthenticated()).toBe(true);
-
-    expect(store.user()?.name).toBe(
-      'Erik Palomares',
-    );
-
-    expect(store.user()?.email).toBe(
-      'erik@example.com',
-    );
-
-    expect(
-      localStorage.getItem(
-        SESSION_STORAGE_KEY,
-      ),
-    ).toBeTruthy();
-
-    const storedAccounts =
-      localStorage.getItem(
-        ACCOUNTS_STORAGE_KEY,
-      );
-
-    expect(storedAccounts).toBeTruthy();
-
-    expect(storedAccounts).not.toContain(
-      REGISTER_CREDENTIALS.password,
-    );
+    expect(store.user()?.name).toBe('Erik Palomares');
+    expect(store.user()?.email).toBe('erik@example.com');
+    expect(store.user()?.id).toBe('firebase-uid-123');
   });
 
   it('should reject an email that is already registered', async () => {
-    await store.register(
-      REGISTER_CREDENTIALS,
-    );
+    const { createUserWithEmailAndPassword } = await import('@angular/fire/auth');
+
+    (createUserWithEmailAndPassword as ReturnType<typeof vi.fn>).mockRejectedValue({
+      code: 'auth/email-already-in-use',
+    });
 
     const result = await store.register({
-      ...REGISTER_CREDENTIALS,
-      email: ' ERIK@example.com ',
+      name: 'Test',
+      email: 'existing@test.com',
+      password: 'Pass123!',
     });
 
     expect(result).toEqual({
@@ -116,40 +91,39 @@ describe('AuthStore', () => {
     });
   });
 
-  it('should logout and login with valid credentials', async () => {
-    await store.register(
-      REGISTER_CREDENTIALS,
-    );
+  it('should login with valid credentials', async () => {
+    const { signInWithEmailAndPassword } = await import('@angular/fire/auth');
+    const mockUser = {
+      uid: 'firebase-uid-456',
+      email: 'erik@example.com',
+      displayName: 'Erik',
+      metadata: { creationTime: '2024-01-01T00:00:00.000Z' },
+    };
 
-    store.logout();
-
-    expect(store.isAuthenticated()).toBe(false);
-    expect(store.user()).toBeNull();
+    (signInWithEmailAndPassword as ReturnType<typeof vi.fn>).mockResolvedValue({
+      user: mockUser,
+    });
 
     const result = await store.login({
-      email: ' ERIK@EXAMPLE.COM ',
-      password:
-        REGISTER_CREDENTIALS.password,
+      email: 'erik@example.com',
+      password: 'Angular123!',
     });
 
     expect(result.success).toBe(true);
     expect(store.isAuthenticated()).toBe(true);
-
-    expect(store.user()?.email).toBe(
-      'erik@example.com',
-    );
+    expect(store.user()?.email).toBe('erik@example.com');
   });
 
   it('should reject invalid credentials', async () => {
-    await store.register(
-      REGISTER_CREDENTIALS,
-    );
+    const { signInWithEmailAndPassword } = await import('@angular/fire/auth');
 
-    store.logout();
+    (signInWithEmailAndPassword as ReturnType<typeof vi.fn>).mockRejectedValue({
+      code: 'auth/invalid-credential',
+    });
 
     const result = await store.login({
-      email: REGISTER_CREDENTIALS.email,
-      password: 'IncorrectPassword1!',
+      email: 'erik@example.com',
+      password: 'WrongPassword',
     });
 
     expect(result).toEqual({
@@ -158,5 +132,11 @@ describe('AuthStore', () => {
     });
 
     expect(store.isAuthenticated()).toBe(false);
+  });
+
+  it('should logout', () => {
+    store.logout();
+    expect(store.isAuthenticated()).toBe(false);
+    expect(store.user()).toBeNull();
   });
 });

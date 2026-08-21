@@ -17,12 +17,14 @@ import {
 describe('Authentication guards', () => {
   const authStoreMock = {
     isAuthenticated: vi.fn(),
+    ready: vi.fn().mockReturnValue(true),
   };
 
   let router: Router;
 
   beforeEach(() => {
     authStoreMock.isAuthenticated.mockReset();
+    authStoreMock.ready.mockReturnValue(true);
 
     TestBed.configureTestingModule({
       providers: [
@@ -37,9 +39,9 @@ describe('Authentication guards', () => {
     router = TestBed.inject(Router);
   });
 
-  function executeAuthGuard(
+  async function executeAuthGuard(
     url: string,
-  ): boolean | UrlTree {
+  ): Promise<boolean | UrlTree> {
     return TestBed.runInInjectionContext(
       () =>
         authGuard(
@@ -47,37 +49,35 @@ describe('Authentication guards', () => {
           {
             url,
           } as RouterStateSnapshot,
-        ) as boolean | UrlTree,
+        ) as Promise<boolean | UrlTree>,
     );
   }
 
-  function executeGuestGuard():
-    | boolean
-    | UrlTree {
+  async function executeGuestGuard(): Promise<boolean | UrlTree> {
     return TestBed.runInInjectionContext(
       () =>
         guestGuard(
           {} as ActivatedRouteSnapshot,
           {} as RouterStateSnapshot,
-        ) as boolean | UrlTree,
+        ) as Promise<boolean | UrlTree>,
     );
   }
 
-  it('should allow authenticated users to access protected routes', () => {
+  it('should allow authenticated users to access protected routes', async () => {
     authStoreMock.isAuthenticated
       .mockReturnValue(true);
 
     expect(
-      executeAuthGuard('/dashboard'),
+      await executeAuthGuard('/dashboard'),
     ).toBe(true);
   });
 
-  it('should redirect unauthenticated users to login', () => {
+  it('should redirect unauthenticated users to login', async () => {
     authStoreMock.isAuthenticated
       .mockReturnValue(false);
 
     const result =
-      executeAuthGuard('/learning');
+      await executeAuthGuard('/learning');
 
     expect(result).toBeInstanceOf(UrlTree);
 
@@ -90,18 +90,18 @@ describe('Authentication guards', () => {
     );
   });
 
-  it('should allow unauthenticated users to access guest routes', () => {
+  it('should allow unauthenticated users to access guest routes', async () => {
     authStoreMock.isAuthenticated
       .mockReturnValue(false);
 
-    expect(executeGuestGuard()).toBe(true);
+    expect(await executeGuestGuard()).toBe(true);
   });
 
-  it('should redirect authenticated users away from guest routes', () => {
+  it('should redirect authenticated users away from guest routes', async () => {
     authStoreMock.isAuthenticated
       .mockReturnValue(true);
 
-    const result = executeGuestGuard();
+    const result = await executeGuestGuard();
 
     expect(result).toBeInstanceOf(UrlTree);
 

@@ -20,6 +20,11 @@ export default defineConfig(() => ({
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
+    server: {
+      deps: {
+        inline: ['rxfire', '@angular/fire'],
+      },
+    },
     coverage: {
       reportsDirectory: '../../coverage/apps/web',
       provider: 'v8' as const,
