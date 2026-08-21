@@ -13,32 +13,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-1a',
         text: {
-          es: 'El componente no está re-renderizándose.',
-          en: 'The component is not re-rendering.',
+          es: 'El componente no se re-renderiza porque falta un trigger externo',
+          en: 'The component is not re-rendering due to a missing external trigger',
         },
         score: 0,
       },
       {
         id: 'react-1b',
         text: {
-          es: 'El estado se declaró con useRef en vez de useState.',
-          en: 'State was declared with useRef instead of useState.',
+          es: 'Se usó useRef en lugar de useState y la vista no se actualiza',
+          en: 'useRef was used instead of useState so the view does not update',
         },
         score: 1,
       },
       {
         id: 'react-1c',
         text: {
-          es: 'Closure obsoleta: la dependencia no está en el array de deps del useEffect.',
-          en: 'Stale closure: the dependency is missing from the useEffect deps array.',
+          es: 'Closure obsoleta: falta la dependencia en el array de deps',
+          en: 'Stale closure: the dependency is missing from the deps array',
         },
         score: 3,
       },
       {
         id: 'react-1d',
         text: {
-          es: 'React batch los setState y no actualiza inmediatamente.',
-          en: 'React batches setState and does not update immediately.',
+          es: 'React agrupa los setState en batch y no actualiza al instante',
+          en: 'React batches setState calls together and does not update instantly',
         },
         score: 1,
       },
@@ -55,32 +55,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-2a',
         text: {
-          es: 'Permiten usar hooks como useState y useEffect.',
-          en: 'They allow using hooks like useState and useEffect.',
+          es: 'Permiten usar hooks como useState y useEffect del lado servidor',
+          en: 'They allow using hooks like useState and useEffect on the server',
         },
         score: 0,
       },
       {
         id: 'react-2b',
         text: {
-          es: 'Ejecutan en el servidor, no envían JS al cliente, y pueden acceder directamente a bases de datos o APIs internas.',
-          en: 'They execute on the server, send no JS to the client, and can directly access databases or internal APIs.',
+          es: 'Ejecutan en servidor, no envían JS al cliente y acceden a DBs',
+          en: 'They run on the server, send zero JS to client, and access DBs',
         },
         score: 3,
       },
       {
         id: 'react-2c',
         text: {
-          es: 'Son más rápidos porque evitan el Virtual DOM.',
-          en: 'They are faster because they avoid the Virtual DOM.',
+          es: 'Son más rápidos porque omiten completamente el Virtual DOM',
+          en: 'They are faster because they completely skip the Virtual DOM',
         },
         score: 1,
       },
       {
         id: 'react-2d',
         text: {
-          es: 'Permiten renderizar componentes sin React instalado.',
-          en: 'They allow rendering components without React installed.',
+          es: 'Permiten renderizar componentes sin tener React instalado en app',
+          en: 'They allow rendering components without having React in the app',
         },
         score: 0,
       },
@@ -97,32 +97,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-3a',
         text: {
-          es: 'Envolver las funciones callback con useCallback y los objetos con useMemo para estabilizar las referencias.',
-          en: 'Wrap callback functions with useCallback and objects with useMemo to stabilize references.',
+          es: 'Envolver callbacks con useCallback y objetos con useMemo',
+          en: 'Wrap callbacks with useCallback and objects with useMemo',
         },
         score: 3,
       },
       {
         id: 'react-3b',
         text: {
-          es: 'Usar shouldComponentUpdate manualmente.',
-          en: 'Use shouldComponentUpdate manually.',
+          es: 'Implementar shouldComponentUpdate de forma manual en el hijo',
+          en: 'Implement shouldComponentUpdate manually in the child component',
         },
         score: 0,
       },
       {
         id: 'react-3c',
         text: {
-          es: 'Mover el componente hijo fuera del archivo del padre.',
-          en: 'Move the child component outside the parent file.',
+          es: 'Mover el componente hijo a un archivo separado del padre',
+          en: 'Move the child component into a separate file from the parent',
         },
         score: 0,
       },
       {
         id: 'react-3d',
         text: {
-          es: 'Convertir el componente a class component.',
-          en: 'Convert the component to a class component.',
+          es: 'Convertir el componente funcional a class component con PureComponent',
+          en: 'Convert the functional component to a class component with Pure',
         },
         score: 0,
       },
@@ -141,32 +141,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-ts-1a',
         text: {
-          es: 'Usar any[] para items y (item: any) => ReactNode para renderItem.',
-          en: 'Use any[] for items and (item: any) => ReactNode for renderItem.',
+          es: 'Usar any[] para items y (item: any) => ReactNode como callback',
+          en: 'Use any[] for items and (item: any) => ReactNode as the callback',
         },
         score: 0,
       },
       {
         id: 'react-ts-1b',
         text: {
-          es: 'Definir un generic: <T>(props: { items: T[]; renderItem: (item: T) => ReactNode }) => JSX.Element.',
-          en: 'Define a generic: <T>(props: { items: T[]; renderItem: (item: T) => ReactNode }) => JSX.Element.',
+          es: 'Definir un generic <T> con items: T[] y renderItem: (item: T)',
+          en: 'Define a generic <T> with items: T[] and renderItem: (item: T)',
         },
         score: 3,
       },
       {
         id: 'react-ts-1c',
         text: {
-          es: 'Usar unknown[] y hacer cast dentro del callback.',
-          en: 'Use unknown[] and cast inside the callback.',
+          es: 'Usar unknown[] para items y hacer type cast dentro del callback',
+          en: 'Use unknown[] for items and do a type cast inside the callback',
         },
         score: 1,
       },
       {
         id: 'react-ts-1d',
         text: {
-          es: 'Crear una interface diferente para cada tipo de item.',
-          en: 'Create a different interface for each item type.',
+          es: 'Crear una interface específica para cada tipo de item posible',
+          en: 'Create a specific interface for every possible item type needed',
         },
         score: 1,
       },
@@ -183,32 +183,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-ts-2a',
         text: {
-          es: 'Tres variables de estado separadas: isLoading, data, error.',
-          en: 'Three separate state variables: isLoading, data, error.',
+          es: 'Tres variables de estado separadas: isLoading, data y error',
+          en: 'Three separate state variables: isLoading, data, and error',
         },
         score: 1,
       },
       {
         id: 'react-ts-2b',
         text: {
-          es: 'Una unión discriminada: { status: "loading" } | { status: "success"; data: T } | { status: "error"; error: string }.',
-          en: 'A discriminated union: { status: "loading" } | { status: "success"; data: T } | { status: "error"; error: string }.',
+          es: 'Unión discriminada con status: loading | success | error',
+          en: 'Discriminated union with status: loading | success | error',
         },
         score: 3,
       },
       {
         id: 'react-ts-2c',
         text: {
-          es: 'Un objeto con todas las propiedades opcionales: { data?: T; error?: string; loading?: boolean }.',
-          en: 'An object with all optional properties: { data?: T; error?: string; loading?: boolean }.',
+          es: 'Un objeto con propiedades opcionales: data?, error?, loading?',
+          en: 'An object with all optional properties: data?, error?, loading?',
         },
         score: 1,
       },
       {
         id: 'react-ts-2d',
         text: {
-          es: 'Usar un enum para el estado y un genérico para el data.',
-          en: 'Use an enum for state and a generic for data.',
+          es: 'Usar un enum para el estado y un tipo genérico para los datos',
+          en: 'Use an enum for the state and a generic type for the data values',
         },
         score: 1,
       },
@@ -225,32 +225,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-ts-3a',
         text: {
-          es: '(e: any) => void',
-          en: '(e: any) => void',
+          es: 'Usar (e: any) => void ya que acepta cualquier tipo de evento',
+          en: 'Use (e: any) => void since it accepts any kind of event type',
         },
         score: 0,
       },
       {
         id: 'react-ts-3b',
         text: {
-          es: '(e: Event) => void',
-          en: '(e: Event) => void',
+          es: 'Usar (e: Event) => void que es el tipo nativo del navegador',
+          en: 'Use (e: Event) => void which is the native browser event type',
         },
         score: 1,
       },
       {
         id: 'react-ts-3c',
         text: {
-          es: '(e: React.ChangeEvent<HTMLInputElement>) => void',
-          en: '(e: React.ChangeEvent<HTMLInputElement>) => void',
+          es: 'Usar React.ChangeEvent<HTMLInputElement> como tipo del evento',
+          en: 'Use React.ChangeEvent<HTMLInputElement> as the event type',
         },
         score: 3,
       },
       {
         id: 'react-ts-3d',
         text: {
-          es: '(e: { target: { value: string } }) => void',
-          en: '(e: { target: { value: string } }) => void',
+          es: 'Usar un tipo inline { target: { value: string } } para el evento',
+          en: 'Use an inline type { target: { value: string } } for the event',
         },
         score: 1,
       },
@@ -269,32 +269,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-arch-1a',
         text: {
-          es: 'Prop drilling desde el componente raíz.',
-          en: 'Prop drilling from the root component.',
+          es: 'Prop drilling desde el componente raíz pasando props nivel a nivel',
+          en: 'Prop drilling from the root component passing props level by level',
         },
         score: 0,
       },
       {
         id: 'react-arch-1b',
         text: {
-          es: 'Usar una librería de estado externo (Zustand, Jotai o Redux Toolkit) con selectores para evitar re-renders innecesarios.',
-          en: 'Use an external state library (Zustand, Jotai, or Redux Toolkit) with selectors to avoid unnecessary re-renders.',
+          es: 'Librería externa como Zustand o Redux Toolkit con selectores',
+          en: 'External state library like Zustand or Redux Toolkit with selectors',
         },
         score: 3,
       },
       {
         id: 'react-arch-1c',
         text: {
-          es: 'Context API con un solo Provider que envuelve toda la app.',
-          en: 'Context API with a single Provider wrapping the entire app.',
+          es: 'Context API con un solo Provider global que envuelve toda la app',
+          en: 'Context API with a single global Provider wrapping the entire app',
         },
         score: 1,
       },
       {
         id: 'react-arch-1d',
         text: {
-          es: 'Almacenar todo en localStorage y leer desde cada componente.',
-          en: 'Store everything in localStorage and read from each component.',
+          es: 'Almacenar todo en localStorage y leer desde cada componente',
+          en: 'Store everything in localStorage and read from every component',
         },
         score: 0,
       },
@@ -311,32 +311,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-arch-2a',
         text: {
-          es: 'Agrupar por tipo: /components, /hooks, /utils, /services (todos juntos).',
-          en: 'Group by type: /components, /hooks, /utils, /services (all together).',
+          es: 'Agrupar por tipo: /components, /hooks, /utils todos juntos',
+          en: 'Group by type: /components, /hooks, /utils all in one place',
         },
         score: 1,
       },
       {
         id: 'react-arch-2b',
         text: {
-          es: 'Agrupar por feature/dominio: /features/auth, /features/dashboard, cada uno con sus componentes, hooks y utils.',
-          en: 'Group by feature/domain: /features/auth, /features/dashboard, each with its own components, hooks, and utils.',
+          es: 'Agrupar por feature/dominio con sus propios hooks y utils',
+          en: 'Group by feature/domain each with its own hooks and utils',
         },
         score: 3,
       },
       {
         id: 'react-arch-2c',
         text: {
-          es: 'Un solo directorio plano con todos los archivos.',
-          en: 'A single flat directory with all files.',
+          es: 'Un solo directorio plano con todos los archivos del proyecto',
+          en: 'A single flat directory containing all files of the project',
         },
         score: 0,
       },
       {
         id: 'react-arch-2d',
         text: {
-          es: 'Separar por páginas y poner toda la lógica en cada página.',
-          en: 'Separate by pages and put all logic in each page.',
+          es: 'Separar por páginas colocando toda la lógica dentro de cada una',
+          en: 'Separate by pages and place all related logic inside each one',
         },
         score: 0,
       },
@@ -353,32 +353,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-arch-3a',
         text: {
-          es: 'useEffect + useState para cada petición.',
-          en: 'useEffect + useState for each request.',
+          es: 'useEffect más useState haciendo fetch manual en cada petición',
+          en: 'useEffect plus useState doing manual fetch on every request',
         },
         score: 1,
       },
       {
         id: 'react-arch-3b',
         text: {
-          es: 'TanStack Query (React Query) o SWR: cache automática, revalidación, deduplicación y estados de loading/error integrados.',
-          en: 'TanStack Query (React Query) or SWR: automatic caching, revalidation, deduplication, and built-in loading/error states.',
+          es: 'TanStack Query o SWR con cache, revalidación y deduplicación',
+          en: 'TanStack Query or SWR with caching, revalidation, and dedupe',
         },
         score: 3,
       },
       {
         id: 'react-arch-3c',
         text: {
-          es: 'Redux con thunks para cada llamada API.',
-          en: 'Redux with thunks for each API call.',
+          es: 'Redux con thunks creando un action y reducer por cada API call',
+          en: 'Redux with thunks creating an action and reducer per API call',
         },
         score: 1,
       },
       {
         id: 'react-arch-3d',
         text: {
-          es: 'Fetch en el componente y guardar en Context.',
-          en: 'Fetch in the component and save in Context.',
+          es: 'Fetch directo en el componente y almacenar resultado en Context',
+          en: 'Fetch directly in the component and store the result in Context',
         },
         score: 0,
       },
@@ -397,32 +397,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-test-1a',
         text: {
-          es: 'Verificar que el hook interno se llame correctamente.',
-          en: 'Verify the internal hook is called correctly.',
+          es: 'Verificar que el hook interno se ejecuta con los params correctos',
+          en: 'Verify the internal hook is called with the correct parameters',
         },
         score: 1,
       },
       {
         id: 'react-test-1b',
         text: {
-          es: 'Mockear la API, renderizar el componente y verificar que los nombres de usuario aparecen en el DOM.',
-          en: 'Mock the API, render the component, and verify usernames appear in the DOM.',
+          es: 'Mockear la API, renderizar y verificar los nombres en el DOM',
+          en: 'Mock the API, render the component, and check names in the DOM',
         },
         score: 3,
       },
       {
         id: 'react-test-1c',
         text: {
-          es: 'Snapshot test de todo el componente.',
-          en: 'Snapshot test of the entire component.',
+          es: 'Snapshot test del componente completo para detectar regresiones',
+          en: 'Snapshot test of the entire component to detect any regressions',
         },
         score: 1,
       },
       {
         id: 'react-test-1d',
         text: {
-          es: 'Solo probar la función de fetch aislada.',
-          en: 'Only test the isolated fetch function.',
+          es: 'Solo testear la función de fetch aislada fuera del componente',
+          en: 'Only test the isolated fetch function outside of the component',
         },
         score: 0,
       },
@@ -439,32 +439,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-test-2a',
         text: {
-          es: 'Llamar al hook directamente en el test sin un componente.',
-          en: 'Call the hook directly in the test without a component.',
+          es: 'Llamar al hook directamente en el test sin componente ni wrapper',
+          en: 'Call the hook directly in the test without a component or wrapper',
         },
         score: 0,
       },
       {
         id: 'react-test-2b',
         text: {
-          es: 'Usar renderHook de @testing-library/react para ejecutar el hook en un entorno React real.',
-          en: 'Use renderHook from @testing-library/react to execute the hook in a real React environment.',
+          es: 'Usar renderHook de testing-library en un entorno React real',
+          en: 'Use renderHook from testing-library in a real React environment',
         },
         score: 3,
       },
       {
         id: 'react-test-2c',
         text: {
-          es: 'Crear un componente wrapper solo para testing y usar screen.getByText.',
-          en: 'Create a wrapper component only for testing and use screen.getByText.',
+          es: 'Crear un componente wrapper para testing y usar screen queries',
+          en: 'Create a wrapper component for testing and use screen queries',
         },
         score: 1,
       },
       {
         id: 'react-test-2d',
         text: {
-          es: 'Mockear useState y useEffect.',
-          en: 'Mock useState and useEffect.',
+          es: 'Mockear useState y useEffect para simular el comportamiento',
+          en: 'Mock useState and useEffect to simulate the expected behavior',
         },
         score: 0,
       },
@@ -481,32 +481,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-test-3a',
         text: {
-          es: 'No hay diferencia, son sinónimos.',
-          en: 'No difference, they are synonyms.',
+          es: 'No hay diferencia real, son sinónimos que hacen lo mismo',
+          en: 'There is no real difference, they are synonyms that do the same',
         },
         score: 0,
       },
       {
         id: 'react-test-3b',
         text: {
-          es: 'userEvent simula interacciones reales del usuario (focus, keydown, keyup, input) mientras fireEvent solo dispara un evento aislado.',
-          en: 'userEvent simulates real user interactions (focus, keydown, keyup, input) while fireEvent only fires an isolated event.',
+          es: 'userEvent simula interacciones reales; fireEvent dispara aislado',
+          en: 'userEvent simulates real interactions; fireEvent fires isolated',
         },
         score: 3,
       },
       {
         id: 'react-test-3c',
         text: {
-          es: 'fireEvent es async y userEvent es sync.',
-          en: 'fireEvent is async and userEvent is sync.',
+          es: 'fireEvent es async y userEvent es sync según la documentación',
+          en: 'fireEvent is async and userEvent is sync per the documentation',
         },
         score: 0,
       },
       {
         id: 'react-test-3d',
         text: {
-          es: 'userEvent solo funciona con componentes de clase.',
-          en: 'userEvent only works with class components.',
+          es: 'userEvent solo funciona con class components, no con funcionales',
+          en: 'userEvent only works with class components, not with functional',
         },
         score: 0,
       },
@@ -525,32 +525,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-perf-1a',
         text: {
-          es: 'Virtualización con react-window o tanstack-virtual: solo renderizar los items visibles en el viewport.',
-          en: 'Virtualization with react-window or tanstack-virtual: only render items visible in the viewport.',
+          es: 'Virtualización con react-window: solo renderiza items visibles',
+          en: 'Virtualization with react-window: only render visible items',
         },
         score: 3,
       },
       {
         id: 'react-perf-1b',
         text: {
-          es: 'Usar CSS display:none para los items fuera de pantalla.',
-          en: 'Use CSS display:none for off-screen items.',
+          es: 'Usar CSS display:none para los items que están fuera de pantalla',
+          en: 'Use CSS display:none for all items that are currently off-screen',
         },
         score: 0,
       },
       {
         id: 'react-perf-1c',
         text: {
-          es: 'Agregar key={index} a cada item.',
-          en: 'Add key={index} to each item.',
+          es: 'Agregar key={index} a cada item para mejorar la reconciliación',
+          en: 'Add key={index} to each item to improve the reconciliation step',
         },
         score: 0,
       },
       {
         id: 'react-perf-1d',
         text: {
-          es: 'Paginación en el frontend dividiendo el array en páginas.',
-          en: 'Frontend pagination by splitting the array into pages.',
+          es: 'Paginación en frontend dividiendo el array en bloques menores',
+          en: 'Frontend pagination by splitting the data array into smaller pages',
         },
         score: 1,
       },
@@ -567,32 +567,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-perf-2a',
         text: {
-          es: 'Code splitting con React.lazy() + Suspense para cargar rutas bajo demanda.',
-          en: 'Code splitting with React.lazy() + Suspense to load routes on demand.',
+          es: 'Code splitting con React.lazy y Suspense para cargar on demand',
+          en: 'Code splitting with React.lazy and Suspense to load on demand',
         },
         score: 3,
       },
       {
         id: 'react-perf-2b',
         text: {
-          es: 'Minificar el código con Terser.',
-          en: 'Minify code with Terser.',
+          es: 'Minificar el código con Terser para reducir el peso del bundle',
+          en: 'Minify the code with Terser to reduce the overall bundle weight',
         },
         score: 1,
       },
       {
         id: 'react-perf-2c',
         text: {
-          es: 'Mover todo a un CDN.',
-          en: 'Move everything to a CDN.',
+          es: 'Mover todos los assets y scripts estáticos a un CDN externo',
+          en: 'Move all static assets and scripts to an external CDN provider',
         },
         score: 0,
       },
       {
         id: 'react-perf-2d',
         text: {
-          es: 'Usar PureComponent en todos los componentes.',
-          en: 'Use PureComponent on all components.',
+          es: 'Usar PureComponent en todos los componentes de la aplicación',
+          en: 'Use PureComponent on every single component in the application',
         },
         score: 0,
       },
@@ -609,32 +609,32 @@ export const REACT_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'react-perf-3a',
         text: {
-          es: 'Separar el Context en múltiples providers más pequeños (uno por slice de estado) o migrar a Zustand con selectores.',
-          en: 'Split Context into multiple smaller providers (one per state slice) or migrate to Zustand with selectors.',
+          es: 'Separar en múltiples providers o migrar a Zustand con selectores',
+          en: 'Split into multiple providers or migrate to Zustand with selectors',
         },
         score: 3,
       },
       {
         id: 'react-perf-3b',
         text: {
-          es: 'Envolver todo en React.memo.',
-          en: 'Wrap everything in React.memo.',
+          es: 'Envolver todos los componentes consumidores en React.memo',
+          en: 'Wrap every single consumer component inside of React.memo',
         },
         score: 1,
       },
       {
         id: 'react-perf-3c',
         text: {
-          es: 'Usar useRef en vez de useState para el valor del Context.',
-          en: 'Use useRef instead of useState for the Context value.',
+          es: 'Usar useRef en vez de useState para almacenar el valor del Context',
+          en: 'Use useRef instead of useState to store the value of the Context',
         },
         score: 1,
       },
       {
         id: 'react-perf-3d',
         text: {
-          es: 'Mover el state a window para evitar re-renders.',
-          en: 'Move state to window to avoid re-renders.',
+          es: 'Mover el estado a window global para evitar triggers de re-render',
+          en: 'Move the state to the global window to avoid triggering re-renders',
         },
         score: 0,
       },

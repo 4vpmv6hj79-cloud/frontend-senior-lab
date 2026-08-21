@@ -13,32 +13,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'angular-1a',
         text: {
-          es: 'Llamar detectChanges() después de cada actualización.',
-          en: 'Call detectChanges() after every update.',
+          es: 'Invocar detectChanges() manualmente luego de cada actualización',
+          en: 'Invoke detectChanges() manually after every single data update',
         },
         score: 1,
       },
       {
         id: 'angular-1b',
         text: {
-          es: 'Usar OnPush, referencias inmutables y Signals o AsyncPipe.',
-          en: 'Use OnPush, immutable references, and Signals or AsyncPipe.',
+          es: 'Aplicar OnPush con referencias inmutables y Signals o AsyncPipe',
+          en: 'Apply OnPush with immutable references and Signals or AsyncPipe',
         },
         score: 3,
       },
       {
         id: 'angular-1c',
         text: {
-          es: 'Agregar setTimeout() alrededor de las actualizaciones.',
-          en: 'Wrap updates inside setTimeout().',
+          es: 'Envolver las actualizaciones dentro de un setTimeout de 0 ms',
+          en: 'Wrap all state updates inside a setTimeout with zero delay',
         },
         score: 0,
       },
       {
         id: 'angular-1d',
         text: {
-          es: 'Desactivar la detección de cambios en toda la aplicación.',
-          en: 'Disable change detection for the entire application.',
+          es: 'Desactivar completamente la detección de cambios en toda la app',
+          en: 'Disable the change detection system entirely for the whole app',
         },
         score: 0,
       },
@@ -55,32 +55,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'angular-2a',
         text: {
-          es: 'Declararlo con providedIn: "root" y usar un flag booleano para filtrarlo.',
-          en: 'Declare it with providedIn: "root" and use a boolean flag to filter it.',
+          es: 'Declararlo con providedIn root y filtrar el acceso con un flag',
+          en: 'Declare it with providedIn root and filter access with a flag',
         },
         score: 0,
       },
       {
         id: 'angular-2b',
         text: {
-          es: 'Proveerlo en el array providers del componente padre del subárbol.',
-          en: 'Provide it in the providers array of the subtree root component.',
+          es: 'Proveerlo en el array providers del componente raíz del árbol',
+          en: 'Provide it in the providers array of the subtree root component',
         },
         score: 3,
       },
       {
         id: 'angular-2c',
         text: {
-          es: 'Crear una instancia manual con new y pasarla por @Input().',
-          en: 'Manually create an instance with new and pass it via @Input().',
+          es: 'Crear una instancia manual con new y propagarla vía @Input()',
+          en: 'Create a manual instance with new and propagate it via @Input()',
         },
         score: 1,
       },
       {
         id: 'angular-2d',
         text: {
-          es: 'Almacenarlo en una variable global fuera de Angular.',
-          en: 'Store it in a global variable outside Angular.',
+          es: 'Almacenarlo como variable global fuera del contexto de Angular',
+          en: 'Store it as a global variable outside the Angular context scope',
         },
         score: 0,
       },
@@ -97,32 +97,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'angular-3a',
         text: {
-          es: 'Los effects se ejecutan sincrónicamente y bloquean el hilo principal.',
-          en: 'Effects run synchronously and block the main thread.',
+          es: 'Los effects se ejecutan de forma síncrona y bloquean el thread',
+          en: 'Effects execute synchronously and will block the main thread',
         },
         score: 1,
       },
       {
         id: 'angular-3b',
         text: {
-          es: 'El effect podría crear escrituras circulares a signals, causando bucles infinitos.',
-          en: 'The effect might create circular signal writes, causing infinite loops.',
+          es: 'El effect podría generar escrituras circulares en los signals',
+          en: 'The effect could trigger circular signal writes causing loops',
         },
         score: 3,
       },
       {
         id: 'angular-3c',
         text: {
-          es: 'Los signals no son compatibles con computed().',
-          en: 'Signals are not compatible with computed().',
+          es: 'Los signals y computed son incompatibles según la arquitectura',
+          en: 'Signals and computed are architecturally incompatible by design',
         },
         score: 0,
       },
       {
         id: 'angular-3d',
         text: {
-          es: 'El computed no se reevalúa si más de un signal cambia a la vez.',
-          en: 'The computed does not re-evaluate if more than one signal changes at once.',
+          es: 'El computed no se reevalúa cuando varios signals cambian juntos',
+          en: 'The computed will not re-evaluate when multiple signals change',
         },
         score: 0,
       },
@@ -141,32 +141,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'typescript-1a',
         text: {
-          es: 'Declarar la respuesta como any.',
-          en: 'Declare the response as any.',
+          es: 'Declarar la respuesta como any para tener total flexibilidad',
+          en: 'Declare the response as any to have complete flexibility here',
         },
         score: 0,
       },
       {
         id: 'typescript-1b',
         text: {
-          es: 'Forzar el tipo con una aserción as sin validarlo.',
-          en: 'Force the type with an as assertion without validation.',
+          es: 'Forzar el tipo con una aserción as sin validar la estructura',
+          en: 'Force the type with an as assertion without validating shape',
         },
         score: 1,
       },
       {
         id: 'typescript-1c',
         text: {
-          es: 'Recibir unknown y validarlo con un type guard o esquema.',
-          en: 'Receive unknown and validate it with a type guard or schema.',
+          es: 'Recibir unknown y validar con un type guard o un esquema Zod',
+          en: 'Receive as unknown and validate with a type guard or schema',
         },
         score: 3,
       },
       {
         id: 'typescript-1d',
         text: {
-          es: 'Convertir la respuesta a Object.',
-          en: 'Convert the response to Object.',
+          es: 'Convertir la respuesta a Object y acceder a sus propiedades',
+          en: 'Convert the response to Object and access its properties now',
         },
         score: 1,
       },
@@ -183,32 +183,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'typescript-2a',
         text: {
-          es: 'function fn<T>(item: T) y verificar typeof item.id en runtime.',
-          en: 'function fn<T>(item: T) and check typeof item.id at runtime.',
+          es: 'Usar function fn<T>(item: T) y verificar typeof id en runtime',
+          en: 'Use function fn<T>(item: T) and check typeof id at runtime',
         },
         score: 1,
       },
       {
         id: 'typescript-2b',
         text: {
-          es: 'function fn<T extends { id: string }>(item: T) para restringir en compilación.',
-          en: 'function fn<T extends { id: string }>(item: T) to constrain at compile time.',
+          es: 'Usar fn<T extends { id: string }> para restringir en compile',
+          en: 'Use fn<T extends { id: string }> to constrain at compile time',
         },
         score: 3,
       },
       {
         id: 'typescript-2c',
         text: {
-          es: 'function fn(item: any) y castear con as dentro del cuerpo.',
-          en: 'function fn(item: any) and cast with as inside the body.',
+          es: 'Usar function fn(item: any) y castear con as en el cuerpo',
+          en: 'Use function fn(item: any) and cast with as inside the body',
         },
         score: 0,
       },
       {
         id: 'typescript-2d',
         text: {
-          es: 'function fn(item: object) ya que todo objeto tiene id.',
-          en: 'function fn(item: object) since every object has an id.',
+          es: 'Usar function fn(item: object) asumiendo que siempre hay id',
+          en: 'Use function fn(item: object) assuming every object has an id',
         },
         score: 0,
       },
@@ -225,32 +225,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'typescript-3a',
         text: {
-          es: 'Usar (result as any).data directamente.',
-          en: 'Use (result as any).data directly.',
+          es: 'Acceder directamente usando (result as any).data sin hacer validación',
+          en: 'Access directly using (result as any).data without doing validation',
         },
         score: 0,
       },
       {
         id: 'typescript-3b',
         text: {
-          es: 'Verificar result.status === "ok" para estrechar el tipo automáticamente.',
-          en: 'Check result.status === "ok" to narrow the type automatically.',
+          es: 'Verificar result.status === "ok" para estrechar el tipo union',
+          en: 'Check result.status === "ok" to narrow the discriminated union',
         },
         score: 3,
       },
       {
         id: 'typescript-3c',
         text: {
-          es: 'Usar el operador ! para forzar que data no sea undefined.',
-          en: 'Use the ! operator to assert data is not undefined.',
+          es: 'Usar el operador ! para forzar que data nunca sea undefined',
+          en: 'Use the non-null assertion operator to force data as defined',
         },
         score: 1,
       },
       {
         id: 'typescript-3d',
         text: {
-          es: 'Añadir data?: User a ambas variantes de la unión.',
-          en: 'Add data?: User to both variants of the union.',
+          es: 'Añadir data?: User como campo opcional en ambas variantes del union',
+          en: 'Add data?: User as an optional field in both variants of the union',
         },
         score: 1,
       },
@@ -269,32 +269,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'architecture-1a',
         text: {
-          es: 'Copiar los componentes en cada aplicación.',
-          en: 'Copy the components into every application.',
+          es: 'Copiar los componentes de forma manual en cada aplicación nueva',
+          en: 'Manually copy the components into every new application target',
         },
         score: 0,
       },
       {
         id: 'architecture-1b',
         text: {
-          es: 'Crear una librería versionada con tokens, documentación y contratos públicos.',
-          en: 'Build a versioned library with tokens, documentation, and public contracts.',
+          es: 'Crear una librería versionada con tokens y contratos públicos',
+          en: 'Build a versioned library with design tokens and public contracts',
         },
         score: 3,
       },
       {
         id: 'architecture-1c',
         text: {
-          es: 'Guardar todos los estilos en un único archivo global.',
-          en: 'Store every style in one global file.',
+          es: 'Guardar todos los estilos compartidos en un solo archivo global',
+          en: 'Store all shared styles inside a single global stylesheet file',
         },
         score: 1,
       },
       {
         id: 'architecture-1d',
         text: {
-          es: 'Permitir que cada equipo implemente su propia versión.',
-          en: 'Let every team implement its own version.',
+          es: 'Permitir que cada equipo implemente su propia versión completa',
+          en: 'Allow each team to implement their own fully independent version',
         },
         score: 0,
       },
@@ -311,32 +311,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'architecture-2a',
         text: {
-          es: 'Viola los límites de dependencia y crea acoplamiento implícito difícil de rastrear.',
-          en: 'It violates dependency boundaries and creates implicit coupling that is hard to track.',
+          es: 'Viola los límites de dependencia y crea acoplamiento implícito',
+          en: 'It violates dependency boundaries creating implicit coupling now',
         },
         score: 3,
       },
       {
         id: 'architecture-2b',
         text: {
-          es: 'No hay problema si ambos features están en el mismo repositorio.',
-          en: 'No problem as long as both features are in the same repository.',
+          es: 'No hay problema real si ambos features están dentro del mismo repo',
+          en: 'There is no real problem if both features share the same repository',
         },
         score: 0,
       },
       {
         id: 'architecture-2c',
         text: {
-          es: 'Solo es un problema si se usa lazy loading.',
-          en: 'It is only a problem if lazy loading is used.',
+          es: 'Solo genera conflictos cuando se utiliza carga diferida lazy load',
+          en: 'It only creates conflicts when lazy loading is being utilized here',
         },
         score: 1,
       },
       {
         id: 'architecture-2d',
         text: {
-          es: 'Causa errores de compilación en producción.',
-          en: 'It causes compilation errors in production.',
+          es: 'Produce errores de compilación exclusivamente en producción final',
+          en: 'It produces compilation errors exclusively in production build only',
         },
         score: 0,
       },
@@ -353,32 +353,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'architecture-3a',
         text: {
-          es: 'Pasar todo por @Input/@Output hasta el componente raíz.',
-          en: 'Pass everything through @Input/@Output up to the root component.',
+          es: 'Pasar todo mediante @Input/@Output hasta el componente raíz superior',
+          en: 'Pass everything via @Input/@Output chains up to the root component',
         },
         score: 1,
       },
       {
         id: 'architecture-3b',
         text: {
-          es: 'Usar servicios singleton con signals o stores con acciones y selectores claros.',
-          en: 'Use singleton services with signals or stores with clear actions and selectors.',
+          es: 'Usar servicios singleton con signals y selectores bien claros',
+          en: 'Use singleton services with signals and well-defined selectors',
         },
         score: 3,
       },
       {
         id: 'architecture-3c',
         text: {
-          es: 'Almacenar todo en localStorage y leerlo desde cada componente.',
-          en: 'Store everything in localStorage and read from each component.',
+          es: 'Almacenar todo en localStorage y leer desde cada componente',
+          en: 'Store everything in localStorage and read from each component',
         },
         score: 0,
       },
       {
         id: 'architecture-3d',
         text: {
-          es: 'Usar variables globales en window para acceso rápido.',
-          en: 'Use global variables on window for quick access.',
+          es: 'Usar variables globales en window para un acceso más rápido',
+          en: 'Use global variables on the window object for quicker access',
         },
         score: 0,
       },
@@ -397,32 +397,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'testing-1a',
         text: {
-          es: 'Probar directamente todos sus métodos privados.',
-          en: 'Test all of its private methods directly.',
+          es: 'Probar directamente todos sus métodos privados de forma totalmente aislada',
+          en: 'Directly test all of its private methods in complete and total isolation',
         },
         score: 1,
       },
       {
         id: 'testing-1b',
         text: {
-          es: 'Simular el servicio y verificar el comportamiento visible en el DOM.',
-          en: 'Mock the service and verify visible behavior in the DOM.',
+          es: 'Simular el servicio y verificar el comportamiento visible en DOM',
+          en: 'Mock the service and verify the visible behavior in the DOM',
         },
         score: 3,
       },
       {
         id: 'testing-1c',
         text: {
-          es: 'Crear solamente un snapshot.',
-          en: 'Create only a snapshot.',
+          es: 'Crear solamente un snapshot del componente y comparar cambios',
+          en: 'Create only a component snapshot and compare output differences',
         },
         score: 1,
       },
       {
         id: 'testing-1d',
         text: {
-          es: 'No probarlo porque el servicio ya tiene pruebas.',
-          en: 'Skip it because the service already has tests.',
+          es: 'No probar el componente porque el servicio ya tiene sus tests',
+          en: 'Skip component tests because the service already has its own',
         },
         score: 0,
       },
@@ -439,32 +439,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'testing-2a',
         text: {
-          es: 'Seguir agregando E2E tests ya que son los más realistas.',
-          en: 'Keep adding E2E tests since they are the most realistic.',
+          es: 'Seguir con E2E porque son los tests más realistas que se pueden tener',
+          en: 'Keep adding E2E tests because they are the most realistic ones we have',
         },
         score: 0,
       },
       {
         id: 'testing-2b',
         text: {
-          es: 'Ejecutar E2E solo de noche y desactivar los que fallan.',
-          en: 'Run E2E only at night and disable those that fail.',
+          es: 'Ejecutar E2E solo de noche y desactivar los que fallen con frecuencia',
+          en: 'Run E2E only at night and disable those that fail too often in the CI',
         },
         score: 0,
       },
       {
         id: 'testing-2c',
         text: {
-          es: 'Redistribuir esfuerzo: más unit/integration tests rápidos y E2E solo para flujos críticos.',
-          en: 'Redistribute effort: more fast unit/integration tests and E2E only for critical flows.',
+          es: 'Redistribuir: más unit/integration rápidos, E2E solo en críticos',
+          en: 'Redistribute: more fast unit/integration, E2E only for critical',
         },
         score: 3,
       },
       {
         id: 'testing-2d',
         text: {
-          es: 'Reemplazar todos los E2E por unit tests exclusivamente.',
-          en: 'Replace all E2E with unit tests exclusively.',
+          es: 'Reemplazar absolutamente todos los E2E por solo unit tests',
+          en: 'Replace absolutely all of the E2E tests with unit tests only',
         },
         score: 1,
       },
@@ -481,32 +481,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'testing-3a',
         text: {
-          es: 'Usar el HttpClient real apuntando a un servidor de pruebas.',
-          en: 'Use the real HttpClient pointing to a test server.',
+          es: 'Usar el HttpClient real apuntando hacia un servidor de pruebas',
+          en: 'Use the real HttpClient connected to a dedicated test server',
         },
         score: 1,
       },
       {
         id: 'testing-3b',
         text: {
-          es: 'Mockear HttpClient con HttpTestingController y proveer un stub de AuthService con valores predecibles.',
-          en: 'Mock HttpClient with HttpTestingController and provide an AuthService stub with predictable values.',
+          es: 'Mock de HttpClient con TestingController y stub de AuthService',
+          en: 'Mock HttpClient via TestingController and stub the AuthService',
         },
         score: 3,
       },
       {
         id: 'testing-3c',
         text: {
-          es: 'No probar el servicio — solo probar el componente que lo consume.',
-          en: 'Do not test the service — only test the component that consumes it.',
+          es: 'No probar el servicio, solo probar el componente que lo consume',
+          en: 'Do not test the service, only test the component that uses it',
         },
         score: 0,
       },
       {
         id: 'testing-3d',
         text: {
-          es: 'Usar spyOn en todos los métodos de ambas dependencias sin valores de retorno.',
-          en: 'Use spyOn on all methods of both dependencies without return values.',
+          es: 'Usar spyOn en todos los métodos sin definir valores de retorno',
+          en: 'Use spyOn on all methods without defining any return values',
         },
         score: 1,
       },
@@ -525,32 +525,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'performance-1a',
         text: {
-          es: 'Virtual scrolling, seguimiento estable y renderizado incremental.',
-          en: 'Virtual scrolling, stable tracking, and incremental rendering.',
+          es: 'Virtual scrolling, tracking estable y renderizado incremental',
+          en: 'Virtual scrolling, stable tracking, and incremental rendering',
         },
         score: 3,
       },
       {
         id: 'performance-1b',
         text: {
-          es: 'Ocultar los elementos con CSS sin retirarlos del DOM.',
-          en: 'Hide elements with CSS without removing them from the DOM.',
+          es: 'Ocultar los elementos con display none sin retirarlos del DOM',
+          en: 'Hide elements with display none without removing them from DOM',
         },
         score: 0,
       },
       {
         id: 'performance-1c',
         text: {
-          es: 'Ejecutar detectChanges() dentro de cada iteración.',
-          en: 'Run detectChanges() inside every iteration.',
+          es: 'Ejecutar detectChanges() dentro del bucle en cada iteración',
+          en: 'Run detectChanges() inside the loop during every iteration',
         },
         score: 0,
       },
       {
         id: 'performance-1d',
         text: {
-          es: 'Duplicar la lista para conservar una copia de respaldo.',
-          en: 'Duplicate the list to keep a backup copy.',
+          es: 'Duplicar la lista para conservar una copia de respaldo segura',
+          en: 'Duplicate the list in order to keep a backup copy at all times',
         },
         score: 0,
       },
@@ -567,32 +567,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'performance-2a',
         text: {
-          es: 'Minificar el código CSS manualmente.',
-          en: 'Manually minify CSS code.',
+          es: 'Minificar el código CSS de forma manual para reducir el tamaño',
+          en: 'Manually minify CSS code to attempt reducing the bundle size',
         },
         score: 1,
       },
       {
         id: 'performance-2b',
         text: {
-          es: 'Implementar lazy loading por rutas, defer blocks y precargar los módulos críticos.',
-          en: 'Implement route-based lazy loading, defer blocks, and preload critical modules.',
+          es: 'Lazy loading por rutas, defer blocks y precarga de lo crítico',
+          en: 'Route-based lazy loading, defer blocks, and preload critical',
         },
         score: 3,
       },
       {
         id: 'performance-2c',
         text: {
-          es: 'Agregar más cacheo en el service worker.',
-          en: 'Add more caching in the service worker.',
+          es: 'Agregar más estrategias de cacheo dentro del service worker',
+          en: 'Add more caching strategies inside the service worker config',
         },
         score: 1,
       },
       {
         id: 'performance-2d',
         text: {
-          es: 'Mover todo el JavaScript a un CDN sin otros cambios.',
-          en: 'Move all JavaScript to a CDN without other changes.',
+          es: 'Mover todo el JavaScript a un CDN sin realizar otros cambios',
+          en: 'Move all JavaScript to a CDN without making any other changes',
         },
         score: 0,
       },
@@ -609,32 +609,32 @@ export const DIAGNOSTIC_QUESTIONS = [
       {
         id: 'performance-3a',
         text: {
-          es: 'Agregar debounce de 1 segundo a todos los event handlers.',
-          en: 'Add a 1 second debounce to all event handlers.',
+          es: 'Agregar debounce de un segundo a todos los handlers del evento',
+          en: 'Add a one second debounce to every single event handler used',
         },
         score: 1,
       },
       {
         id: 'performance-3b',
         text: {
-          es: 'Usar event delegation, dividir tareas largas con scheduler.yield() y evitar layout thrashing.',
-          en: 'Use event delegation, break long tasks with scheduler.yield(), and avoid layout thrashing.',
+          es: 'Event delegation, dividir tareas con yield y evitar reflows',
+          en: 'Event delegation, break tasks with yield, and avoid reflows',
         },
         score: 3,
       },
       {
         id: 'performance-3c',
         text: {
-          es: 'Desactivar todos los event listeners cuando la página no está visible.',
-          en: 'Disable all event listeners when the page is not visible.',
+          es: 'Desactivar todos los event listeners cuando la página se oculta',
+          en: 'Disable all event listeners whenever the page is not visible',
         },
         score: 0,
       },
       {
         id: 'performance-3d',
         text: {
-          es: 'Reducir el tamaño del CSS para que el navegador pinte más rápido.',
-          en: 'Reduce CSS size so the browser paints faster.',
+          es: 'Reducir el tamaño del CSS para que el navegador pinte más ágil',
+          en: 'Reduce CSS file size so the browser can paint things much faster',
         },
         score: 0,
       },

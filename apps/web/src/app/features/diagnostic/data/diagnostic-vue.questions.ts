@@ -13,23 +13,23 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-1a',
         text: {
-          es: 'Es más rápida en runtime porque compila a código más optimizado',
-          en: 'It is faster at runtime because it compiles to more optimized code',
+          es: 'Es más rápida en runtime porque compila a código mucho más optimizado',
+          en: 'It is faster at runtime because it compiles to much more optimized code',
         },
         score: 0,
       },
       {
         id: 'vue-1b',
         text: {
-          es: 'Agrupa lógica por funcionalidad en composables, facilitando reutilización',
-          en: 'Groups logic by functionality into composables, enabling reuse',
+          es: 'Agrupa lógica por funcionalidad en composables reutilizables',
+          en: 'Groups logic by functionality into reusable composables',
         },
         score: 3,
       },
       {
         id: 'vue-1c',
         text: {
-          es: 'Elimina la necesidad de usar templates al renderizar con JSX puro',
+          es: 'Elimina la necesidad de usar templates renderizando con JSX puro',
           en: 'Removes the need to use templates by rendering with pure JSX instead',
         },
         score: 0,
@@ -37,8 +37,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-1d',
         text: {
-          es: 'Reemplaza completamente a Vuex y Pinia para gestión de estado',
-          en: 'Completely replaces Vuex and Pinia for state management purposes',
+          es: 'Reemplaza completamente a Vuex y Pinia para estado global',
+          en: 'Completely replaces Vuex and Pinia for global state management',
         },
         score: 1,
       },
@@ -55,8 +55,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-2a',
         text: {
-          es: 'No, ref() solo observa el valor raíz y no propiedades internas',
-          en: 'No, ref() only observes the root value and not internal properties',
+          es: 'No, ref() solo observa el valor raíz sin detectar cambios internos',
+          en: 'No, ref() only observes the root value without detecting inner changes',
         },
         score: 1,
       },
@@ -64,15 +64,15 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
         id: 'vue-2b',
         text: {
           es: 'Sí, Vue 3 usa Proxy para reactividad profunda; shallowRef lo evita',
-          en: 'Yes, Vue 3 uses Proxy for deep reactivity; shallowRef avoids it',
+          en: 'Yes, Vue 3 uses Proxy for deep reactivity; shallowRef avoids this',
         },
         score: 3,
       },
       {
         id: 'vue-2c',
         text: {
-          es: 'Solo si usas reactive() ya que ref() no soporta objetos anidados',
-          en: 'Only if you use reactive() since ref() does not support nested objects',
+          es: 'Solo con reactive() ya que ref() no soporta objetos anidados',
+          en: 'Only with reactive() since ref() does not support nested objects',
         },
         score: 1,
       },
@@ -97,24 +97,24 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-3a',
         text: {
-          es: 'Función que retorna refs reactivas (data, loading, error) con cleanup',
-          en: 'Function returning reactive refs (data, loading, error) with cleanup',
+          es: 'Función que retorna refs reactivas con data, loading y error',
+          en: 'Function returning reactive refs with data, loading and error',
         },
         score: 3,
       },
       {
         id: 'vue-3b',
         text: {
-          es: 'Un mixin global que agrega data y methods al componente que lo use',
-          en: 'A global mixin that adds data and methods to the component using it',
+          es: 'Un mixin global que agrega propiedades data y methods al componente',
+          en: 'A global mixin that adds data and methods properties to the component',
         },
         score: 0,
       },
       {
         id: 'vue-3c',
         text: {
-          es: 'Una clase con decorators de TypeScript que extiende de Vue base',
-          en: 'A class with TypeScript decorators that extends from base Vue class',
+          es: 'Una clase con decorators TypeScript que extiende Vue base',
+          en: 'A class with TypeScript decorators that extends base Vue',
         },
         score: 0,
       },
@@ -141,16 +141,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-ts-1a',
         text: {
-          es: 'defineProps<{ count: number }>() sin posibilidad de agregar defaults',
-          en: 'defineProps<{ count: number }>() without the ability to add defaults',
+          es: 'defineProps<{ count: number }>() sin posibilidad de poner defaults',
+          en: 'defineProps<{ count: number }>() without the ability to set defaults',
         },
         score: 1,
       },
       {
         id: 'vue-ts-1b',
         text: {
-          es: 'withDefaults(defineProps<Props>(), { count: 0 }) para tipos y defaults',
-          en: 'withDefaults(defineProps<Props>(), { count: 0 }) for types and defaults',
+          es: 'withDefaults(defineProps<Props>(), { count: 0 }) para ambos',
+          en: 'withDefaults(defineProps<Props>(), { count: 0 }) for both needs',
         },
         score: 3,
       },
@@ -165,7 +165,7 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-ts-1d',
         text: {
-          es: 'Usar any para los tipos y validar manualmente dentro de onMounted',
+          es: 'Usar any para los tipos y validar manualmente dentro del onMounted',
           en: 'Use any for the types and validate manually inside the onMounted hook',
         },
         score: 0,
@@ -183,16 +183,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-ts-2a',
         text: {
-          es: 'defineEmits con overloads tipados para cada evento y su payload',
-          en: 'defineEmits with typed overloads for each event and its payload',
+          es: 'defineEmits con overloads tipados para cada evento, payload y validación',
+          en: 'defineEmits with typed overloads for each event, payload and validation',
         },
         score: 3,
       },
       {
         id: 'vue-ts-2b',
         text: {
-          es: 'emits: ["update", "delete"] como un array de strings sin tipar',
-          en: 'emits: ["update", "delete"] as an untyped array of string names',
+          es: 'emits: ["update", "delete"] como array de strings sin tipar',
+          en: 'emits: ["update", "delete"] as an untyped array of strings',
         },
         score: 1,
       },
@@ -207,8 +207,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-ts-2d',
         text: {
-          es: 'Usar callbacks tipados como props en lugar de emits del sistema',
-          en: 'Use typed callbacks as props instead of using the emit system',
+          es: 'Usar callbacks tipados como props en lugar de emits del sistema Vue',
+          en: 'Use typed callbacks as props instead of using the Vue emit system',
         },
         score: 1,
       },
@@ -225,8 +225,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-ts-3a',
         text: {
-          es: 'Siempre hay que tipar explícitamente cada ref para evitar errores',
-          en: 'You always need to explicitly type every ref to avoid type errors',
+          es: 'Siempre hay que tipar explícitamente cada ref para evitar cualquier error',
+          en: 'You always need to explicitly type every single ref to avoid type errors',
         },
         score: 0,
       },
@@ -241,15 +241,15 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-ts-3c',
         text: {
-          es: 'Nunca hay que tipar porque TypeScript infiere todo correctamente',
-          en: 'You never need to type because TypeScript infers all correctly',
+          es: 'Nunca hay que tipar porque TypeScript infiere todo de forma correcta',
+          en: 'You never need to type because TypeScript infers everything correctly',
         },
         score: 0,
       },
       {
         id: 'vue-ts-3d',
         text: {
-          es: 'Solo cuando usas reactive() ya que ref() infiere automáticamente',
+          es: 'Solo cuando usas reactive() ya que ref() infiere de forma automática',
           en: 'Only when using reactive() since ref() always infers automatically',
         },
         score: 1,
@@ -269,8 +269,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-arch-1a',
         text: {
-          es: 'Es más rápido en runtime gracias a su sistema de caché interno',
-          en: 'It is faster at runtime thanks to its internal caching system',
+          es: 'Es más rápido en runtime gracias a un sistema de caché interno avanzado',
+          en: 'It is faster at runtime thanks to its advanced internal caching system',
         },
         score: 0,
       },
@@ -311,24 +311,24 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-arch-2a',
         text: {
-          es: 'Siempre conviene porque Nuxt es superior a Vue puro en todo',
-          en: 'Always recommended because Nuxt is superior to pure Vue in all',
+          es: 'Siempre conviene porque Nuxt es superior a Vue puro en todo aspecto',
+          en: 'Always recommended because Nuxt is superior to pure Vue in every way',
         },
         score: 0,
       },
       {
         id: 'vue-arch-2b',
         text: {
-          es: 'Cuando necesitas SEO con SSR/SSG, file-based routing o full-stack',
-          en: 'When you need SEO with SSR/SSG, file-based routing, or full-stack',
+          es: 'Cuando necesitas SEO con SSR/SSG, file-based routing o full-stack API',
+          en: 'When you need SEO with SSR/SSG, file-based routing or full-stack API',
         },
         score: 3,
       },
       {
         id: 'vue-arch-2c',
         text: {
-          es: 'Solo cuando la aplicación supera las 100 páginas de contenido',
-          en: 'Only when the application exceeds 100 pages of content in total',
+          es: 'Solo cuando la app supera las 100 páginas de contenido web',
+          en: 'Only when the application exceeds 100 pages of web content',
         },
         score: 1,
       },
@@ -353,8 +353,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-arch-3a',
         text: {
-          es: 'defineModel() para binding bidireccional y named slots para contenido',
-          en: 'defineModel() for bidirectional binding and named slots for content',
+          es: 'defineModel() para binding bidireccional y named slots para UI',
+          en: 'defineModel() for bidirectional binding and named slots for UI',
         },
         score: 3,
       },
@@ -369,16 +369,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-arch-3c',
         text: {
-          es: 'Exponer todo con defineExpose y dejar que el padre lo controle',
-          en: 'Expose everything with defineExpose and let the parent control it',
+          es: 'Exponer todo con defineExpose y dejar que el padre controle el estado',
+          en: 'Expose everything with defineExpose and let the parent control state',
         },
         score: 0,
       },
       {
         id: 'vue-arch-3d',
         text: {
-          es: 'Crear un mixin que agregue la funcionalidad de modelo y slots',
-          en: 'Create a mixin that adds model and slots functionality to it',
+          es: 'Crear un mixin que agregue funcionalidad de modelo y slots al comp',
+          en: 'Create a mixin that adds model and slots functionality to the comp',
         },
         score: 0,
       },
@@ -397,16 +397,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-test-1a',
         text: {
-          es: 'Vitest + vue/test-utils o Testing Library, probando comportamiento',
-          en: 'Vitest + vue/test-utils or Testing Library, testing behavior only',
+          es: 'Vitest con vue/test-utils o Testing Library, testeando comportamiento',
+          en: 'Vitest with vue/test-utils or Testing Library, testing user behavior',
         },
         score: 3,
       },
       {
         id: 'vue-test-1b',
         text: {
-          es: 'Jest junto con Enzyme para montar y verificar los componentes',
-          en: 'Jest together with Enzyme to mount and verify the components',
+          es: 'Jest junto con Enzyme para montar y verificar componentes',
+          en: 'Jest together with Enzyme to mount and verify components',
         },
         score: 0,
       },
@@ -439,8 +439,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-test-2a',
         text: {
-          es: 'Llamarlo dentro de un wrapper de prueba que cree el contexto setup',
-          en: 'Call it inside a test wrapper that creates the setup context for it',
+          es: 'Invocarlo dentro de un wrapper que provea el contexto de setup',
+          en: 'Invoke it inside a wrapper that provides the setup context',
         },
         score: 3,
       },
@@ -463,8 +463,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-test-2d',
         text: {
-          es: 'No se pueden probar composables aislados del componente padre',
-          en: 'Composables cannot be tested in isolation from parent components',
+          es: 'No se pueden probar composables de forma aislada del padre directamente',
+          en: 'Composables cannot be tested in isolation from parent components at all',
         },
         score: 0,
       },
@@ -481,32 +481,32 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-test-3a',
         text: {
-          es: 'createTestingPinia() con estado inicial controlado y mocks automáticos',
-          en: 'createTestingPinia() with controlled initial state and auto mocks',
+          es: 'createTestingPinia() con estado inicial y acciones mockeadas',
+          en: 'createTestingPinia() with initial state and mocked actions',
         },
         score: 3,
       },
       {
         id: 'vue-test-3b',
         text: {
-          es: 'Importar el store real y mutar su estado directamente en el test',
-          en: 'Import the real store and mutate its state directly in the test',
+          es: 'Importar el store real y mutar su estado directamente en cada test',
+          en: 'Import the real store and mutate its state directly in each test',
         },
         score: 1,
       },
       {
         id: 'vue-test-3c',
         text: {
-          es: 'Mockear el módulo completo de Pinia usando vi.mock en el archivo',
-          en: 'Mock the entire Pinia module using vi.mock within the test file',
+          es: 'Mockear el módulo completo de Pinia usando vi.mock dentro del archivo',
+          en: 'Mock the entire Pinia module using vi.mock within the test file only',
         },
         score: 0,
       },
       {
         id: 'vue-test-3d',
         text: {
-          es: 'No es necesario aislar los stores porque son totalmente independientes',
-          en: 'No need to isolate stores because they are completely independent',
+          es: 'No es necesario aislar stores porque son independientes entre sí',
+          en: 'No need to isolate stores because they are independent from each other',
         },
         score: 0,
       },
@@ -525,16 +525,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-perf-1a',
         text: {
-          es: 'v-for con :key estable, shallowRef para la lista y v-memo para caché',
-          en: 'v-for with stable :key, shallowRef for the list, and v-memo for cache',
+          es: 'v-for con :key estable, shallowRef para la lista y v-memo en cada item',
+          en: 'v-for with stable :key, shallowRef for the list, and v-memo on each item',
         },
         score: 3,
       },
       {
         id: 'vue-perf-1b',
         text: {
-          es: 'Usar :key="index" en el v-for para que Vue rastree los elementos',
-          en: 'Use :key="index" in v-for so that Vue can track each list element',
+          es: 'Usar :key="index" en v-for para que Vue rastree elementos',
+          en: 'Use :key="index" in v-for so that Vue can track elements',
         },
         score: 0,
       },
@@ -549,8 +549,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-perf-1d',
         text: {
-          es: 'Usar computed() para filtrar la lista y reducir items renderizados',
-          en: 'Use computed() to filter the list and reduce rendered item count',
+          es: 'Usar computed() para filtrar la lista y reducir los items renderizados',
+          en: 'Use computed() to filter the list and reduce the rendered item count',
         },
         score: 1,
       },
@@ -567,8 +567,8 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-perf-2a',
         text: {
-          es: 'defineAsyncComponent y dynamic import en rutas con Suspense para UX',
-          en: 'defineAsyncComponent and dynamic import in routes with Suspense for UX',
+          es: 'defineAsyncComponent con dynamic import y Suspense para UX',
+          en: 'defineAsyncComponent with dynamic import and Suspense for UX',
         },
         score: 3,
       },
@@ -583,16 +583,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-perf-2c',
         text: {
-          es: 'Usar v-if para mostrar y ocultar componentes según sea necesario',
-          en: 'Use v-if to show and hide components as needed by the user flow',
+          es: 'Usar v-if para mostrar y ocultar componentes según el flujo del usuario',
+          en: 'Use v-if to show and hide components based on the user flow as needed',
         },
         score: 1,
       },
       {
         id: 'vue-perf-2d',
         text: {
-          es: 'Separar la app en múltiples archivos HTML para cargar por partes',
-          en: 'Split the app into multiple HTML files to load them in separate parts',
+          es: 'Separar la app en múltiples HTML para cargar por partes separadas',
+          en: 'Split the app into multiple HTML files to load them in parts',
         },
         score: 0,
       },
@@ -609,16 +609,16 @@ export const VUE_DIAGNOSTIC_QUESTIONS: readonly DiagnosticQuestion[] = [
       {
         id: 'vue-perf-3a',
         text: {
-          es: 'Reemplazar con computed (lazy), consolidar watchers relacionados',
-          en: 'Replace with computed (lazy), consolidate related watchers together',
+          es: 'Reemplazar con computed (lazy) y consolidar watchers similares',
+          en: 'Replace with computed (lazy) and consolidate similar watchers',
         },
         score: 3,
       },
       {
         id: 'vue-perf-3b',
         text: {
-          es: 'Los watchers no afectan el rendimiento porque son asíncronos',
-          en: 'Watchers do not affect performance because they are asynchronous',
+          es: 'Los watchers no afectan rendimiento porque Vue los ejecuta de forma async',
+          en: 'Watchers do not affect performance because Vue runs them asynchronously',
         },
         score: 0,
       },
