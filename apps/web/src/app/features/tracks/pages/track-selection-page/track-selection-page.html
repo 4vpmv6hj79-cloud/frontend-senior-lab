@@ -76,23 +76,21 @@
         </div>
 
         <!-- Select button -->
+        @if (trackService.trackId() === track.id) {
+        <div
+          class="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-slate-800 px-6 py-3.5 text-sm font-black text-slate-300"
+        >
+          ✓ {{ copy().currentTrack }}
+        </div>
+        } @else {
         <button
           type="button"
-          class="mt-7 inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-sm font-black transition"
-          [class.bg-cyan-400]="trackService.trackId() !== track.id"
-          [class.text-slate-950]="trackService.trackId() !== track.id"
-          [class.hover:bg-cyan-300]="trackService.trackId() !== track.id"
-          [class.bg-slate-800]="trackService.trackId() === track.id"
-          [class.text-slate-300]="trackService.trackId() === track.id"
-          [class.hover:bg-slate-700]="trackService.trackId() === track.id"
+          class="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-black text-slate-950 transition hover:bg-cyan-300"
           (click)="selectTrack(track.id)"
         >
-          @if (trackService.trackId() === track.id) {
-            ✓ {{ copy().currentTrack }}
-          } @else {
-            {{ copy().selectButton }} {{ track.name }}
-          }
+          {{ copy().selectButton }} {{ track.name }}
         </button>
+        }
 
         <!-- Color accent bar -->
         <div
