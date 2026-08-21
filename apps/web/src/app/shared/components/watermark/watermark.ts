@@ -22,14 +22,15 @@ import { AuthStore } from '../../../features/auth/services/auth.store';
   selector: 'app-watermark',
   standalone: true,
   template: `
-    <!-- Visible watermark: diagonal repeated text overlay -->
+    <!-- Visible watermark: small text in bottom-right corner -->
     <div
-      class="pointer-events-none fixed inset-0 z-[9999] select-none overflow-hidden"
+      class="pointer-events-none fixed bottom-3 right-4 z-[9999] select-none"
       aria-hidden="true"
-      [style.backgroundImage]="watermarkPattern()"
-      [style.backgroundRepeat]="'repeat'"
-      [style.opacity]="'0.025'"
-    ></div>
+    >
+      <span class="text-[10px] font-medium tracking-wide text-white/20">
+        Frontend Senior Lab
+      </span>
+    </div>
 
     <!-- Invisible watermark: hidden ownership fingerprint -->
     <div
@@ -44,14 +45,6 @@ import { AuthStore } from '../../../features/auth/services/auth.store';
 export class WatermarkComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly authStore = inject(AuthStore);
-
-  /** SVG-based background pattern for the visible watermark */
-  protected readonly watermarkPattern = computed(() => {
-    const text = 'Frontend Senior Lab';
-    // Create an inline SVG pattern rotated -30deg
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'><text x='50%' y='50%' font-family='sans-serif' font-size='14' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle' transform='rotate(-30 200 100)'>${text}</text></svg>`;
-    return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-  });
 
   /** Hidden fingerprint with ownership info */
   protected readonly fingerprint = computed(() => {
