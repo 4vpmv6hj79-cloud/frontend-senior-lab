@@ -34,6 +34,7 @@ export const appRoutes: Route[] = [
   {
     path: 'diagnostic',
     title: 'Diagnostic | Frontend Senior Lab',
+    canActivate: [authGuard],
     canDeactivate: [diagnosticDeactivateGuard],
     loadComponent: () =>
       import('./features/diagnostic/pages/diagnostic-page/diagnostic-page').then(

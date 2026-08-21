@@ -10,6 +10,7 @@ import {
   LanguageService,
   SupportedLanguage,
 } from '../../../../core/i18n/language.service';
+import { AuthStore } from '../../../auth/services/auth.store';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle';
 import { LANDING_PAGE_COPY } from './landing-page.copy';
 
@@ -22,9 +23,15 @@ import { LANDING_PAGE_COPY } from './landing-page.copy';
 })
 export class LandingPage {
   protected readonly languageService = inject(LanguageService);
+  private readonly authStore = inject(AuthStore);
 
   protected readonly copy = computed(
     () => LANDING_PAGE_COPY[this.languageService.language()],
+  );
+
+  /** If authenticated, CTA goes to diagnostic; otherwise to register */
+  protected readonly primaryRoute = computed(() =>
+    this.authStore.isAuthenticated() ? '/diagnostic' : '/register',
   );
 
   protected setLanguage(language: SupportedLanguage): void {
