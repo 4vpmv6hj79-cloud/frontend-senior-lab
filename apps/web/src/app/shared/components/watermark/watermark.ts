@@ -56,7 +56,7 @@ export class WatermarkComponent implements OnInit {
   /** Hidden fingerprint with ownership info */
   protected readonly fingerprint = computed(() => {
     const user = this.authStore.user();
-    const uid = user?.uid ?? 'anonymous';
+    const uid = user?.id ?? 'anonymous';
     const ts = new Date().toISOString().split('T')[0];
     // This text will be invisible but present in DOM and clipboard if copied
     return `\u200B\u200BFrontend Senior Lab \u00A9 2025 Erik Palomares. Contenido protegido. ID:${uid} Fecha:${ts}\u200B\u200B`;
