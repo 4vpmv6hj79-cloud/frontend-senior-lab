@@ -18,6 +18,7 @@ import {
   DiagnosticAnswer,
   DiagnosticCategory,
   DiagnosticLevel,
+  DiagnosticOption,
   DiagnosticQuestion,
   DiagnosticResult,
   LocalizedText,
@@ -50,21 +51,28 @@ export class DiagnosticPage {
   );
 
   /**
-   * Shuffled options for the current question.
-   * Uses a deterministic shuffle based on question ID so options stay
-   * consistent within the same session but aren't always in the same position.
+   * Shuffled options — random per session, cached per question.
+   * Each time the user retakes the diagnostic, options appear in a different order.
    */
+  private readonly shuffleCache = new Map<
+    number,
+    readonly DiagnosticOption[]
+  >();
+
   protected readonly shuffledOptions = computed(() => {
     const question = this.currentQuestion();
+    const idx = this.currentIndex();
     if (!question) return [];
 
+    const cached = this.shuffleCache.get(idx);
+    if (cached) return cached;
+
     const options = [...question.options];
-    // Simple deterministic shuffle using question id as seed
-    const seed = question.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     for (let i = options.length - 1; i > 0; i--) {
-      const j = (seed * (i + 1) + i) % (i + 1);
+      const j = Math.floor(Math.random() * (i + 1));
       [options[i], options[j]] = [options[j], options[i]];
     }
+    this.shuffleCache.set(idx, options);
     return options;
   });
 
@@ -104,6 +112,21 @@ export class DiagnosticPage {
 
   protected text(value: LocalizedText): string {
     return value[this.languageService.language()];
+  }
+
+  protected getQuestionById(
+    questionId: string,
+  ): DiagnosticQuestion | undefined {
+    return this.questions().find((q) => q.id === questionId);
+  }
+
+  protected getCorrectOptionText(
+    questionId: string,
+  ): LocalizedText | undefined {
+    const question = this.getQuestionById(questionId);
+    if (!question) return undefined;
+    const correct = question.options.find((o) => o.score === 3);
+    return correct?.text;
   }
 
   /**
@@ -161,6 +184,7 @@ export class DiagnosticPage {
     this.answers.set([]);
     this.selectedOptionId.set(null);
     this.completed.set(false);
+    this.shuffleCache.clear();
     this.resultStore.clear();
   }
 

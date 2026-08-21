@@ -23,6 +23,7 @@ interface DiagnosticPageCopy {
   level: string;
   breakdown: string;
   restart: string;
+  answerReview: string;
   goToLearning: string;
   categoryLabels: Record<DiagnosticCategory, string>;
   levelLabels: Record<DiagnosticLevel, string>;
@@ -51,6 +52,7 @@ export const DIAGNOSTIC_PAGE_COPY = {
     level: 'Nivel estimado',
     breakdown: 'Resultado por categoría',
     restart: 'Repetir diagnóstico',
+    answerReview: 'Revisión de respuestas',
     goToLearning: 'Ver ruta de aprendizaje',
     categoryLabels: {
       angular: 'Angular',
@@ -99,6 +101,7 @@ export const DIAGNOSTIC_PAGE_COPY = {
     level: 'Estimated level',
     breakdown: 'Result by category',
     restart: 'Retake diagnostic',
+    answerReview: 'Answer review',
     goToLearning: 'View learning roadmap',
     categoryLabels: {
       angular: 'Angular',
