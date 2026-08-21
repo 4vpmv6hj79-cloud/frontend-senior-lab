@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import { ProgressExportService } from '../../../../core/services/progress-export.service';
+import { SubscriptionService } from '../../../../core/services/subscription.service';
 import { TrackSelectionService } from '../../../../core/services/track-selection.service';
 import { UserStorageService } from '../../../../core/services/user-storage.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
@@ -142,6 +143,7 @@ export class DashboardPage {
   private readonly userStorage = inject(UserStorageService);
   protected readonly achievementStore = inject(AchievementStore);
   protected readonly trackService = inject(TrackSelectionService);
+  protected readonly subscriptionService = inject(SubscriptionService);
 
   constructor() {
     // Redirect to track selection if no framework chosen

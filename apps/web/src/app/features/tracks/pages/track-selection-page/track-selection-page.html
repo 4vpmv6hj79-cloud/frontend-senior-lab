@@ -25,6 +25,32 @@
     </div>
   </section>
 
+  <!-- Free plan lock notice -->
+  @if (!canChange() && trackService.hasSelection()) {
+  <div
+    class="mb-8 rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5"
+  >
+    <div class="flex items-start gap-3">
+      <span class="text-2xl" aria-hidden="true">🔒</span>
+      <div>
+        <p class="text-sm font-bold text-amber-300">
+          {{ copy().freeLockedTitle }}
+        </p>
+        <p class="mt-1 text-sm text-slate-400">
+          {{ copy().freeLockedDescription }}
+        </p>
+        <a
+          routerLink="/pricing"
+          class="mt-2 inline-flex items-center gap-1 text-sm font-bold text-cyan-400 transition hover:text-cyan-300"
+        >
+          {{ copy().upgradeCta }}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  }
+
   <!-- Framework cards -->
   <section class="grid gap-6 pb-16 lg:grid-cols-3">
     @for (track of tracks; track track.id) {
@@ -82,7 +108,7 @@
         >
           ✓ {{ copy().currentTrack }}
         </div>
-        } @else {
+        } @else if (canChange()) {
         <button
           type="button"
           class="mt-7 inline-flex w-full items-center justify-center rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-black text-slate-950 transition hover:bg-cyan-300"
@@ -90,6 +116,23 @@
         >
           {{ copy().selectButton }} {{ track.name }}
         </button>
+        } @else {
+        <!-- Free user with existing track: show locked state -->
+        <div class="mt-7">
+          <div
+            class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800/50 px-6 py-3.5 text-sm font-black text-slate-500"
+          >
+            <span aria-hidden="true">🔒</span>
+            {{ copy().lockedLabel }}
+          </div>
+          <a
+            routerLink="/pricing"
+            class="mt-3 inline-flex w-full items-center justify-center gap-1 text-xs font-bold text-cyan-400 transition hover:text-cyan-300"
+          >
+            {{ copy().upgradeCta }}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
         }
 
         <!-- Color accent bar -->

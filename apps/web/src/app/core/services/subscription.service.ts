@@ -138,6 +138,13 @@ export class SubscriptionService {
     this.storage.removeItem(STORAGE_KEY);
   }
 
+  /** Whether the user can switch to a different framework track */
+  readonly canChangeTrack = computed(() => {
+    if (this.isPro()) return true;
+    // Free users can only select their first track, not change it
+    return !this.storage.getItem('selected-track');
+  });
+
   /**
    * Check if a specific feature is accessible with current plan.
    */

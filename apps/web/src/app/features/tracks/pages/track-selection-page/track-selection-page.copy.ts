@@ -7,6 +7,10 @@ interface TrackSelectionPageCopy {
   readonly selectButton: string;
   readonly currentTrack: string;
   readonly changeTrack: string;
+  readonly lockedLabel: string;
+  readonly upgradeCta: string;
+  readonly freeLockedTitle: string;
+  readonly freeLockedDescription: string;
   readonly categoryLabels: {
     readonly framework: string;
     readonly typescript: string;
@@ -25,6 +29,11 @@ export const TRACK_SELECTION_PAGE_COPY = {
     selectButton: 'Elegir',
     currentTrack: 'Tu track actual',
     changeTrack: 'Cambiar de track',
+    lockedLabel: 'Solo con plan Pro',
+    upgradeCta: 'Desbloquear todos los frameworks',
+    freeLockedTitle: 'Plan gratuito: 1 framework',
+    freeLockedDescription:
+      'Con el plan gratuito solo puedes usar un framework. Actualiza a Pro para acceder a Angular, React y Vue sin restricciones.',
     categoryLabels: {
       framework: 'Framework core',
       typescript: 'TypeScript',
@@ -41,6 +50,11 @@ export const TRACK_SELECTION_PAGE_COPY = {
     selectButton: 'Select',
     currentTrack: 'Your current track',
     changeTrack: 'Change track',
+    lockedLabel: 'Pro plan only',
+    upgradeCta: 'Unlock all frameworks',
+    freeLockedTitle: 'Free plan: 1 framework',
+    freeLockedDescription:
+      'The free plan only allows one framework. Upgrade to Pro to access Angular, React, and Vue without restrictions.',
     categoryLabels: {
       framework: 'Framework core',
       typescript: 'TypeScript',

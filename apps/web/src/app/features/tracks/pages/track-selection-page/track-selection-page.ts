@@ -4,10 +4,11 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../../core/i18n/language.service';
 import type { FrameworkId } from '../../../../core/models/framework.model';
+import { SubscriptionService } from '../../../../core/services/subscription.service';
 import { TrackSelectionService } from '../../../../core/services/track-selection.service';
 import { PageLayoutComponent } from '../../../../shared/components/page-layout/page-layout';
 import { TRACK_SELECTION_PAGE_COPY } from './track-selection-page.copy';
@@ -15,7 +16,7 @@ import { TRACK_SELECTION_PAGE_COPY } from './track-selection-page.copy';
 @Component({
   selector: 'app-track-selection-page',
   standalone: true,
-  imports: [PageLayoutComponent],
+  imports: [PageLayoutComponent, RouterLink],
   templateUrl: './track-selection-page.html',
   styleUrl: './track-selection-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +24,7 @@ import { TRACK_SELECTION_PAGE_COPY } from './track-selection-page.copy';
 export class TrackSelectionPage {
   protected readonly languageService = inject(LanguageService);
   protected readonly trackService = inject(TrackSelectionService);
+  protected readonly subscriptionService = inject(SubscriptionService);
   private readonly router = inject(Router);
 
   protected readonly copy = computed(
@@ -30,6 +32,9 @@ export class TrackSelectionPage {
   );
 
   protected readonly tracks = this.trackService.availableTracks;
+
+  /** Free users with an existing track cannot switch */
+  protected readonly canChange = this.subscriptionService.canChangeTrack;
 
   protected text(value: { es: string; en: string }): string {
     return value[this.languageService.language()];

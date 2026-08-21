@@ -39,6 +39,7 @@ export const PLAN_LIMITS = {
     hasHistory: false,
     hasExportImport: false,
     maxBadges: 3,
+    canChangeTrack: false,
   },
   pro: {
     maxDiagnosticAttempts: Infinity,
@@ -48,5 +49,6 @@ export const PLAN_LIMITS = {
     hasHistory: true,
     hasExportImport: true,
     maxBadges: Infinity,
+    canChangeTrack: true,
   },
 } as const;

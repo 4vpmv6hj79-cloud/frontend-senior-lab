@@ -112,6 +112,7 @@
         <span class="text-sm font-bold text-slate-300"
           >{{ currentTrack.name }}</span
         >
+        @if (subscriptionService.canChangeTrack()) {
         <a
           routerLink="/tracks"
           class="ml-2 inline-flex items-center gap-1 rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-bold text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
@@ -119,6 +120,20 @@
           <span aria-hidden="true">⇄</span>
           {{ copy().changeTrack }}
         </a>
+        } @else {
+        <span
+          class="ml-2 inline-flex items-center gap-1 rounded-lg border border-slate-700/50 bg-slate-800/30 px-3 py-1.5 text-xs font-medium text-slate-500"
+        >
+          <span aria-hidden="true">🔒</span>
+          {{ copy().changeTrack }}
+        </span>
+        <a
+          routerLink="/pricing"
+          class="text-xs font-bold text-cyan-400 transition hover:text-cyan-300"
+        >
+          PRO
+        </a>
+        }
       </div>
       }
 
