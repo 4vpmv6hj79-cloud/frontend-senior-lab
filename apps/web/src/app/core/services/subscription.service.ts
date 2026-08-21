@@ -15,6 +15,7 @@ import {
   type SubscriptionPlan,
   type SubscriptionState,
 } from '../models/subscription.model';
+import { AuthStore } from '../../features/auth/services/auth.store';
 import { UserStorageService } from './user-storage.service';
 
 const STORAGE_KEY = 'subscription';
@@ -25,6 +26,14 @@ const DEFAULT_STATE: SubscriptionState = {
   subscribedAt: null,
   expiresAt: null,
 };
+
+/**
+ * Admin emails that always have full Pro access without payment.
+ * These are verified via Firebase Auth (email uniqueness enforced).
+ */
+const ADMIN_EMAILS: readonly string[] = [
+  'erikgonzalopalomares@icloud.com',
+];
 
 /**
  * Service that manages the user's subscription plan.
@@ -44,20 +53,30 @@ const DEFAULT_STATE: SubscriptionState = {
 export class SubscriptionService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly storage = inject(UserStorageService);
+  private readonly authStore = inject(AuthStore);
 
   private readonly state = signal<SubscriptionState>(DEFAULT_STATE);
 
-  /** Current subscription plan */
-  readonly plan = computed(() => this.state().plan);
+  /** Whether the current user is an admin (full access, no payment needed) */
+  readonly isAdmin = computed(() => {
+    const email = this.authStore.user()?.email?.toLowerCase();
+    return !!email && ADMIN_EMAILS.includes(email);
+  });
 
-  /** Whether the user has an active Pro subscription */
-  readonly isPro = computed(() => this.state().plan === 'pro');
+  /** Current subscription plan */
+  readonly plan = computed<SubscriptionPlan>(() => {
+    if (this.isAdmin()) return 'pro';
+    return this.state().plan;
+  });
+
+  /** Whether the user has an active Pro subscription (or is admin) */
+  readonly isPro = computed(() => this.plan() === 'pro');
 
   /** Whether the user is on the free plan */
-  readonly isFree = computed(() => this.state().plan === 'free');
+  readonly isFree = computed(() => this.plan() === 'free');
 
   /** Plan limits for the current plan */
-  readonly limits = computed(() => PLAN_LIMITS[this.state().plan]);
+  readonly limits = computed(() => PLAN_LIMITS[this.plan()]);
 
   constructor() {
     effect(() => {
